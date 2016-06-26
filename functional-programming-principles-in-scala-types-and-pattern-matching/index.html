@@ -1,0 +1,982 @@
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+      <title>Functional Programming Principles in Scala - Types and Pattern Matching</title>
+    <meta name="description" content="">
+    <meta name="apple-mobile-web-app-title" content="Functional Programming Principles in Scala - Types and Pattern Matching">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="../assets/img/favicon.ico?v=736a175111">
+<link rel="apple-touch-icon" href="../assets/img/appletouchicon.png?v=736a175111">
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+
+    <style type="text/css">
+    a, a:visited {color: #3498db;}
+    .pagination a {color: #3498db;}
+    .gist .gist-file .gist-meta a:visited {color: #3498db !important;}
+
+    a:focus, a:hover {color: #2079b4;}
+    h1.post-title a:focus, h1.post-title a:hover, h1.blog-title a:focus, h1.blog-title a:hover {color: #2079b4;}
+    .older-posts:hover, .newer-posts:hover {color: #2079b4;}
+</style>
+    
+
+    <link rel="stylesheet" href="../assets/css/screen.css?v=736a175111">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="../assets/css/github.css?v=736a175111">
+
+    
+
+    <link rel="canonical" href="http://tocology.github.io/functional-programming-principles-in-scala-types-and-pattern-matching/">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="tocology">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Functional Programming Principles in Scala - Types and Pattern Matching">
+    <meta property="og:description" content="4.1 Functions as Objects Functions as Objects 지금까지 Scala의 numeric type과 boolean type이 보통 class와 동일하게 적용되는 것을 볼 수 있었다. 그럼 function에 대해서는 어떨까? 사실 Scala에서 function은 object로 다뤄진다. 따라서 function type A =&amp;gt; B는 단지 아래와 같은...">
+    <meta property="og:url" content="http://tocology.github.io/functional-programming-principles-in-scala-types-and-pattern-matching/">
+    <meta property="article:published_time" content="2016-06-26T08:49:14.932Z">
+    <meta property="article:modified_time" content="2016-06-26T08:52:33.402Z">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Functional Programming Principles in Scala - Types and Pattern Matching">
+    <meta name="twitter:description" content="4.1 Functions as Objects Functions as Objects 지금까지 Scala의 numeric type과 boolean type이 보통 class와 동일하게 적용되는 것을 볼 수 있었다. 그럼 function에 대해서는 어떨까? 사실 Scala에서 function은 object로 다뤄진다. 따라서 function type A =&amp;gt; B는 단지 아래와 같은...">
+    <meta name="twitter:url" content="http://tocology.github.io/functional-programming-principles-in-scala-types-and-pattern-matching/">
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "tocology",
+    "author": {
+        "@type": "Person",
+        "name": "tocology",
+        "image": "http://tocology.github.io/content/images/2015/10/Profile.jpg",
+        "url": "http://tocology.github.io/author/tocology",
+        "sameAs": "https://kr.linkedin.com/in/junhohwang",
+        "description": "Always develop myself.."
+    },
+    "headline": "Functional Programming Principles in Scala - Types and Pattern Matching",
+    "url": "http://tocology.github.io/functional-programming-principles-in-scala-types-and-pattern-matching/",
+    "datePublished": "2016-06-26T08:49:14.932Z",
+    "dateModified": "2016-06-26T08:52:33.402Z",
+    "description": "4.1 Functions as Objects Functions as Objects 지금까지 Scala의 numeric type과 boolean type이 보통 class와 동일하게 적용되는 것을 볼 수 있었다. 그럼 function에 대해서는 어떨까? 사실 Scala에서 function은 object로 다뤄진다. 따라서 function type A =&amp;gt; B는 단지 아래와 같은..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="tocology" href="http://tocology.github.io/rss/">
+    <script>
+var profile_title = 'Tocology';
+var profile_resume ='Software Engineer';
+var disqus_shortname = 'tocology';
+</script>
+</head>
+<body class="post-template">
+
+    <header id="site-head">
+        <h1 class="blog-title"><a href="http://tocology.github.io">tocology</a></h1>
+        <h1 class="blog-subtitle">Data Processing and Visualization for Big Data.</h1>
+    </header>
+
+    <nav class="menu" role="nav">
+    <ul>
+                <li class="nav-home"><a href="http://tocology.github.io/">Home</a></li>
+                <li class="nav-article"><a href="http://tocology.github.io/article/">Article</a></li>
+    </ul>
+</nav>
+
+
+    
+<main class="content" role="main">
+
+    <article class="post">
+
+
+        <header>
+        <h1 class="post-title">Functional Programming Principles in Scala - Types and Pattern Matching</h1>
+        <div class="post-meta"><time datetime="2016-06-26">26 June 2016</time></div>
+        </header>
+
+        <section class="post-content">
+            <h1 id="41functionsasobjects">4.1 Functions as Objects</h1>
+
+<h3 id="functionsasobjects">Functions as Objects</h3>
+
+<p>지금까지 Scala의 numeric type과 boolean type이 보통 class와 동일하게 적용되는 것을 볼 수 있었다. 그럼 function에 대해서는 어떨까? 사실 Scala에서 function은 object로 다뤄진다. 따라서 function type <code>A =&gt; B</code>는 단지 아래와 같은 형태의 축약이라고 볼 수 있다.</p>
+
+<pre><code class="language-scala">trait Function1[A, B] {  
+    def apply(x: A): B
+}
+</code></pre>
+
+<p>따라서 function은 <code>apply</code> method를 지닌 object로 볼 수 있다. 또한 <code>Function2</code>, <code>Function3</code> 등 22개 까지 parameter를 받을 수 있는 trait가 있다. </p>
+
+<h3 id="expansionoffunctionvalues">Expansion of Function Values</h3>
+
+<p>아래와 같이 anonymous function이 있다면,</p>
+
+<pre><code class="language-scala">(x: Int) =&gt; x * x
+</code></pre>
+
+<p>다음과 같이 해석될 수 있다.</p>
+
+<pre><code class="language-scala">{ class AnonFun expends Function1[Int, Int] {
+     def apply(x: Int) = x * x
+ }
+ new AnonFun
+}
+</code></pre>
+
+<p>또는, anonymous class를 이용하여 더 짧게도 가능하다.</p>
+
+<pre><code class="language-scala">new Function1[Int, Int] {  
+    def apply(x: Int) = x * x
+}
+</code></pre>
+
+<p>이번엔 function call에 대해 이야기하면, 예를 들어 <code>f(a, b)</code>를 이용하여 호출 할때, 아래와 같이 확장이된다.</p>
+
+<pre><code class="language-scala">f.apply(a, b)  
+</code></pre>
+
+<p>따라서, 다음과 같이 된다고 볼 수 있다.</p>
+
+<pre><code class="language-scala">val f = (x: Int) =&gt; x * x  
+f(7)
+
+val f = new Function1[Int, Int] {  
+    def apply(x: Int) = x * x
+}
+f.apply(7)  
+</code></pre>
+
+<h3 id="functionsandmethods">Functions and Methods</h3>
+
+<p>method는 아래와 같은데,</p>
+
+<pre><code class="language-scala">def f(x: Int): Boolean = ...  
+</code></pre>
+
+<p>이 자체는 function value가 아닌지만, Function type이 예상되는 위치에서 사용될 때, 아래와 같이 function value로 자동 변환된다.</p>
+
+<pre><code class="language-scala">(x: Int) =&gt; f(x)
+</code></pre>
+
+<p>또는 아래와 같이 변환된다.</p>
+
+<pre><code class="language-scala">new Function1[Int, Boolean] {  
+    def apply(x: Int) = f(x)
+}
+</code></pre>
+
+<h1 id="42objectseverywhere">4.2 Objects Everywhere</h1>
+
+<h3 id="pureobjectorientation">Pure Object Orientation</h3>
+
+<p>pure object-oriented language는 모든 값이 object인 것을 의미한다. 만약 language가 class에 근간하면, 이것은 모든 값이 class라는 걸 의미한다. Scala는 pure object-oriented language인가? 짐작하기에 몇가지 예외사항이 보인다. primitive types, functions같은 경우에 말이다.</p>
+
+<h3 id="standardclasses">Standard Classes</h3>
+
+<p>먼저 primitive type을 보자. 개념적으로, <code>Int</code> 또는 <code>Boolean</code>의 경우 Scala에서 특별히 조치되어지지 않는다. scala package에 다른 class들과 동일하다. 효율성을 위해 Scala compiler는 <code>scala.Int</code>는 32-bit integer로, <code>scala.Boolean</code>은 Java의 boolean으로 해석한다.</p>
+
+<h3 id="purebooleans">Pure Booleans</h3>
+
+<p><code>Boolean</code> type은 JVM의 primitive type <code>boolean</code>과 맵핑되어 지는데, 아래와 같이 class로 정의할 수 있다.</p>
+
+<pre><code class="language-scala">abstract class Boolean {  
+    def ifThenElse[T](t: =&gt; T, e: =&gt; T): T
+
+    def &amp;&amp; (x: =&gt; Boolean): Boolean = ifThenElse(x, false)
+    def || (x: =&gt; Boolean): Boolean = ifThenElse(true, x)
+    def unary_! :                   = ifThenElse(false, true)
+
+    def == (x: Boolean): Boolean    = ifThenElse(x, x.unary_!)
+    def != (x: Boolean): Boolean    = ifThenElse(x.unary_!, x)
+    ...
+}
+</code></pre>
+
+<p><code>ifThenElse</code>를 설명하자면,</p>
+
+<pre><code class="language-scala">if(cond) te else ee  
+</code></pre>
+
+<p>를 아래와 같이 구현한 것이다.</p>
+
+<pre><code class="language-scala">cond.ifThenElse(te, ee)  
+</code></pre>
+
+<p>이를 이용하여 위 Method를 다시 보면 이해가 쉽다.</p>
+
+<h3 id="booleanconstants">Boolean Constants</h3>
+
+<p>그럼 Boolean 에서 사용되는 constant인 true와 false를 보자.</p>
+
+<pre><code class="language-scala">object true extends Boolean {  
+    def ifThenElse[T](t: =&gt; T, e: =&gt; T) = t
+}
+
+object false extends Boolean {  
+    def ifThenElse[T](t: =&gt; T, e: =&gt; T) = e
+}
+</code></pre>
+
+<p>그럼 만약 <code>&lt;</code> operator에 대해서도 정의를 하면 어떻게 될까?</p>
+
+<pre><code class="language-scala">class Boolean {  
+    ...
+    def &lt; (x: Boolean) = ifThenElse(false, x)
+}
+</code></pre>
+
+<p>위와 같이 정의할 수 있다. (true &lt; any 의 경우 false이며, false &lt; any에 대해 any에 따라 달라지기 때문이다.)</p>
+
+<h3 id="theclassint">The class Int</h3>
+
+<p>이번엔 <code>scala.Int</code>에 대해 보도록 하자.</p>
+
+<pre><code class="language-scala">class Int {  
+    def + (that: Double): Double
+    def + (that: Float): Float
+    def + (that: Long): Long
+    def + (that: Int): Int           // same for -, *, /, %
+
+    def &lt;&lt; (cnt: Int): Int           // same for &gt;&gt;, &gt;&gt;&gt; */
+
+    def &amp; (that: Long): Long
+    def &amp; (that: Int): Int           // same for |, ^ */
+
+    def == (that: Double): Boolean
+    def == (that: Float): Boolean
+    def == (that: Long): Boolean      // same for !=, &lt;, &gt;, &lt;=, &gt;=
+    ...
+}
+</code></pre>
+
+<p>그럼 primitive type르 쓰지 않고 모든 것을 class로 구현할 수 있는가?</p>
+
+<h3 id="exercise">Exercise</h3>
+
+<p>non-negative integer를 의미하는 abstract class <code>Nat</code>를 구현해보자.</p>
+
+<pre><code class="language-scala">abstract class Nat {  
+    def isZero: Boolean
+    def predecessor: Nat
+    def successor: Nat
+    def + (that: Nat): Nat
+    def - (that: Nat): Nat
+</code></pre>
+
+<p>여기서 standard numerical class를 사용하지 말고, sub-object와 sub-class를 구현해보자.</p>
+
+<pre><code class="language-scala">object Zero extends Nat  
+class Succ(n: Nat) extends Nat  
+</code></pre>
+
+<p>한가지는 숫자 0을 의미하고 나머지는 양수를 의미한다. 그럼 이제 구현을 해보자</p>
+
+<pre><code class="language-scala">object Zero extends Nat  
+    def isZero = true
+    def predecessor = throw new Error("0.predecessor")
+    def successor = new Succ(this)
+    def + (that: Nat)
+    def - (that: Nat)
+</code></pre>
+
+<pre><code class="language-scala">class Succ(n: Nat) extends Nat {  
+    def isZero = false
+    def predecessor = n
+    def successor = new Succ(this)
+    ...
+}
+</code></pre>
+
+<p>이쯤 되면 <code>successor</code>가 <code>Zero</code>와 <code>Succ</code>에 대해 동일한 것을 볼 수 있다. 따라서 super-class에 정의하는 것이 유리하다.</p>
+
+<pre><code class="language-scala">abstract class Nat {  
+    ...
+    def successor = new Succ(this)
+    ...
+}
+</code></pre>
+
+<p>나머지도 구현해보자.</p>
+
+<pre><code class="language-scala">object Zero extends Nat {  
+    def isZero = true
+    def predecessor = throw new Exception("0.predecessor")
+    def + (that: Nat) = that
+    def - (that: Nat) = if (that.isEmpty) this else throw new Error("negative number")
+}
+
+class Succ(n: Nat) extends Nat {  
+    def isZero = false
+    def predecessor = n
+    def + (that: Nat) = new Succ(n + that)
+    def - (that: Nat) = if (that.isZero) this else n - that.predecessor
+}
+</code></pre>
+
+<p>이런 것을 전문 용어로 <em>peano number</em>라고 말한다.</p>
+
+<h1 id="43subtypingandgenerics">4.3 Subtyping and Generics</h1>
+
+<h3 id="polymorphism">Polymorphism</h3>
+
+<p>이전 포스팅에서 <strong>polymorphism</strong>에 대해 다뤘었다. 아래와 같이 두가지 원리가 있는데,</p>
+
+<ul>
+<li>subtyping</li>
+<li>generics</li>
+</ul>
+
+<p>이번에는 이 두가지를 교차해보자 하는데, 두가지 주요 영역이 있다.</p>
+
+<ul>
+<li>bounds</li>
+<li>variance</li>
+</ul>
+
+<h3 id="typebounds">Type Bounds</h3>
+
+<p>먼저 <code>assertAllPos</code> method를 고려하고자 하는데, <code>assertAllPos</code>는 </p>
+
+<ul>
+<li>takes an <code>IntSet</code></li>
+<li>returns the <code>IntSet</code> itself if all its element are positive</li>
+<li>throws an exception otherwise</li>
+</ul>
+
+<p>그럼 여기서 <code>assertAllPos</code>를 위한 가장 좋은 type은 무엇일까? 아마도,</p>
+
+<pre><code class="language-scala">def assertAllPos(s: IntSet): IntSet  
+</code></pre>
+
+<p>대부분의 상황에서 문제가 없을 것이다. 하지만, 아래 상황을 고려하여 좀 더 정확하게(precise) 표현할 수 없을까?</p>
+
+<pre><code class="language-scala">// Empty case
+assertAllPos(Empty) = Empty  
+assertAllPos(NonEmpty(...)) = NonEmpty(...)  
+                              or throw Exception
+</code></pre>
+
+<p>다시 말해 누군가 <code>assertAllPos</code>는 <code>Empty</code> 빈 set을 위해 <code>Empty</code>를 받고, 비어있지 않은 set을 위해 <code>NonEmpty</code>를 받는 다는 것을 표현하고 싶을 경우 아래와 같이 작성할 수 있다.</p>
+
+<pre><code class="language-scala">def assertAllPos[S &lt;: IntSet](r: S): S = ...  
+</code></pre>
+
+<p>여기서 <code>&lt;: IntSet</code>은 type parameter <code>S:</code> 의 <em>upper bound</em>를 의미한다. 즉, 여기서 <code>S</code>는 오직 <code>IntSet</code>을 따르는(conform) type에 대해서만 instance화 할 수 있다는 것이다.</p>
+
+<p>일반적으로, 아래와 같이 정리할 수 있다.</p>
+
+<ul>
+<li><code>S &lt;: T</code> means: <code>S</code> <em>is a subtype of</em> <code>T</code></li>
+<li><code>S &gt;: T</code> means: <code>S</code> <em>is a supertype of</em> <code>T</code>, or <code>T</code> <em>is a subtype of</em> <code>S</code></li>
+</ul>
+
+<h3 id="lowerbounds">Lower Bounds</h3>
+
+<p>그럼 <em>lower bound</em> 에 대해서도 다뤄보면,</p>
+
+<pre><code class="language- scala">[ S &gt;: NonEmpty]
+</code></pre>
+
+<p>여기서 <code>S</code>는 <code>NonEmpty</code>의 <em>supertypes</em> 이상이라는 범위를 내포한다. 따라서 <code>S</code>는 <code>NonEmtpy</code>, <code>IntSet</code>, <code>AnyRef</code> 또는 <code>Any</code> 중 하나를 의미한다. </p>
+
+<p>나중에 lower bound가 유용한 경우를 다눠보록 하겠다.</p>
+
+<h3 id="mixedbounds">Mixed Bounds</h3>
+
+<p>아래와 같이 섞어서 사용할 수도 있다.</p>
+
+<pre><code class="language-scala">[S &gt;: NonEmpty &lt;: IntSet]
+</code></pre>
+
+<p>이 경우 <code>S</code>는 <code>NonEmtpy</code>와 <code>IntSet</code>사이가 된다.</p>
+
+<h3 id="covariance">Covariance</h3>
+
+<p>만약,</p>
+
+<pre><code class="language-scala">NonEmpty &lt;: IntSet  
+</code></pre>
+
+<p>이라고 할 경우,</p>
+
+<pre><code class="language-scala">List[NonEmpty] &lt;: List[IntSet]  
+</code></pre>
+
+<p>에 대해서는 어떻게 생각 할 수 있을까? 직관적으로 이해할 수 있듯이 위의 경우가 맞다. 이렇듯 type parameter에 의해 다양한 subtype 관계를 가지기 때문에 <em>covariant</em>라고 이야기하는데, 그럼 모든 type에 대해 그럴까? 아니면 <code>List</code>에 대해서만 그럴까?</p>
+
+<h3 id="arrays">Arrays</h3>
+
+<p>Array에 대해 간단히 보자면 아래와 같다.</p>
+
+<ul>
+<li>An array of <code>T</code> elements is written T[] in Java</li>
+<li>In Scala we use parameterized type syntax <code>Array[T]</code> to refer to the same type</li>
+</ul>
+
+<p>Java에서 Array는 covariant이다. 따라서 아래와 같이 말 할 수 있다.</p>
+
+<pre><code class="language-scala">NonEmpty[] &lt;: IntSet[]  
+</code></pre>
+
+<h3 id="arraytypingprobem">Array Typing Probem</h3>
+
+<p>하지만, covariant array type은 문제를 일으킨다. 아래 같이 Java 코드를 보면,</p>
+
+<pre><code class="language-scala">NonEmpty[] a = new NonEmpty[]{new NonEmpty(1, Empty, Empty)}  
+IntSet[] b = a  
+b[0] = Empty  
+NonEmpty s = a[0]  
+</code></pre>
+
+<p>설명을 하면 위와 같은 경우 <code>IntSet[] b = a</code>를 통해 <code>b</code>가 <code>a</code>와 동일한 memory공간을 바라보는 가운데 <code>b[0] = Empty</code>를 호출하여 0번째 자리가 <code>Empty</code>가 된다. 이 가운데 <code>NonEmpty s = a[0]</code>를 실하게 되어 <code>NonEmpty</code>인 <code>s</code>에 <code>Empty</code>를 할당하게 되는 것이다.</p>
+
+<p>따라서, 이럴 경우를 방지하기 위해 Array에 <strong>type tag</strong> 같은 것이 필요하다. <code>a</code>라는 array에 <code>NonEmpty</code>라는 type tag가 있어 <code>b[0] = Empty</code>를 할당하려 할 경우 Exception을 발생하면 된다.</p>
+
+<p>위와 동일한 상황을 Scala로 코딩해보자.</p>
+
+<pre><code class="language-scala">val a: Array[NonEmpty] = Array(new NonEmpty(1, Empty, Empty))  
+val b: Array[IntSet] = a  
+b(0) = Empty  
+val s: NonEmpty = a(0)  
+</code></pre>
+
+<p>위와 같은 코딩에서 Error가 어디서 발생할까? 2번째 라인에서 Error를 발생한다. 왜냐하면 <code>a</code>의 경우 <code>Array[NonEmpty]</code>이고, <code>b</code>는 <code>Array[Intset]</code>이지만, Scala에서 Array는 Non-covariant 이기 때문이다. 따라서, <code>b = a</code>는 Error를 발생한다.</p>
+
+<h1 id="44varianceoptional">4.4 Variance (Optional)</h1>
+
+<p>이전보다 내용이 어려울 수 있어, 구독자에 따라 이 내용을 무시해도 좋다.</p>
+
+<h3 id="variance">Variance</h3>
+
+<p>List와 같이 일부 type은 covariant이고 나머지는 그렇지 않다. (Array의 경우) 설명하자면, mutation이 허락되는 type의 경우 covaraint가 아니다. 하지만, 몇가지 조건만 통과한다면 immutation의 type의 경우 covariant이다.</p>
+
+<h3 id="definitionofvariance">Definition of Variance</h3>
+
+<p>만약 <code>C[T]</code>에 대해 <code>A &lt;: B</code>인 <code>A</code>, <code>B</code>가 parameter type일 경우, 일반적으로 아래 3가지 관계를 가진다.</p>
+
+<ul>
+<li><code>C[A] &lt;: C[B]</code> 인 경우 <code>C</code>는 <em>covariant</em>이다.</li>
+<li><code>C[A] &gt;: C[B]</code> 인 경우 <code>C</code>는 <em>contravariant</em>이다.</li>
+<li><code>C[A]</code>와 <code>C[B]</code> 둘다 다른 object의 subtype이 아닐 경우 <code>C</code>는 <em>nonvariant</em>이다.</li>
+</ul>
+
+<p>Scala는 위와 같은 variance type을 type parameter를 통해 표현한다.</p>
+
+<ul>
+<li><code>class C[+A] { ... }</code> 에서 <code>C</code>는 <em>covariant</em>를 의미한다.</li>
+<li><code>class C[-A] { ... }</code> 에서 <code>C</code>는 <em>contravariant</em>를 의미한다.</li>
+<li><code>class C[A] { ... }</code> 에서 <code>C</code>는 <em>nonvariant</em>를 의미한다.</li>
+</ul>
+
+<h3 id="typingrulesforfunctions">Typing Rules for Functions</h3>
+
+<p>일반적으로 function type 간 subtype은 아래와 같은 룰을 따른다.</p>
+
+<blockquote>
+  <p>If <code>A2 &lt;: A1</code> and <code>B1 &lt;: B2</code>, then <code>A1 =&gt; B1 &lt;: A2 =&gt; B2</code></p>
+</blockquote>
+
+<p>따라서 function은 argument type에 대해서는 <em>contravariant</em>하고 result type에 대해서는 <em>covariant</em>하다.</p>
+
+<p>이 결과 <code>Function1</code> trait의 경우 아래와 같이 변경된 정의를 이끈다.</p>
+
+<pre><code class="language-scala">package scala  
+trait Funciton1[-T, +U] {  
+    def apply(x: T): U
+}
+</code></pre>
+
+<h3 id="variancechecks">Variance Checks</h3>
+
+<p>앞서 Array example을 다시 보자. 이전에서는 covariance 조합에 대해 이야기를 안했는데, 아래와 같이 <code>Array</code>를 class로, 그리고 <code>update</code>를 method로 표현하면,</p>
+
+<pre><code class="language-scala">class Array[+T] {  
+    def update(x: T) ...
+}
+</code></pre>
+
+<p>위와 같다 할 수 있는데, 이 경우 문제가 되는 조합은 아래와 같다.</p>
+
+<ul>
+<li>the covariant type parameter T</li>
+<li>which appears in parameter position of the method <code>update</code></li>
+</ul>
+
+<p>Scala compiler는 class가 variance annotations과 함께 있을 경우 문제가 되는 조합이 없는지 있는지 아래와 같이 체크한다.</p>
+
+<ul>
+<li><em>convariant</em> type parameters can only appear in method results.</li>
+<li><em>contravariant</em> type parameter can oly appear in method parameters.</li>
+<li><em>nonvariant</em> type parameter can appear anywhere.</li>
+</ul>
+
+<h3 id="functiontraitdeclaration">Function Trait Declaration</h3>
+
+<p>따라서 이전에 봤던 <code>Function1</code> trait는 옮바른 경우라고 볼 수 있다. </p>
+
+<pre><code class="language-scala">package scala  
+trait Funciton1[-T, +U] {  
+    def apply(x: T): U
+}
+</code></pre>
+
+<p><code>apply</code>의 argument type인 <code>T</code>는 <em>contravariant</em>이며, result type인 <code>U</code>는 <em>covariant</em>이기 때문이다.</p>
+
+<h3 id="varianceandlists">Variance and Lists</h3>
+
+<p>그럼 이전에 list를 구현했던 예제를 보자. 만약 <code>Nil</code>을 object로 표현하고 싶을 경우(오직 하나로 empty list를 표현하고자 할 경우), 어떻게 변경해야할까?</p>
+
+<pre><code class="language-scala">object Nil extends List[Nothing] {  
+    def isEmpty: Bolean = true
+    def head: Nothing = ...
+}
+
+object test {  
+    val x: List[String] = Nil   // error
+}
+</code></pre>
+
+<p>위와 같이 할 경우 String과 Nothing이 연관성이 없기 때문에 error를 발생한다. 따라서 아래와 같이 <code>List</code> trait를 변경해야 한다.</p>
+
+<pre><code class="language-scala">trait List[+T] {  
+    def isEmpty: Boolean
+    ...
+}
+</code></pre>
+
+<p>때때로 class를 covariant로 만들어야하는 일들이 생길 수 있다. 예를 들어 <code>List</code>에 <code>pretend</code>라는 method를 추가해보자. 생각해보면 아래와 같이 구현할 수 있다.</p>
+
+<pre><code class="language-scala">trait List[+T] {  
+    def pretend(elem: T): List[T] = new Cons(elem, this)
+}
+</code></pre>
+
+<p>하지만 위의 코드를 돌아가지 않는다. 아래와 같은 에러를 발생하게 된다.</p>
+
+<blockquote>
+  <p>covariant type T occurs in contravariant position in type T of value elem</p>
+</blockquote>
+
+<p>이러한 에러를 발생하는 이유는 <code>pretend</code>가 <em>LSP(Liskov Substitution Principle)</em>을 어기기 때문인데, 아래와 같은 예를 보자.</p>
+
+<p>만약 누군가 <code>List[IntSet]</code> <code>xs</code>를 만들었다면, 아래와 같은 코드는 에러를 발생하지 않는다.</p>
+
+<pre><code class="language-scala">xs.pretend(Empty)  
+</code></pre>
+
+<p>하지만, 같은 동작에 대해 <code>List[NonEmpty]</code>는 에러를 발생한다.</p>
+
+<pre><code class="language-scala">ys.pretend(Empty) // type mismatch  
+                  // required: NonEmpty
+                  // found: Empty
+</code></pre>
+
+<p>따라서 <code>List[NonEmpty]</code>는 <code>List[IntSet]</code>의 subtype이 될 수 없다.</p>
+
+<h3 id="lowerbounds">Lower Bounds</h3>
+
+<p>하지만, 생각해보면 <code>pretend</code>는 중립적인(natural) method로 immutable lists가 가질 수 있는 것이다. 이럴 경우 어떻게 해결해야하는가?</p>
+
+<p>이럴경우 lower bound를 이용하면된다.</p>
+
+<pre><code class="language-scala">def pretend[U &gt;: T](elem: U): List[U] = new Cons(elem, this)  
+</code></pre>
+
+<p>이럴 경우 variance check를 넘어간다. 이유는</p>
+
+<ul>
+<li>covariant type parameter가 method type parameter의 lower bound로 나타거나</li>
+<li>contravariant type parameter가 method의 upper bound로 나타날 수 있기 때문이다.</li>
+</ul>
+
+<p>더 자세한 예를 들어 설명하면, 아래와 같은 함수가 있을 경우,</p>
+
+<pre><code class="language-scala">def f(xs: List[NonEmpty], x: Empty) = xs pretend x ?  
+</code></pre>
+
+<p>돌려주는 return type이 <code>List[IntSet]</code>이 된다. 즉, <code>NonEmpty</code>와 <code>Empty</code> 모두의 supertype인 <code>IntSet</code>을 <code>U</code>로 받기 때문이다. </p>
+
+<h1 id="45decomposition">4.5 Decomposition</h1>
+
+<p>만약 수학적(arithmetic) expression을 위한 작은 interpreter를 만들려고 한다고 가정해보자. 간단함을 유지하기 위해 number와 addition만 이용한다고 생각해보자. expression은 class hierarchy를 가지는데, base trait로 <code>Expr</code>과 두개의 subclass인 <code>Number</code>와 <code>Sum</code>을 가진다. expression을 다루기 위해서는 expression의 형태와 그 구성요서를 알아야한다. 아래의 정의를 보자.</p>
+
+<pre><code class="language-scala">trait Expr {  
+    def isNumber: Boolean  // classification
+    def isSum: Boolean     // classification
+    def numValue: Int      // Accessor
+    def leftOp: Expr       // Accessor
+    def rightOp: Expr      // Accessor
+}
+
+class Number(n: Int) extends Expr {  
+    def isNumber: Boolean = true
+    def isSum: Bollean = false
+    def numValue: Int = n
+    def leftOp: Expr = throw new Error("Number.leftOp")
+    def rightOp: Expr = throw new Error("Number.rightOp")
+}
+
+class Sum(e1: Expr, e2: Expr) extends Expr {  
+    def isNumber: Boolean = false
+    def isSum: Boolean = true
+    def numValue: Int = throw new Error("Sum.numValue")
+    def leftOp: Expr = e1
+    def rightOp: Expr = e2
+}
+</code></pre>
+
+<p>다음은 이런 expression을 evaluation하는 함수 구현을 보자.</p>
+
+<pre><code class="language-scala">def eval(e: Expr): Int = {  
+    if (e.isNumber) e.numValue
+    else if (e.isSum) eval(e.leftOp) + eval(e.rightOp)
+    else throw new Error("Unknown expression " + e)
+}
+</code></pre>
+
+<p>이런 과정을 보면 classification과 accessor부분 구현이 번거롭다는 것을 볼 수 있다. (<code>Number</code>와 <code>Sum</code>에 대해 불필요한 method를 각각 정의해야한다.) 따라서 만약 아래와 같이 새로운 expression 추가가 필요하다면 또다시 모든 class에 대해classification과 accessor에 대한 추가 및 정의가 필요하다.</p>
+
+<pre><code class="language-scala">class Prod(e1: Expr, e2: Expr) extends Expr  // e1 * e2  
+class Var(x: String) extends Expr            // Variable 'x'  
+</code></pre>
+
+<h3 id="nonsolutiontypetestsandtypecasts">Non-Solution: Type Tests and Type Casts</h3>
+
+<p>"Hacky" solution으로 type test와 type cast를 사용하면 된다. Scala에서 아래와 같은 method를 사용할 수 있다.</p>
+
+<pre><code class="language-scala">def isInstanceOf[T]: Boolean // checks whether this object's type conforms to 'T'  
+def asIntanceOf[T]: T        // treats this obejct as an instance of type 'T'  
+                             // throws 'ClassCastException' if it isn't
+</code></pre>
+
+<p>java의 <code>x instance of T</code>와 <code>(T) x</code> 와 동일한 형태이다. 하지만 Scala에서는 실제 사용을 권장하지 않는다.</p>
+
+<p>이를 적용하여 <code>eval</code> method를 수정해보자.</p>
+
+<pre><code class="language-scala">def eval(e: Expr): Int =  
+    if (e.isIntanceOf[Number])
+        e.asInstanceOf[Number].numValue
+    else if (e.isInstanceOf[Sum])
+        eval(e.asInstanceOf[Sum].leftOp) +
+        eval(e.asInstanceOf[Sum].rightOp)
+    else throw new Error("Unknown expression " + e)
+</code></pre>
+
+<p>이렇게 할 경우 아래와 같은 장점과 단점을 가진다.</p>
+
+<ul>
+<li>장점: classificiation 과 accessor method가 필요없다.</li>
+<li>단점: 잠재적으로 문제를 가질 수 있다. (Cast 실패 등)</li>
+</ul>
+
+<h3 id="solution1objectorienteddecomposition">Solution 1: Object-Oriented Decomposition</h3>
+
+<p>만약 우리가 원하는 것이 expression을 evaluation하고자 한다면 아래와 같이 정의하여 해결할 수 있다.</p>
+
+<pre><code class="language-scala">trait Expr {  
+    def eval: Int
+}
+
+class Number(n: Int) extends Expr {  
+    def eval: Int = n
+}
+
+class Sum(e1: Expr, e2: Expr) extends Expr {  
+    def eval: Int = e1.eval + e2.eval
+}
+</code></pre>
+
+<p>하지만 만약 <code>def show: String</code>과 같이 expression을 보여주는 method를 추가할 경우 모든 subclass(ex. <code>Number</code>, <code>Sum</code>)에 대해 정의해줘야한다.</p>
+
+<p>또한, OO Decomposition을 이용할 경우 아래와 같은 rule에 대해 문제가 발생한다.</p>
+
+<pre><code class="language-scala">a * b + a * c -&gt; a * (b + c)  
+</code></pre>
+
+<p>위는 non-local simplification으로 단일 object의 method로 캡슐화 할 수 없다. 따라서 다른 모든 subclass에 대해 method를 test하고 접근해야한다.</p>
+
+<h1 id="46patternmatching">4.6 Pattern Matching</h1>
+
+<p>지금까지 한 사항을 정리해보면,</p>
+
+<ul>
+<li>Classification and access methods: quadratic explosion</li>
+<li>Type tests and casts: unsafe, low-level</li>
+<li>Object-oriented decomposition: does not always work, need to touch all classes to add a new method.</li>
+</ul>
+
+<h3 id="solution2functionaldecompositionwithpatternmatching">Solution 2: Functional Decomposition with Pattern Matching</h3>
+
+<p>새로운 방법의 관점은 test와 accessor functions의 유일한 목적이 construnction process를 반대로(reverse) 하는 것이라고 보는 것이다.</p>
+
+<ul>
+<li>어떤 subclass가 사용되었는가?</li>
+<li>constructor의 arguments가 뭔가?</li>
+</ul>
+
+<h3 id="caseclasses">Case Classes</h3>
+
+<p><code>case class</code> 는 <code>class</code>와 달리 앞에 modifier <code>case</code>를 붙이는 것만 다르다.</p>
+
+<pre><code class="language-scala">trait Expr  
+case class Number(n: Int) extends Expr  
+case class Sum(e1: Expr, e2: Expr) extends Expr  
+</code></pre>
+
+<p>위를 보면 이전과 흡사해보인다.</p>
+
+<p>이것은 또한 내부적으로 <code>apply</code> method를 포함한 companion object를 정의한다.</p>
+
+<pre><code class="language-scala">object Number {  
+    def apply(n: Int) = new Number(n)
+}
+
+object Sum {  
+    def apply(e1: Expr, e2: Expr) = new Sum(e1, e2)
+}
+</code></pre>
+
+<p>따라서 <code>new Number(1)</code>대신 <code>Number(1)</code>이라고 쓸 수 있다. 간편해졌지만, class가 비어있어 member를 어떻게 접근할까?</p>
+
+<h3 id="patternmatching">Pattern Matching</h3>
+
+<p><em>Pattern Matching</em>은 C/JAVA에서 사용되는 <code>switch</code>를 class hierarchy에 일반화한 것이다. Scala 에서는 <code>match</code>라는 keyword를 사용하여 표현한다. 예를 들어,</p>
+
+<pre><code class="language-scala">def eval(e: Expr): Int = e match {  
+    case Number(n) =&gt; n
+    case sum(e1, e2) =&gt; eval(e1) + eval(e2)
+}
+</code></pre>
+
+<p>위와 같이 사용할 수 있는데, 아래와 같은 rule이 있다.</p>
+
+<ul>
+<li><code>match</code> is followed by a sequence of <em>cases</em>, <code>pat =&gt; expr</code>.</li>
+<li>Each case associates an <em>expression</em> <code>expr</code> with a <em>pattern</em> <code>pat</code>.</li>
+<li>A <code>MatchError</code> exception is thrown if no pattern matches the value of the selector.</li>
+</ul>
+
+<p>동작은 <code>switch / case</code>와 동일하게 동작하는데 아래 동작 예를 보자.</p>
+
+<pre><code class="language-scala">eval(Sum(Number(1), Number(2)))  
+</code></pre>
+
+<p>위는 아래와 같이 해석된다.</p>
+
+<pre><code class="language-scala">Sum(Number(1), Number(2)) match {  
+    case Number(n) =&gt; n
+    case Sum(e1, e2) =&gt; eval(e1) + eval(e2)
+}
+
+-&gt; eval(Number(1)) + eval(Number(2))
+
+-&gt;
+Number(1) match {  
+    case Number(n) =&gt; n
+    case Sum(e1, e2) =&gt; eval(e1) + eval(e2)
+} + eval(Number(2))
+
+-&gt; 1 + eval(Number(2))
+
+...
+</code></pre>
+
+<h3 id="patternmatchingandmethods">Pattern Matching and Methods</h3>
+
+<p>물론 evaluation 함수를 base trait에 method로 추가하는 것도 가능하다.</p>
+
+<pre><code class="language-scala">trait Expr {  
+    def eval: Int = this match {
+        case Number(n) =&gt; n
+        case Sum(e1, e2) =&gt; e1.eval + e2.eval
+    }
+}
+</code></pre>
+
+<p>이럴 경우 OO Decomposition에 비해 구현해야하는 method가 줄어든다는 것을 볼 수 있다. (OO Decomposition의 경우 모든 concrete method를 각 subclass에서 구현해야함.)</p>
+
+<h1 id="47lists">4.7 Lists</h1>
+
+<p>이전에 이미 보았지만 여기서 다시 한번 List를 보자.</p>
+
+<pre><code class="language-scala">val fruit = List("applies", "oranges", "pears")  
+val nums  = List(1, 2, 3, 4)  
+val diag3 = List(List(1, 0, 0), List(0, 1, 0), List(0, 0, 1))  
+val empty = List()  
+</code></pre>
+
+<p>기본적인 데이터 구조로 위와 같이 생성할 수 있다. List와 Array의 가장 중요한 차이는 아래와 같다.</p>
+
+<ul>
+<li>Lists are immutable - the elements of a list cannot be changed.</li>
+<li>Lists are recursive, while arrays are flat.</li>
+</ul>
+
+<h3 id="thelisttype">The List Type</h3>
+
+<p>Array와 마찬가지로 List는 <strong>homogeneous</strong>이다. 즉, 모득 element가 동일한 type을 가져야한다.</p>
+
+<pre><code class="language-scala">val fruit: List[String]  
+val nums : List[Int]  
+val diag3: List[List[Int]]  
+val empty: List[Nothing]  
+...
+</code></pre>
+
+<h3 id="constructorsoflists">Constructors of Lists</h3>
+
+<p>모든 list는 아래와 같은 과정으로 생성할 수 있다.</p>
+
+<ul>
+<li>the empty list Nil</li>
+<li>the contruction operation :: (pronounced cons):
+<code>x :: xs</code> gives a new list with the first element x, followed by the elements of xs.</li>
+</ul>
+
+<p>예를 들어 아래와 같이 만들 수 있다.</p>
+
+<pre><code class="language-scala">fruit = "applies" :: ("oranges" :: ("pears" :: Nil))  
+empty = Nil  
+</code></pre>
+
+<p>Contruction operation은 <em>Right Associativity</em>로 아래와 같이 해석과정을 가진다.</p>
+
+<blockquote>
+  <p><code>A :: B :: C</code> is interpered as <code>A :: (B :: C)</code>.</p>
+</blockquote>
+
+<h3 id="operationsonlists">Operations on Lists</h3>
+
+<p>list에 적용되는 몇가지 operation을 보면,</p>
+
+<ul>
+<li><code>head</code>       - the first element of the list</li>
+<li><code>tail</code>       - the list composed of all the elements except the first.</li>
+<li><code>isEmpty</code> - <code>true</code> if the list is empty, <code>false</code> otherwise.</li>
+</ul>
+
+<p>위와 같은 operation은 list의 methods로 정의로 되어있어, 아래와 같이 사용이 가능하다.</p>
+
+<pre><code class="language-scala">fruit.head        == "apple"  
+fruit.tail.head    == "orange"  
+diag3.head        == List(1, 0, 0)  
+empty.head        == throw new NoSuchElementException("head of empty list")  
+</code></pre>
+
+<h3 id="sortinglists">Sorting Lists</h3>
+
+<p>List를 오름차순으로 정렬해보자. 아래와 같이 <em>Insertion Sort</em>를 구현할 수 있다.</p>
+
+<pre><code class="language-scala">def isort(xs: List[Int]): List[Int] = xs match {  
+    case List() =&gt; List()
+    case y :: ys =&gt; insert(y, isort(ys))
+}
+
+def insert(x: Int, xs: List[Int]): List[Int] = xs match {  
+    case List() =&gt; List(x)
+    case y :: ys =&gt; if (x &lt;= y) x :: xs else y :: insert(x, ys)
+}
+</code></pre>
+
+<h1 id="reference">Reference</h1>
+
+<ul>
+<li><a href="https://www.coursera.org/learn/progfun1">Functional Programming Principles in Scala</a>, Coursera</li>
+</ul>
+        </section>
+
+        <section class="post-tags">
+            
+        </section>
+
+        <section class="share">
+            <p class="backtotop"><a data-scroll href="index.html#site-head"><i class="fa fa-lg fa-fw fa-angle-double-up"></i></a><a data-scroll class="backtotoptext" href="index.html#site-head"> Back to top</a></p>
+            <p class="info prompt">Share</p>
+            <a href="http://twitter.com/share?text=Functional%20Programming%20Principles%20in%20Scala%20-%20Types%20and%20Pattern%20Matching&amp;url=http://tocology.github.io/functional-programming-principles-in-scala-types-and-pattern-matching/" title="Share on Twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-2x fa-fw fa-twitter-square"></i> <span class="hidden">Twitter</span>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://tocology.github.io/functional-programming-principles-in-scala-types-and-pattern-matching/" title="Share on Facebook" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-2x fa-fw fa-facebook-square" style="margin-left: -8px"></i> <span class="hidden">Facebook</span>
+            </a>
+            <a href="https://plus.google.com/share?url=http://tocology.github.io/functional-programming-principles-in-scala-types-and-pattern-matching/" title="Share on Google+" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-2x fa-fw fa-google-plus-square" style="margin-left: -8px"></i> <span class="hidden">Google+</span>
+            </a>
+        </section>
+
+        <footer class="post-footer">
+            <section class="author">
+    <div class="authorimage" style="background: url(../content/images/2015/10/Profile.jpg)"></div>
+    <h4>tocology</h4>
+    <p class="bio">Always develop myself..</p>
+    <p class="meta">
+      <i class="fa fa-fw fa-globe"></i> <a href="https://kr.linkedin.com/in/junhohwang">https://kr.linkedin.com/in/junhohwang</a><br>
+      <i class="fa fa-fw fa-map-marker"></i> Soeul, South Korea
+    </p>
+</section>
+        </footer>
+
+
+        <div id="disqus_thread">
+    <script type="text/javascript">
+        var disqus_shortname = 'tocology';
+        var disqus_identifier = '19';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <div class="inner">
+            <section class="footer-social">
+    <!-- <a href="http://twitter.com/username" target="_blank" title="Twitter"><i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span></a>&nbsp; -->
+    <a href="https://www.facebook.com/tocology" target="_blank" title="Facebook"><i class="fa fa-2x fa-fw fa-facebook"></i> <span class="hidden">Facebook</span></a> 
+    <a href="https://github.com/tocology" target="_blank" title="GitHub"><i class="fa fa-2x fa-fw fa-github"></i> <span class="hidden">GitHub</span></a> 
+    <a href="http://tocology.github.io/rss/" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+</section>
+            <section class="bloginfo">A blog by <a href="mailto:hwangjun7777@gmail.com">tocology</a></section>
+            <section class="copyright">© 2016 <a href="http://tocology.github.io">tocology</a>. All rights reserved</section>
+            <section><a href="https://github.com/epistrephein/Steam">Steam theme</a> for <a class="icon-ghost" href="http://ghost.org/"><span class="hidden">Ghost</span></a> by Tommaso Barbato</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../assets/js/index.js?v=736a175111"></script>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/7.1.1/js/smooth-scroll.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+    <script>
+        smoothScroll.init({
+            speed: 800,
+            easing: 'easeInOutCubic',
+            updateURL: false,
+            offset: 125,
+        });
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</body>

@@ -1,0 +1,423 @@
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+      <title>Functional Programming - Interactive Programs</title>
+    <meta name="description" content="">
+    <meta name="apple-mobile-web-app-title" content="Functional Programming - Interactive Programs">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="../assets/img/favicon.ico?v=736a175111">
+<link rel="apple-touch-icon" href="../assets/img/appletouchicon.png?v=736a175111">
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+
+    <style type="text/css">
+    a, a:visited {color: #3498db;}
+    .pagination a {color: #3498db;}
+    .gist .gist-file .gist-meta a:visited {color: #3498db !important;}
+
+    a:focus, a:hover {color: #2079b4;}
+    h1.post-title a:focus, h1.post-title a:hover, h1.blog-title a:focus, h1.blog-title a:hover {color: #2079b4;}
+    .older-posts:hover, .newer-posts:hover {color: #2079b4;}
+</style>
+    
+
+    <link rel="stylesheet" href="../assets/css/screen.css?v=736a175111">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="../assets/css/github.css?v=736a175111">
+
+    
+
+    <link rel="canonical" href="http://tocology.github.io/functional-programming-interactive-programs/">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="tocology">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Functional Programming - Interactive Programs">
+    <meta property="og:description" content="초창기 Haskell은 다른 언어들과 달리 그 효용성을 증명하는 것이 어려웠습니다. 그 이유는 다른 언어들을 이용할 때는 쉽게 할 수 있는 외부와의 소통(communication)의 어려움이었습니다. 예를 들어, 우리는 어떤 언어를 사용하든 'hello world!'를 출력하였습니다.  System.out.println(&quot;hello world!...">
+    <meta property="og:url" content="http://tocology.github.io/functional-programming-interactive-programs/">
+    <meta property="article:published_time" content="2015-12-13T10:32:28.667Z">
+    <meta property="article:modified_time" content="2015-12-13T10:32:28.663Z">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Functional Programming - Interactive Programs">
+    <meta name="twitter:description" content="초창기 Haskell은 다른 언어들과 달리 그 효용성을 증명하는 것이 어려웠습니다. 그 이유는 다른 언어들을 이용할 때는 쉽게 할 수 있는 외부와의 소통(communication)의 어려움이었습니다. 예를 들어, 우리는 어떤 언어를 사용하든 'hello world!'를 출력하였습니다.  System.out.println(&quot;hello world!...">
+    <meta name="twitter:url" content="http://tocology.github.io/functional-programming-interactive-programs/">
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "tocology",
+    "author": {
+        "@type": "Person",
+        "name": "tocology",
+        "image": "http://tocology.github.io/content/images/2015/10/Profile.jpg",
+        "url": "http://tocology.github.io/author/tocology",
+        "sameAs": "https://kr.linkedin.com/in/junhohwang",
+        "description": "Always develop myself.."
+    },
+    "headline": "Functional Programming - Interactive Programs",
+    "url": "http://tocology.github.io/functional-programming-interactive-programs/",
+    "datePublished": "2015-12-13T10:32:28.667Z",
+    "dateModified": "2015-12-13T10:32:28.663Z",
+    "description": "초창기 Haskell은 다른 언어들과 달리 그 효용성을 증명하는 것이 어려웠습니다. 그 이유는 다른 언어들을 이용할 때는 쉽게 할 수 있는 외부와의 소통(communication)의 어려움이었습니다. 예를 들어, 우리는 어떤 언어를 사용하든 &#x27;hello world!&#x27;를 출력하였습니다.  System.out.println(&quot;hello world!..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="tocology" href="http://tocology.github.io/rss/">
+    <script>
+var profile_title = 'Tocology';
+var profile_resume ='Software Engineer';
+var disqus_shortname = 'tocology';
+</script>
+</head>
+<body class="post-template">
+
+    <header id="site-head">
+        <h1 class="blog-title"><a href="http://tocology.github.io">tocology</a></h1>
+        <h1 class="blog-subtitle">Data Processing and Visualization for Big Data.</h1>
+    </header>
+
+    <nav class="menu" role="nav">
+    <ul>
+                <li class="nav-home"><a href="http://tocology.github.io/">Home</a></li>
+                <li class="nav-article"><a href="http://tocology.github.io/article/">Article</a></li>
+    </ul>
+</nav>
+
+
+    
+<main class="content" role="main">
+
+    <article class="post">
+
+
+        <header>
+        <h1 class="post-title">Functional Programming - Interactive Programs</h1>
+        <div class="post-meta"><time datetime="2015-12-13">13 December 2015</time></div>
+        </header>
+
+        <section class="post-content">
+            <p>초창기 Haskell은 다른 언어들과 달리 그 효용성을 증명하는 것이 어려웠습니다. 그 이유는 다른 언어들을 이용할 때는 쉽게 할 수 있는 외부와의 소통(communication)의 어려움이었습니다. 예를 들어, 우리는 어떤 언어를 사용하든 'hello world!'를 출력하였습니다. </p>
+
+<pre><code class="language-java">System.out.println("hello world!");  
+</code></pre>
+
+<p>위 코드는 standard output을 이용하여 사용자에게 결과를 보여주었습니다. 하지만, haskell은 사용자로부터 input/ouput을 주고 받기위한 I/O Stream이 존재하지 않았습니다.</p>
+
+<p>오늘날 haskell은 I/O monad를 통해 외부와 소통할 수 있게 되었습니다. </p>
+
+<p><img src="http://tocology.github.io/content/images/functional-programming/batch-program.png" alt="batch program design" title="batch program design"></p>
+
+<p>이때까지 input을 받고 string, integer 또는 tuple과 같은 output을 돌려주는게 전부였습니다. 하지만, C# 또는 Java와 같이 계속해서 새로운 input을 받아 결과를 돌려줄 수 있는 프로그램을 원했습니다.</p>
+
+<p><img src="http://tocology.github.io/content/images/functional-programming/interactive-program.png" alt="interactive program design" title="interactive program design"></p>
+
+<p>이를 위해 실행 중 키보드(keyboard)로 부터 결과를 입력받아 화면(screen)에 출력하며 서로 연결된(interactive) 프로그램을 만들어야햇습니다.</p>
+
+<h3 id="theproblem">The Problem</h3>
+
+<p>하지만, 문제가 있습니다. Haskell 프로그램은 순수한 수학적 함수(pure mathematical functions)입니다.</p>
+
+<blockquote>
+  <p>Haskell programs <u>have no side effects</u>.</p>
+</blockquote>
+
+<p>순수한 수학적 함수란 항상 동일한 입력에 대해 동일한 결과를 돌려주는 것을 의미합니다. 예를 들어 <code>factorial n</code> 은 어떠한 경우에서도 같은 결과를 돌려줍니다. </p>
+
+<p>하지만, <code>readLine</code> 이라는 Java 함수의 경우 아무런 입력(argument)을 받지 않으며 다양한 결과(String)을 돌려줍니다. 이런 이유로 <code>readLine</code> 은 수학적 함수가 아니며 <strong>side effects</strong>을 가질 수 있습니다. String을 돌려주지만, 그 type이 명확하지 않기 때문입니다. 이것이 I/O monad가 해결해주는 것입니다. I/O monad는 side effect를 가지는 함수의 type안에서 표현(express)합니다. </p>
+
+<p>정리하자면 외부와 소통하기 위해(키보드로 입력받고 화면으로 출력하는) side effect를 가질 수 밖에 없습니다.</p>
+
+<blockquote>
+  <p>Interactive programs <u>have side effects</u>.</p>
+</blockquote>
+
+<p>따라서 우리는 haskell 프로그램 안에서 side effect를 포함시키는 방안이 필요합니다. </p>
+
+<p>side effect는 꼭 나쁘다는게 아닙니다. side effect가 없다면 <code>interactive program</code> 을 만드는 것이 어렵기 때문입니다. 따라서, 중요한 것은 side effect를 어떻게 밸런스있게 다루냐는 겁입니다. </p>
+
+<h3 id="thesolution">The Solution</h3>
+
+<p>Haskell으로 작성된 <code>interactive program</code> 은 순수한 표현(pure expressions)와 구분하기 위해 side effect를 가질 수 있는 순수하지 않은(impure) action을 표현하는 방법이 있습니다.  </p>
+
+<pre><code class="language-haskell">IO a  
+</code></pre>
+
+<p>이 <code>IO</code> 라는 표현은 Haksell 안에서 <code>actions</code> 을 의미하는 동시에 지금까지 언급하지 않았던 Haskell의 statement를 의미하기도 합니다. (하지만, <code>actions</code> 또한 expression이므로, 구성이 가능합니다.) </p>
+
+<p>다음으로 구체적인 예를 보겠습니다.</p>
+
+<pre><code class="language-haskell">IO Char
+
+IO ()  
+</code></pre>
+
+<p>위는 side effect를 가지지만 한 글자를 돌려주는 action type입니다. 아래는 가장 명력적인(imperative) type인 IO unit입니다. 이것은 오직 side effect만을 수행하는데, 이유는 어떠한 실제적인 결과값을 돌려주는 것이 아닌 비어있는 tuple을 돌려주기 때문입니다. 다른 기타 언어에서는 이를 void로 표현합니다.</p>
+
+<p>앞으로 우리는 앞에서 보았던 I/O Monad를 이용하지만, 어떻게 구성되어있는지 신경쓰지 않습니다. 이건 마치 Java의 OOP(Object Oriented Programming) class개념과 비슷합니다. 우리는 그러한 class를 이용할 뿐입니다.</p>
+
+<h3 id="basicactions">Basic Actions</h3>
+
+<p>Standard Library는 많은 actions을 제공하며 다음 3가지를 포함합니다.</p>
+
+<ul>
+<li><code>getChar</code> action은 키보드로부터 한 글자를 읽어 screen에 보여주며 값으로 돌려줍니다. 만일 haskell이 엄격하다면(strict) 결과를 바로 돌려주지만, 게이른(lazy) 언어이기 때문에 바로 평가하지 않습니다. </li>
+</ul>
+
+<pre><code class="language-haskell">getChar :: IO Char  
+</code></pre>
+
+<ul>
+<li><code>putChar c</code> action은 화면에 한글자를 출력하며 결과를 돌려주지 않습니다.</li>
+</ul>
+
+<pre><code class="language-haskell">putChar :: Char -&gt; IO ()  
+</code></pre>
+
+<ul>
+<li><code>return v</code> action은 단순히 결과를 돌려줍니다. 마치 앞에서 배운 Parser와 비슷한 동작을 보여줍니다. </li>
+</ul>
+
+<pre><code class="language-haskell">return :: a -&gt; IO a  
+</code></pre>
+
+<h3 id="sequencing">Sequencing</h3>
+
+<p>여러 action을 하나의 sequence로 표현할 수 있습니다. Parser의 경우와 동일하게 <code>do</code> 를 이용합니다.</p>
+
+<pre><code class="language-haskell">a :: IO (Char, Char)  
+a  = do x &lt;- getChar  
+        getChar
+        y &lt;- getChar
+        return (x,y)
+</code></pre>
+
+<h3 id="derivedprimitives">Derived Primitives</h3>
+
+<p><code>getchar</code> 를 이용하여 한줄을 읽어 stirng을 돌려주는 함수를 만들 수 있습니다.</p>
+
+<pre><code class="language-haskell">getLine :: IO String  
+getLine  = do x &lt;- getChar  
+              if x == '\n' then
+                 return []
+              else
+                 do xs &lt;- getLine
+                    return (x:xs)
+</code></pre>
+
+<p>여기서 눈여겨봐야 하는 점은 <code>getChar</code> 는 <code>IO Char</code> type을이지만, <code>x</code> 의 경우 <code>Char</code> type 입니다. 따라서 <code>=</code> 이 아닌 list comprehension 경우와 동일하게 <code>&lt;-</code> 를 이용하여 표현합니다. </p>
+
+<p>이와 비슷하게 아래 함수들도 정의 할 수 있습니다.</p>
+
+<ul>
+<li>String을 화면에 출력하는 함수입니다.</li>
+</ul>
+
+<pre><code class="language-haskell">putStr       :: String -&gt; IO ()  
+putStr []     = return ()  
+putStr (x:xs) = do putChar x  
+                   return xs
+</code></pre>
+
+<ul>
+<li>한줄을 출력하고 다음줄로 넘어가는 함수입니다.</li>
+</ul>
+
+<pre><code class="language-haskell">putStrLn   :: String -&gt; IO ()  
+putStrLn xs = do putChar xs  
+                 putChar '\n' 
+</code></pre>
+
+<h3 id="example">Example</h3>
+
+<p>위를 종합하여 가장 놀라운 것은 이 모든 것들을 우리가 이전에 배웠던 모든 함수들과 함께 조합할 수 있다는 겁니다. 특히 list를 입력으로 받는 함수 경우 string 또한 list이기 때문에 적용이 가능합니다.</p>
+
+<pre><code class="language-haskell">strLen :: IO ()  
+strLen  = do putStr "Enter a string: "  
+             xs &lt;- getLine
+             putStr "The string has "
+             putStr (show (length xs))
+             putStrLn " characters"
+</code></pre>
+
+<p>이 예에서도 IO Monad와 함께 <code>length</code> 를 섞어 사용하고 있습니다.</p>
+
+<pre><code class="language-haskell">&gt; strlen
+
+Enter a string: abcde  
+The string has 5 characters  
+</code></pre>
+
+<p>중요한 것은 action에 대한 평가는 side effect를 실행하지만 결과를 버리게 됩니다. 이유는 IO unit 이기 때문입니다. </p>
+
+<h3 id="hangman">Hangman</h3>
+
+<p>앞서 우리는 명령적(imperative) 부분에 순수한(pure) 코드를 도입하는 것을 보았습니다. 유명한 게임 중 하나인 Hangman을 보면서 설명을 이어가겠습니다.</p>
+
+<ul>
+<li><p>한 플레이어가 몰래 단어를 작성합니다.</p></li>
+<li><p>다른 플레이어가 여러 가정들을 입력하면서 그 단어를 유추합니다.</p></li>
+<li><p>컴퓨터는 처음 작성된 단어안 글자 중에 가정들속에서 단어에 포함된 글자를 나타냅니다.</p></li>
+<li><p>게임은 유추가 맞을 경우 끝납니다.</p></li>
+</ul>
+
+<p>이러한 Hangman을 <u>top down</u> 방식으로 다음과 같이 만들 수 있습니다.</p>
+
+<pre><code class="language-haskell">hangman :: IO ()  
+hangman  =  
+    do putStrLn "Think of a word: "
+       word &lt;- sgetLine
+       putStrLn "Try to guess it: "
+       guess word
+</code></pre>
+
+<p>일단 <code>sgetLine</code> 을 통해 값을 입력받습니다. 여기서 중요한 것은 <code>sgetLine</code> 은 string을 읽어오지만, 화면에는 (_)로 나타내야합니다. 이렇게 받은 단어를 <code>guess</code> 를 통해 유추하게 됩니다.</p>
+
+<pre><code class="language-haskell">sgetLine :: IO String  
+sgetLine  = do x &lt;- getCh  
+               if x == '\n' then
+                  do putChar x
+                     return []
+               else
+                  do putChar '-'
+                     xs &lt;- sgetLine
+                     return (x:xs)
+</code></pre>
+
+<p>위는 <code>sgetLine</code> 을 구현한 것입니다. 이전에 봤던 <code>getLine</code> 과 비교할 때 <code>putchar '-'</code> 와 <code>getCh</code> 부분이 변경된 것 이외에 동일합니다. 여기서 <code>getCh</code> 는 값을 입력받지만 화면에 출력하지 않는 함수로 <code>getChar</code> 와 다르게 동작해야합니다. 아래와 같이 구현이 가능합니다.</p>
+
+<pre><code class="language-haskell">import System.IO
+
+getCh :: IO Char  
+getCh  = do hSetEcho stdin False  
+            c &lt;- getChar
+            hSetEcho stdin True
+            return c
+</code></pre>
+
+<p><code>hSetEcho stdin</code> 을 <code>False</code> 또는 <code>True</code> 를 통해 echo 셋팅을 껏다 키는 것을 확인 할 수 있습니다. 여기서도 중요한 것은 <code>getChar</code> 를 통해 <code>c</code> 에 값을 대입하는 것이 아니라 <strong>bind</strong>한다는 것입니다. 여기서 <code>c</code> 는 고정된(not mutable) 값으로 side effect를 가질 수 있습니다. Haskell에서도 변경가능한(mutable) 변수가 있지만 여기서는 다루지 않겠습니다. </p>
+
+<pre><code class="language-haskell">guess     :: String -&gt; IO ()  
+guess word =  
+    do putStr "&gt; "
+       xs &lt;- getLine
+       if xs == word then
+          putStrLn "You got it!"
+       else
+          do putStrLn (diff word xs)
+             guess word
+</code></pre>
+
+<p>위는 <code>guess</code> 를 구현한 예제입니다. 단어가 맞으면 프로그램은 종료되지만, 맞추기 못할 경우 앞서 받은 word와 다른 글자를 돌려주며 다시 <code>guess</code> 를 호출합니다.</p>
+
+<pre><code class="language-haskell">diff      :: String -&gt; String -&gt; String  
+diff xs ys =  
+    [if elem x ys then x else '-' | x &lt;- xs] 
+</code></pre>
+
+<pre><code class="language-haskell">&gt; diff "haskell" "pascal"
+
+"-as--ll"
+</code></pre>
+
+<p>위 <code>diff</code> 함수는 이전에 다뤘던 순수한(pure) 함수형 언어로 구현되어있습니다.</p>
+
+<h3 id="reference">Reference</h3>
+
+<ul>
+<li><a href="https://courses.edx.org/courses/course-v1:DelftX+FP101x+3T2015/">Introduction to Functional Programming</a></li>
+</ul>
+        </section>
+
+        <section class="post-tags">
+            
+        </section>
+
+        <section class="share">
+            <p class="backtotop"><a data-scroll href="index.html#site-head"><i class="fa fa-lg fa-fw fa-angle-double-up"></i></a><a data-scroll class="backtotoptext" href="index.html#site-head"> Back to top</a></p>
+            <p class="info prompt">Share</p>
+            <a href="http://twitter.com/share?text=Functional%20Programming%20-%20Interactive%20Programs&amp;url=http://tocology.github.io/functional-programming-interactive-programs/" title="Share on Twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-2x fa-fw fa-twitter-square"></i> <span class="hidden">Twitter</span>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://tocology.github.io/functional-programming-interactive-programs/" title="Share on Facebook" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-2x fa-fw fa-facebook-square" style="margin-left: -8px"></i> <span class="hidden">Facebook</span>
+            </a>
+            <a href="https://plus.google.com/share?url=http://tocology.github.io/functional-programming-interactive-programs/" title="Share on Google+" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-2x fa-fw fa-google-plus-square" style="margin-left: -8px"></i> <span class="hidden">Google+</span>
+            </a>
+        </section>
+
+        <footer class="post-footer">
+            <section class="author">
+    <div class="authorimage" style="background: url(../content/images/2015/10/Profile.jpg)"></div>
+    <h4>tocology</h4>
+    <p class="bio">Always develop myself..</p>
+    <p class="meta">
+      <i class="fa fa-fw fa-globe"></i> <a href="https://kr.linkedin.com/in/junhohwang">https://kr.linkedin.com/in/junhohwang</a><br>
+      <i class="fa fa-fw fa-map-marker"></i> Soeul, South Korea
+    </p>
+</section>
+        </footer>
+
+
+        <div id="disqus_thread">
+    <script type="text/javascript">
+        var disqus_shortname = 'tocology';
+        var disqus_identifier = '12';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <div class="inner">
+            <section class="footer-social">
+    <!-- <a href="http://twitter.com/username" target="_blank" title="Twitter"><i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span></a>&nbsp; -->
+    <a href="https://www.facebook.com/tocology" target="_blank" title="Facebook"><i class="fa fa-2x fa-fw fa-facebook"></i> <span class="hidden">Facebook</span></a> 
+    <a href="https://github.com/tocology" target="_blank" title="GitHub"><i class="fa fa-2x fa-fw fa-github"></i> <span class="hidden">GitHub</span></a> 
+    <a href="http://tocology.github.io/rss/" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+</section>
+            <section class="bloginfo">A blog by <a href="mailto:hwangjun7777@gmail.com">tocology</a></section>
+            <section class="copyright">© 2016 <a href="http://tocology.github.io">tocology</a>. All rights reserved</section>
+            <section><a href="https://github.com/epistrephein/Steam">Steam theme</a> for <a class="icon-ghost" href="http://ghost.org/"><span class="hidden">Ghost</span></a> by Tommaso Barbato</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../assets/js/index.js?v=736a175111"></script>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/7.1.1/js/smooth-scroll.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+    <script>
+        smoothScroll.init({
+            speed: 800,
+            easing: 'easeInOutCubic',
+            updateURL: false,
+            offset: 125,
+        });
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</body>

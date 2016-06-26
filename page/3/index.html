@@ -1,0 +1,169 @@
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+      <title>tocology - Page 3</title>
+    <meta name="description" content="">
+    <meta name="apple-mobile-web-app-title" content="tocology - Page 3">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="../../assets/img/favicon.ico?v=736a175111">
+<link rel="apple-touch-icon" href="../../assets/img/appletouchicon.png?v=736a175111">
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+
+    <style type="text/css">
+    a, a:visited {color: #3498db;}
+    .pagination a {color: #3498db;}
+    .gist .gist-file .gist-meta a:visited {color: #3498db !important;}
+
+    a:focus, a:hover {color: #2079b4;}
+    h1.post-title a:focus, h1.post-title a:hover, h1.blog-title a:focus, h1.blog-title a:hover {color: #2079b4;}
+    .older-posts:hover, .newer-posts:hover {color: #2079b4;}
+</style>
+    
+
+    <link rel="stylesheet" href="../../assets/css/screen.css?v=736a175111">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="../../assets/css/github.css?v=736a175111">
+
+    <link href="../4/index.html" rel="prefetch">
+
+    <link rel="canonical" href="http://tocology.github.io/page/3/">
+    <meta name="referrer" content="origin">
+    <link rel="prev" href="http://tocology.github.io/page/2/">
+    <link rel="next" href="http://tocology.github.io/page/4/">
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="tocology" href="http://tocology.github.io/rss/">
+    <script>
+var profile_title = 'Tocology';
+var profile_resume ='Software Engineer';
+var disqus_shortname = 'tocology';
+</script>
+</head>
+<body class="paged archive-template">
+
+    <header id="site-head">
+        <h1 class="blog-title"><a href="http://tocology.github.io">tocology</a></h1>
+        <h1 class="blog-subtitle">Data Processing and Visualization for Big Data.</h1>
+    </header>
+
+    <nav class="menu" role="nav">
+    <ul>
+                <li class="nav-home"><a href="http://tocology.github.io/">Home</a></li>
+                <li class="nav-article"><a href="http://tocology.github.io/article/">Article</a></li>
+    </ul>
+</nav>
+
+
+    
+<main class="content" role="main">
+
+
+    <article class="preview">
+        <header>
+            <h1 class="post-title"><a href="../../functional-programming-recursive-functions/">Functional Programming - Recursive Functions</a></h1>
+            <div class="post-meta"><time datetime="2015-11-13">13 November 2015</time></div>
+        </header>
+        <section class="post-excerpt">
+            <a class="excerptlink" href="../../functional-programming-recursive-functions/"><p>Recursive Function Recursive라는 표현은 아마 모든 분들이 익숙하실 겁니다. (한국어로 재귀라고 합니다) 간단히 설명드려 함수를 다루는 기법하나로 함수 내부에서 그 함수를 다시 호출하는 것을 말하는데요. Functional Programming에서 가장 중요하게 생각하는 것이 여기서 tail call을 없애는 겁니다. Stack이 쌓이는 경우 때문인데, 다음 설명을 계속 보겠습니다. factorial   :: Int -&gt; Int   factorial n = product [1..n]   위의 예제는 간단히 factorial을 product를 이용하여 구현한 것 입니다. 이 함수를 이용할 경우 다음의 과정을 거치게 될 것입니다. factorial 4   = product [1..4] = product [1,2,3,4] = 1*2*3*4 = 24 다음은 이 함수를…</p></a>
+            <p class="readmore"><a href="../../functional-programming-recursive-functions/">Keep reading <i class="fa fa-angle-double-right" style="padding-left: 5px;"></i></a></p>
+        </section>
+    </article>
+
+
+    <article class="preview">
+        <header>
+            <h1 class="post-title"><a href="../../functional-programming-list/">Functional Programming - List</a></h1>
+            <div class="post-meta"><time datetime="2015-11-13">13 November 2015</time></div>
+        </header>
+        <section class="post-excerpt">
+            <a class="excerptlink" href="../../functional-programming-list/"><p>아마 이글을 보고 있는 모든 개발자들은 List와 같은 collection에 굉장히 친숙할 것입니다. 또한, 이런 collection을 다루는 while, for, foreach등 많은 API를 다뤄왔을 겁니다.   하지만, 수학자(mathematicians)들이 가장 좋아하는 collection type은 set입니다. 이런 set은 중복 element는 삭제되는 등 List와 다른 면이 있습니다.    Haskell에서 List는 head와 tail등 하나하나 읽히는 특성을 이용할 수 있습니다. 실제 이러한 기능을 모방하여 Java 8에서는 List를 Stream이라고 부르기도 합니다.   Set Comprehensions 그럼 수학에서 set을 정의(Comprehension)하는 예제를 보겠습니다.   위의 공식의 결과는 {1,4,9,16,25}입니다. 하지만 실제 Set을 이용항 구현하기에는 쉽지 않습니다. (index를 이용한…</p></a>
+            <p class="readmore"><a href="../../functional-programming-list/">Keep reading <i class="fa fa-angle-double-right" style="padding-left: 5px;"></i></a></p>
+        </section>
+    </article>
+
+
+    <article class="preview">
+        <header>
+            <h1 class="post-title"><a href="../../functional-programming-functions/">Functional Programming - Functions</a></h1>
+            <div class="post-meta"><time datetime="2015-11-13">13 November 2015</time></div>
+        </header>
+        <section class="post-excerpt">
+            <a class="excerptlink" href="../../functional-programming-functions/"><p>Conditional Expressions 다른 언어들과 마찬가지로 Haskell도 조건식이 존재합니다. 다만 statement가 아닌 expression을 이용합니다. abs :: Int -&gt; Int   abs n = if n &gt;= 0 then n else -n   위의 예는 절대값을 만드는 간단한 function입니다. 아래와 같이 nested로 표현도 가능합니다. signum :: Int -&gt; Int   signum n = if n &lt; 0 then -1 else                if n == 0 then 0 else 1 (Haskell에서는 애매한(ambiguous) 경우를 제거하기 위해 else가 필수입니다.) Guarded Equations 위와 같은 조건식을 사용하는 것과 달리 guarded equation이라는 것을 이용하여 표현이 가능합니다.  abs n | n &gt;= 0    = n         | otherwise = -n…</p></a>
+            <p class="readmore"><a href="../../functional-programming-functions/">Keep reading <i class="fa fa-angle-double-right" style="padding-left: 5px;"></i></a></p>
+        </section>
+    </article>
+
+
+    <article class="preview">
+        <header>
+            <h1 class="post-title"><a href="../../functional-programming-types-classes/">Functional Programming - Types and Classes</a></h1>
+            <div class="post-meta"><time datetime="2015-11-13">13 November 2015</time></div>
+        </header>
+        <section class="post-excerpt">
+            <a class="excerptlink" href="../../functional-programming-types-classes/"><p>Haskell 의 많은 function들은 list를 인자로 받습니다.   &gt; head [1,2,3,4,5] 1   &gt; tail [1,2,3,4,5] [2,3,4,5] &gt; [1,2,3,4,5] !! 2 3   &gt; drop 2 [1,2,3,4,5] [3,4,5] &gt; length [1,2,3,4,5] 5   &gt; sum [1,2,3,4,5] 15   &gt; product [1,2,3,4,5] 120   &gt; [1,2,3] ++ [4,5] [1,2,3,4,5] &gt; reverse [1,2,3,4,5] [5,4,3,…</p></a>
+            <p class="readmore"><a href="../../functional-programming-types-classes/">Keep reading <i class="fa fa-angle-double-right" style="padding-left: 5px;"></i></a></p>
+        </section>
+    </article>
+
+
+    <article class="preview">
+        <header>
+            <h1 class="post-title"><a href="../../functional-programming-introduction/">Functional Programming - Introduction</a></h1>
+            <div class="post-meta"><time datetime="2015-11-13">13 November 2015</time></div>
+        </header>
+        <section class="post-excerpt">
+            <a class="excerptlink" href="../../functional-programming-introduction/"><p>먼저 다음과 같은 내용은 edx 강의 중 DelftX: FP101x Introduction to Functional Programming을 보고 작성하였습니다. Introduction Functional Programming 의 정의는 간략하게 말하기에는 다소 어렵고 다양하게 해석될 수 있습니다.  아주 단순하게 말하자면 수학 함수(Mathematical function)를 사용하는 프로그램을 의미합니다. Haskell과 같은 몇몇 프로그래밍 언어 뿐만아니라 많은 언어들이 이러한 부분들을 지향하고 있습니다. 여기서는 간단히 다음과 같이 정의할 수 있습니다.   Functional Programming   :  Statement 보다 Expression을 위주로 작성하는 프로그래밍 기법(Style). 따라서 개발하는 프로그램이 Expression으로 구성되게 코딩하는 것. Statement는 다른 global state에 영향을 미칠 수 있습니다. 다음 예를 보면서 확인하겠습니다.   int total = 0;…</p></a>
+            <p class="readmore"><a href="../../functional-programming-introduction/">Keep reading <i class="fa fa-angle-double-right" style="padding-left: 5px;"></i></a></p>
+        </section>
+    </article>
+
+
+    <nav class="pagination" role="pagination">
+        <a class="newer-posts" href="../2/"><i class="fa fa-chevron-circle-left"></i> Newer</a>
+    <span class="page-number">Page 3 of 4</span>
+        <a class="older-posts" href="../4/">Older <i class="fa fa-chevron-circle-right"></i></a>
+</nav>
+
+
+</main>
+
+
+    <footer class="site-footer">
+        <div class="inner">
+            <section class="footer-social">
+    <!-- <a href="http://twitter.com/username" target="_blank" title="Twitter"><i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span></a>&nbsp; -->
+    <a href="https://www.facebook.com/tocology" target="_blank" title="Facebook"><i class="fa fa-2x fa-fw fa-facebook"></i> <span class="hidden">Facebook</span></a> 
+    <a href="https://github.com/tocology" target="_blank" title="GitHub"><i class="fa fa-2x fa-fw fa-github"></i> <span class="hidden">GitHub</span></a> 
+    <a href="http://tocology.github.io/rss/" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+</section>
+            <section class="bloginfo">A blog by <a href="mailto:hwangjun7777@gmail.com">tocology</a></section>
+            <section class="copyright">© 2016 <a href="http://tocology.github.io">tocology</a>. All rights reserved</section>
+            <section><a href="https://github.com/epistrephein/Steam">Steam theme</a> for <a class="icon-ghost" href="http://ghost.org/"><span class="hidden">Ghost</span></a> by Tommaso Barbato</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../../assets/js/index.js?v=736a175111"></script>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/7.1.1/js/smooth-scroll.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+    <script>
+        smoothScroll.init({
+            speed: 800,
+            easing: 'easeInOutCubic',
+            updateURL: false,
+            offset: 125,
+        });
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</body>

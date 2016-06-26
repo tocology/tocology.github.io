@@ -1,0 +1,618 @@
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+      <title>Functional Programming Principles in Scala - Functions &amp; Evaluation</title>
+    <meta name="description" content="">
+    <meta name="apple-mobile-web-app-title" content="Functional Programming Principles in Scala - Functions &amp; Evaluation">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="../assets/img/favicon.ico?v=736a175111">
+<link rel="apple-touch-icon" href="../assets/img/appletouchicon.png?v=736a175111">
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+
+    <style type="text/css">
+    a, a:visited {color: #3498db;}
+    .pagination a {color: #3498db;}
+    .gist .gist-file .gist-meta a:visited {color: #3498db !important;}
+
+    a:focus, a:hover {color: #2079b4;}
+    h1.post-title a:focus, h1.post-title a:hover, h1.blog-title a:focus, h1.blog-title a:hover {color: #2079b4;}
+    .older-posts:hover, .newer-posts:hover {color: #2079b4;}
+</style>
+    
+
+    <link rel="stylesheet" href="../assets/css/screen.css?v=736a175111">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="../assets/css/github.css?v=736a175111">
+
+    
+
+    <link rel="canonical" href="http://tocology.github.io/functional-programming-principles-in-scala-functions-evaluation/">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="tocology">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Functional Programming Principles in Scala - Functions &amp; Evaluation">
+    <meta property="og:description" content="1.1 Programming Paradigms   Paradigm: In science, a paradigm describes distinct concepts or thought patterns in some scientific discipline. 보통 프로그래밍에서 Paradigm이라고 말하는 것들은 다음과 같다. Imperative Programming Functional Programming Logic Programming 많은 사람들이 또하나의 Paradigm으로 이야기는 하지만, 위에 3가지를...">
+    <meta property="og:url" content="http://tocology.github.io/functional-programming-principles-in-scala-functions-evaluation/">
+    <meta property="article:published_time" content="2016-05-28T11:21:24.264Z">
+    <meta property="article:modified_time" content="2016-05-28T11:21:24.259Z">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Functional Programming Principles in Scala - Functions &amp; Evaluation">
+    <meta name="twitter:description" content="1.1 Programming Paradigms   Paradigm: In science, a paradigm describes distinct concepts or thought patterns in some scientific discipline. 보통 프로그래밍에서 Paradigm이라고 말하는 것들은 다음과 같다. Imperative Programming Functional Programming Logic Programming 많은 사람들이 또하나의 Paradigm으로 이야기는 하지만, 위에 3가지를...">
+    <meta name="twitter:url" content="http://tocology.github.io/functional-programming-principles-in-scala-functions-evaluation/">
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "tocology",
+    "author": {
+        "@type": "Person",
+        "name": "tocology",
+        "image": "http://tocology.github.io/content/images/2015/10/Profile.jpg",
+        "url": "http://tocology.github.io/author/tocology",
+        "sameAs": "https://kr.linkedin.com/in/junhohwang",
+        "description": "Always develop myself.."
+    },
+    "headline": "Functional Programming Principles in Scala - Functions &amp; Evaluation",
+    "url": "http://tocology.github.io/functional-programming-principles-in-scala-functions-evaluation/",
+    "datePublished": "2016-05-28T11:21:24.264Z",
+    "dateModified": "2016-05-28T11:21:24.259Z",
+    "description": "1.1 Programming Paradigms   Paradigm: In science, a paradigm describes distinct concepts or thought patterns in some scientific discipline. 보통 프로그래밍에서 Paradigm이라고 말하는 것들은 다음과 같다. Imperative Programming Functional Programming Logic Programming 많은 사람들이 또하나의 Paradigm으로 이야기는 하지만, 위에 3가지를..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="tocology" href="http://tocology.github.io/rss/">
+    <script>
+var profile_title = 'Tocology';
+var profile_resume ='Software Engineer';
+var disqus_shortname = 'tocology';
+</script>
+</head>
+<body class="post-template">
+
+    <header id="site-head">
+        <h1 class="blog-title"><a href="http://tocology.github.io">tocology</a></h1>
+        <h1 class="blog-subtitle">Data Processing and Visualization for Big Data.</h1>
+    </header>
+
+    <nav class="menu" role="nav">
+    <ul>
+                <li class="nav-home"><a href="http://tocology.github.io/">Home</a></li>
+                <li class="nav-article"><a href="http://tocology.github.io/article/">Article</a></li>
+    </ul>
+</nav>
+
+
+    
+<main class="content" role="main">
+
+    <article class="post">
+
+
+        <header>
+        <h1 class="post-title">Functional Programming Principles in Scala - Functions &amp; Evaluation</h1>
+        <div class="post-meta"><time datetime="2016-05-28">28 May 2016</time></div>
+        </header>
+
+        <section class="post-content">
+            <h1 id="11programmingparadigms">1.1 Programming Paradigms</h1>
+
+<blockquote>
+  <p><strong>Paradigm</strong>: In science, a <em>paradigm</em> describes distinct concepts or thought patterns in some scientific discipline.</p>
+</blockquote>
+
+<p>보통 프로그래밍에서 Paradigm이라고 말하는 것들은 다음과 같다.</p>
+
+<ul>
+<li>Imperative Programming</li>
+<li>Functional Programming</li>
+<li>Logic Programming</li>
+</ul>
+
+<p>많은 사람들이 또하나의 Paradigm으로 이야기는 하지만, 위에 3가지를 합쳐 한 가지 더 이야기 할 수 있다.</p>
+
+<ul>
+<li>Object-orient Programming</li>
+</ul>
+
+<h3 id="imperativeprogramming">Imperative Programming</h3>
+
+<p>Imperative Programming은 다음과 같은 성질을 가진다.</p>
+
+<ul>
+<li>modifying mutable variables</li>
+<li>using assignments</li>
+<li>and control structures such as if-then-else, loops, break, continue, return</li>
+</ul>
+
+<p>imperative programs을 이해하는 방법으로 폰 노이만 컴퓨터를 생각하면 되는데, 다음과 같은 유사점을 볼 수 있다.</p>
+
+<blockquote>
+  <p>Mutable variables = memory cells
+  Variable dereferences = load instructions
+  Variable assignments = store instructions
+  Control structures = jumps</p>
+</blockquote>
+
+<p>문제는 <code>Scaling up</code>이다.  말로만 개념화하고 있는 프로그램을 어떻게 피하냐이다. 폰 노이만 방식은 데이터 구조를 말(word)로만 개념화하고 있기 때문에 pure imperative programming이 불가능하다. </p>
+
+<p>따라서 collections, polynomials, geometric shapes, strings, documents와 같은 high-level abstraction을 위한 <strong>Theory</strong>를 만들어야한다.</p>
+
+<ul>
+<li>one or more data types</li>
+<li>operations on these types</li>
+<li>laws that describe the relationships between values and operations</li>
+</ul>
+
+<p><strong>Theory</strong>는 위와 같은 것들이 필요한데 mutation에 대해 설명하지 않는다.  따라서, 아래와 같은 polynomial(다항식) 법칙에 대해mutation이 적용될 경우 theory 가 무너질 수 있다.</p>
+
+<blockquote>
+  <p>(a<em>x + b) + (c</em>x + d) = (a + c)*x + (b + d)</p>
+</blockquote>
+
+<p>위 상황에서 imperative program을 짠다면,</p>
+
+<pre><code>class Polynomial { double[] coefficient; }  
+Polynomial p = ...;  
+p.coefficient[0] = 42;  
+</code></pre>
+
+<p>이러할 경우 polynomial 법칙을 유지한 체 모든 사칙연산에 대해 coefficient(계수) 변화를 주어도 theory가 유지되야 하지만, 그러지 않을 수 있다.</p>
+
+<p>따라서,  다음과 같은 것들이 필요하다.</p>
+
+<ul>
+<li>concentrate on defining theories for operators expressed as functions,</li>
+<li>avoid mutations,</li>
+<li>have powerful ways to abstract and compose functions.</li>
+</ul>
+
+<h3 id="functionalprogramming">Functional Programming</h3>
+
+<p>Functional programming은 다음과 같이 말할 수 있다.</p>
+
+<ul>
+<li>In a <em>restricted</em> sense, functional programming (FP) means programming without mutable evariables, assignments, loops, and other imperative control structures.</li>
+<li>In a <em>wider</em> sense, functional programming means focusing on the functions.</li>
+<li>In particular, functions can be values that are produced, consumed, and compsed.</li>
+<li>All this becomes easier in a functional language.</li>
+</ul>
+
+<p>Functional Programming Languages 는 위와 같은 특성을 가진 언어인데, 추가적으로 다음과 같은 성질을 가진다.</p>
+
+<ul>
+<li>In particular, functions in a FP language are first-class citizens.
+This means <br>
+<ul><li>they can be defined anywhere, including inside other functions</li>
+<li>like any other value, they can be passed as parameters to funcitons and returned as results</li>
+<li>as for other values, there exists a set of operators to compose functions</li></ul></li>
+</ul>
+
+<p>Functional Programming은 다음과 같은 장점을 가진다.</p>
+
+<ul>
+<li>simpler reasoning principles</li>
+<li>better modularity</li>
+<li>good for exploiting parallelism for multicore and cloud computing</li>
+</ul>
+
+<h1 id="12elementsofprogramming">1.2 Elements of Programming</h1>
+
+<p>대부분의 Programming 언어는 다음과 같은 것을 제공한다.</p>
+
+<ul>
+<li>primitive expressions representing the simplest elements</li>
+<li>ways to <em>combine</em> expressions</li>
+<li>ways to <em>abstract</em> expressions, which introduce a name for an expression by which it can then be referred to</li>
+</ul>
+
+<p>Functional programming은 마치 계산기 같은데 REPL(Read-Eval_Print-Loop) 과 같은 shell을 통해 expression을 작성하고 값을 돌려받을 수 있다.</p>
+
+<p>Scala에서는 REPL을 다음과 같이 사용한다.</p>
+
+<pre><code class="language-console">&gt; scala
+</code></pre>
+
+<p>sbt 를 설치하였다면, 다음과 같이 실행할 수도 있다.</p>
+
+<pre><code class="language-console">&gt; sbt console
+</code></pre>
+
+<h3 id="evaluation">Evaluation</h3>
+
+<p>Evaluation은 우리가 흔히 알고 있는 것처럼 왼쪽에서 오른쪽으로 진행되며, 필요시 괄호 등에 의해 순서가 정의된다.</p>
+
+<p>예를 들어,</p>
+
+<pre><code class="language-console">(2 * pi) * radius
+(2 * 3.14159) * radius
+6.28318 * radius  
+6.28318 * 10  
+62.8318  
+</code></pre>
+
+<p>위와 같이 진행된다고 볼 수 있다.</p>
+
+<p>아래와 같이 Definitions 은 parameter를 가질 수 있다.</p>
+
+<pre><code class="language-console">scala&gt; def square(x: Double) = x * x  
+square: (Double)Double  
+</code></pre>
+
+<p>return type을 정의 할 수도 있는데,</p>
+
+<pre><code class="language-console">def power(x: Double, y: Int): Double = ...  
+</code></pre>
+
+<p>위와 같이 정의하면 된다.</p>
+
+<p>이렇게 parameter가 정의된 함수도 위에 operator에 대해 적용된 방법과 비슷하게 evaluation된다.</p>
+
+<ul>
+<li>Evaluate all function arguments, from left to right</li>
+<li>Replace the function application by the function's right-hand side, and, at the same time</li>
+<li><p>Replace the formal parameters of the function by the actual arguments</p>
+
+<p>이러한 expression evaluation scheme을 <em>substitution model</em> 이라고 이야기한다. 이 model 근간에 아이디어는 <code>reduce an expression to a value</code> 이다.  이건 side effect가 없는 한 모든 expression에 적용될 수 있다. substitution model은 <strong>lambda-calculus</strong>로 형식화 할 수 있는데 이건 functional programming에 기본을 제공한다.</p>
+
+<p>그럼 모든 expression이 value로 reduce되는가? 그렇지 않다.</p></li>
+</ul>
+
+<pre><code class="language-console">def loop: Int = loop  
+</code></pre>
+
+<p>위의 경우 loop -&gt; loop -&gt; ... 식으로 계속해서 진행하게 될 것이다.</p>
+
+<p>따라서, evaluation strategy를 변경해야하는데, interpreter는 function arguments를 function을 재작성하는 과정이전에 reduce하지 않도록 바꾸면 된다. 다음 예를 보자</p>
+
+<pre><code class="language-console">sumOfSquares(3, 2+2)  
+square(3) + square(2+2)  
+3 * 3 + square(2+2)  
+9 + square(2+2)  
+9 + (2+2) * (2+2)  
+9 + 4 * (2+2)  
+9 + 4 * 4  
+</code></pre>
+
+<p>위와 같이 2+2를 최종적으로 진행될때가지 reduce하지 않는다.</p>
+
+<h3 id="callbyvaluecallbyname">Call by Value &amp; Call by Name</h3>
+
+<p>evaluation strategy에는 call-by-value와 call-by-name이 있다. 둘다 아래와 같은 경우 동일한 결과를 reduce한다.</p>
+
+<ul>
+<li>the reduced expression consist of pure functions</li>
+<li>both evaluations terminate</li>
+</ul>
+
+<p>call-by-value는 모든 function argument가 한번만 evaluate되는 장점이 있는 가 반면, call-by-name은 function body evaluation에서 사용되지 않은 parameter의 경우 evaluate 되지 않는 장점이 있다.</p>
+
+<p>예를 들어,</p>
+
+<pre><code class="language-console">def test(x: Int, y: Int) = x * x  
+</code></pre>
+
+<p>위와 같을 경우 CBV와 CBN에 대해 다음의 경우 Evaluation time 차이가 발생할 수 있다. </p>
+
+<pre><code class="language-console">test(3+4, 8) // CBV's faster than CBN  
+test(7, 3*4) // CBN's faster then CBV  
+</code></pre>
+
+<h1 id="13evaluationstrategiesandtermination">1.3 Evaluation Strategies and Termination</h1>
+
+<p>위 두가지 evaluation strategy에 대해 모두 terminate되는 것을 확인할 수 있다. 그럼 termination(종료)가 보장되지 않은 경우 어떻게 될까?</p>
+
+<ul>
+<li>If CBV evaluation of an expression <em>e</em> terminates, then CBN evaluation of <em>e</em> terminates, too</li>
+<li>The other direction is not true</li>
+</ul>
+
+<p>따라서 아래의 경우를 보면,</p>
+
+<pre><code class="language-scala">def first(x: Int, y: Int) =x  
+first(1, loop)  
+</code></pre>
+
+<p>CBN의 경우 1로 바로 evaluation이 완료된다. 하지만 CBV의 경우 loop를 reduce하기 위해 계속해서 loop에 빠지게 된다.</p>
+
+<h3 id="scalasevaluationstrategy">Scala's evaluation strategy</h3>
+
+<p>Scala는 통상 CBV를 사용한다. 하지만 아래와 같이 <code>=&gt;</code>를 사용하여 CBN으로 강제할 수 있다.</p>
+
+<pre><code class="language-scala">def constOne(x: Int, y: =&gt; Int) = 1  
+constOne(1+2, loop)  
+</code></pre>
+
+<h1 id="14conditionalsandvaluedefinitions">1.4 Conditionals and Value Definitions</h1>
+
+<h3 id="conditionalexpression">Conditional expression</h3>
+
+<p>JAVA와 동일하게 Scala에도 <code>if-else</code> conditional expression을 가진다. 하지만, JAVA와 달리 statements가 아닌 expressions를 위해 사용된다.</p>
+
+<pre><code class="language-console">def abs(x: Int) = if(x &gt;= 0) x else -x  
+</code></pre>
+
+<h3 id="valuedefinitions">Value Definitions</h3>
+
+<p><code>def</code>의 경우 by-name에 의해 define(정의)되고, val의 경우 by-value에 의해 정의된다.</p>
+
+<p>예를 들어, </p>
+
+<pre><code class="language-scala">val x = 2  
+val y = square(x)  
+</code></pre>
+
+<p>이 경우 y는 <code>square(x)</code>가 아닌 <code>4</code>로 정의되어 진다.</p>
+
+<p>하지만, <code>def</code>의 경우는 아래를 보면 이해할 수 있다.</p>
+
+<p>만약 음과 같은 경우,</p>
+
+<pre><code class="language-scala">def loop: Boolean = loop  
+</code></pre>
+
+<pre><code class="language-scala">def x = loop // OK  
+val x = loop // Error  
+</code></pre>
+
+<p><code>def</code>의 경우 <code>loop</code> 를 by-name방식으로 정의하기 때문에 문제가 되지 않지만, <code>val</code>의 경우 loop를 reduce후 정의하려하기 때문에 프로그램이 멈추게 된다.</p>
+
+<p>따라서, 만약 and(&amp;&amp;)를 구현할 때 다음과 같이 하여 loop를 해결할 수 도 있다.</p>
+
+<pre><code class="language-scala">def and(x: Boolean, y: =&gt; boolean) = if(x) y else false  
+and(false, loop)  
+</code></pre>
+
+<h1 id="15examplesquarerootswithnewtonsmethod">1.5 Example: square roots with Newton's method</h1>
+
+<p>Newton 방식을 이용하여 연차근사법(successive approximations)으로 <code>sqrt</code>를 구해보자.</p>
+
+<pre><code class="language-scala">def sqrt(x: Double): Double = ...  
+</code></pre>
+
+<p>먼저 재귀를 이용해서 function을 구현하면,</p>
+
+<pre><code class="language-scala">def sqrtIter(guess: Double, x: Double): Double =  
+    if(isGoodEnough(guess, x)) guess
+    else sqrtIter(improve(guess, x), x)
+
+def isGoodEnough(guess: Double, x: Double) =  
+    abs(guess * guess - x) &lt; 0.001
+
+def improve(guess: double, x: Double) =  
+    (guess + x / guess) / 2
+
+def sqrt(x: Double) = sqrtIter(1.0, x)  
+</code></pre>
+
+<p>위의 <code>sqrtIter</code>는 재귀방법으로  else부분이 자신을 계속해서 호출 한다. 따라서 재귀함수는 Scala에서 explicit return type이 필요하다. (위 경우 Double을 명시(explicit)한 것을 볼 수 있다.) non-recursive function에 대해서는 return type이 optional할 수 있다. </p>
+
+<p>문제는 <code>isGoodEnough</code> 에 대해 매우 작은 숫자에 대해 부정확하며, 큰 수에 대해서는 non-termination할 수 있다. </p>
+
+<p>따라서, 계산의 경우를 줄이기 위해</p>
+
+<pre><code class="language-scala">def isGoodEnough(guess: Double, x: Double) =  
+    abs(guess * guess - x) / x &lt; 0.001
+</code></pre>
+
+<p>로 변경하면 된다.</p>
+
+<h1 id="16blocksandlexicalscope">1.6 Blocks and Lexical Scope</h1>
+
+<h3 id="nestedfunctions">Nested functions</h3>
+
+<p>되도록 task별로 작은 function들을 만드는 것은 중요하지만, 위의 예의 경우처럼 <code>sqrt</code>를 위해 <code>isGoodEnough</code>, <code>sqrtIter</code> 등 사용자가 직접 접근할 필요 없는 경우도 있다. <code>sqrt</code>안에 auxciliary function을 두어 해결하는 방안이 있다.</p>
+
+<pre><code class="language-scala">def sqrt(x: Double) = {  
+    def sqrtIter(guess: Double, x: Double): Double =
+        if(isGoodEnough(guess, x)) guess
+        else sqrtIter(improve(guess, x), x)
+
+    def isGoodEnough(guess: Double, x: Double) = 
+        abs(guess * guess - x) &lt; 0.001
+
+    def improve(guess: double, x: Double) =
+        (guess + x / guess) / 2
+
+    sqrtIter(1.0, x) // return
+}
+</code></pre>
+
+<h3 id="blockvisibility">Block Visibility</h3>
+
+<p>다른 프로그램 언어와 동일한 Block Scoping을 가진다.</p>
+
+<p>예를 들어,</p>
+
+<pre><code class="language-scala">val x = 0  
+def f(y: Int) = y +1  
+val result = {  
+    val x = f(3) // access to outer f()
+    x * x // access to inner x
+} + x // access to outer x
+</code></pre>
+
+<p>주석과 동일한 결과를 준다.</p>
+
+<p>이런 block scoping 을 이용하여 중복(redundant) 사용되는 경우를 줄일 수 있는데, 앞선 <code>sqrt</code>의 경우에 적용이 가능하다.</p>
+
+<pre><code class="language-scala">def sqrt(x: Double) = {  
+    def sqrtIter(guess: Double): Double =
+        if(isGoodEnough(guess)) guess
+        else sqrtIter(improve(guess))
+
+    def isGoodEnough(guess: Double) =
+        abs(guess * guess - x) / x &lt; 0.001
+
+    def improve(guess: Double) =
+        (guess + x / guess) / 2
+
+    sqrtIter(1.0)
+}
+</code></pre>
+
+<h3 id="semicolons">Semicolons</h3>
+
+<p>Scala 에서는 <code>;</code>(Semicolon)을 생략해도 되는데, 한줄에 여러 statement를 입력할 때는 아래와 같이 사용하여 구분 가능하다.</p>
+
+<pre><code class="language-scala">val y = x + 1; y * y  
+</code></pre>
+
+<p>하지만, scala 에서 Semicolon을 삭제하여 문제가 생기는 경우가 있는데 다음과 같은 경우이다.</p>
+
+<pre><code class="language-scala">someLongExpression  
++ someLongExpression
+</code></pre>
+
+<p>위 경우 첫번째 someLongExpression 이 끝난 것으로 인식하여 다음 줄에 에러를 나타낼 수 있다. 이런 경우를 해결하기 위해 다음과 같은 방식을 이용해야한다.</p>
+
+<pre><code class="language-scala">(someLongExpression
++ someLongExpression)
+
+someLongExpression + // complier thinks it is not finished yet  
+    someLongExpression
+</code></pre>
+
+<h1 id="17tailrecursion">1.7 Tail Recursion</h1>
+
+<p>재귀(Recursion)에 대해 다시 돌아보기 위해 아래와 같은 예를 보자. <code>gcd</code>는 최대공약수를 구하는 함수로 아래와 같이 재귀를 이용하여 구현할 수 있다.</p>
+
+<pre><code class="language-scala">def gcd(a: Int, b: Int): Int =  
+    if (b == 0) a else gcd(b, a % b)
+</code></pre>
+
+<p>만약 <code>gcd(14, 21)</code>을 입력하면 최종적으로 <code>gcd(7, 0)</code>까지 함수를 재귀호출하게 된다. 반면 <code>factorial</code> 함수의 경우를 보면 아래와 같다.</p>
+
+<pre><code class="language-scala">def factorial(n: Int): Int =  
+    if (n == 0) 1 else n * factorial(n - 1)
+</code></pre>
+
+<p>예를 들어 <code>factorial(4)</code>을 구하면 아래와 같이 돌아가게 된다.</p>
+
+<pre><code class="language-scala">factorial(4)  
+-&gt;&gt; 4 * factorial(3)
+-&gt;&gt; 4 * (3 * factorial(2))
+-&gt;&gt; 4 * (3 * (2 * factorial(1)))
+-&gt;&gt; 4 * (3 * (2 * 1 * 1)))
+</code></pre>
+
+<p>위에서 보듯 <code>gcd</code>와 달리 함수만 재귀호출하는 것이 아닌 추가적인 변수 공간이 필요하다. 하지만 <code>gcd</code>는 본래 함수의 stack frame이 재사용될 수 있다. 이런 경우를 <em>tail recursion</em> 이라고 하며, 이런 호출을 <em>tail-calls</em>라고 한다.</p>
+
+<p>Scala에서는 directly recursive calls 에 대해서만 최적화되어있다. 또한, tail-recursive에 대해 <code>@tailrec</code> annotation을 통해 해결할 수 있다. 하지만  tail recursion이 아닌 경우에 대해 해당 annotation을 사용할 경우 error를 발생할 수 있다.</p>
+
+<pre><code class="language-scala">@tailrec
+def gcd(a: Int, b: Int): Int = ...  
+</code></pre>
+
+<p>그럼 <code>factorial()</code>에 대해 tail recursive function을 구현할 수 있을까? 아래와 같이 구현이 가능하다.</p>
+
+<pre><code class="language-scala">def factorial(n: Int): Int = {  
+    def loop(acc: Int, n: Int) = {
+        if (n == 0) acc
+        else loop(acc * n, n - 1)
+    }
+    loop(1, n)
+}
+</code></pre>
+
+<h1 id="reference">Reference</h1>
+
+<ul>
+<li><a href="https://www.coursera.org/learn/progfun1">Functional Programming Principles in Scala</a>, Coursera</li>
+</ul>
+        </section>
+
+        <section class="post-tags">
+            
+        </section>
+
+        <section class="share">
+            <p class="backtotop"><a data-scroll href="index.html#site-head"><i class="fa fa-lg fa-fw fa-angle-double-up"></i></a><a data-scroll class="backtotoptext" href="index.html#site-head"> Back to top</a></p>
+            <p class="info prompt">Share</p>
+            <a href="http://twitter.com/share?text=Functional%20Programming%20Principles%20in%20Scala%20-%20Functions%20&amp;%20Evaluation&amp;url=http://tocology.github.io/functional-programming-principles-in-scala-functions-evaluation/" title="Share on Twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-2x fa-fw fa-twitter-square"></i> <span class="hidden">Twitter</span>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://tocology.github.io/functional-programming-principles-in-scala-functions-evaluation/" title="Share on Facebook" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-2x fa-fw fa-facebook-square" style="margin-left: -8px"></i> <span class="hidden">Facebook</span>
+            </a>
+            <a href="https://plus.google.com/share?url=http://tocology.github.io/functional-programming-principles-in-scala-functions-evaluation/" title="Share on Google+" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-2x fa-fw fa-google-plus-square" style="margin-left: -8px"></i> <span class="hidden">Google+</span>
+            </a>
+        </section>
+
+        <footer class="post-footer">
+            <section class="author">
+    <div class="authorimage" style="background: url(../content/images/2015/10/Profile.jpg)"></div>
+    <h4>tocology</h4>
+    <p class="bio">Always develop myself..</p>
+    <p class="meta">
+      <i class="fa fa-fw fa-globe"></i> <a href="https://kr.linkedin.com/in/junhohwang">https://kr.linkedin.com/in/junhohwang</a><br>
+      <i class="fa fa-fw fa-map-marker"></i> Soeul, South Korea
+    </p>
+</section>
+        </footer>
+
+
+        <div id="disqus_thread">
+    <script type="text/javascript">
+        var disqus_shortname = 'tocology';
+        var disqus_identifier = '16';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <div class="inner">
+            <section class="footer-social">
+    <!-- <a href="http://twitter.com/username" target="_blank" title="Twitter"><i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span></a>&nbsp; -->
+    <a href="https://www.facebook.com/tocology" target="_blank" title="Facebook"><i class="fa fa-2x fa-fw fa-facebook"></i> <span class="hidden">Facebook</span></a> 
+    <a href="https://github.com/tocology" target="_blank" title="GitHub"><i class="fa fa-2x fa-fw fa-github"></i> <span class="hidden">GitHub</span></a> 
+    <a href="http://tocology.github.io/rss/" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+</section>
+            <section class="bloginfo">A blog by <a href="mailto:hwangjun7777@gmail.com">tocology</a></section>
+            <section class="copyright">© 2016 <a href="http://tocology.github.io">tocology</a>. All rights reserved</section>
+            <section><a href="https://github.com/epistrephein/Steam">Steam theme</a> for <a class="icon-ghost" href="http://ghost.org/"><span class="hidden">Ghost</span></a> by Tommaso Barbato</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../assets/js/index.js?v=736a175111"></script>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/7.1.1/js/smooth-scroll.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+    <script>
+        smoothScroll.init({
+            speed: 800,
+            easing: 'easeInOutCubic',
+            updateURL: false,
+            offset: 125,
+        });
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</body>

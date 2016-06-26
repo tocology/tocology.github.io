@@ -1,0 +1,383 @@
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+      <title>Functional Programming - List</title>
+    <meta name="description" content="">
+    <meta name="apple-mobile-web-app-title" content="Functional Programming - List">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="../assets/img/favicon.ico?v=736a175111">
+<link rel="apple-touch-icon" href="../assets/img/appletouchicon.png?v=736a175111">
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+
+    <style type="text/css">
+    a, a:visited {color: #3498db;}
+    .pagination a {color: #3498db;}
+    .gist .gist-file .gist-meta a:visited {color: #3498db !important;}
+
+    a:focus, a:hover {color: #2079b4;}
+    h1.post-title a:focus, h1.post-title a:hover, h1.blog-title a:focus, h1.blog-title a:hover {color: #2079b4;}
+    .older-posts:hover, .newer-posts:hover {color: #2079b4;}
+</style>
+    
+
+    <link rel="stylesheet" href="../assets/css/screen.css?v=736a175111">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="../assets/css/github.css?v=736a175111">
+
+    
+
+    <link rel="canonical" href="http://tocology.github.io/functional-programming-list/">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="tocology">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Functional Programming - List">
+    <meta property="og:description" content="아마 이글을 보고 있는 모든 개발자들은 List와 같은 collection에 굉장히 친숙할 것입니다. 또한, 이런 collection을 다루는 while, for, foreach등 많은 API를 다뤄왔을 겁니다.   하지만, 수학자(mathematicians)들이 가장 좋아하는 collection type은 set입니다. 이런 set은 중복 element는 삭제되는 등 List와 다른...">
+    <meta property="og:url" content="http://tocology.github.io/functional-programming-list/">
+    <meta property="article:published_time" content="2015-11-13T10:48:09.595Z">
+    <meta property="article:modified_time" content="2015-11-13T11:50:20.043Z">
+    <meta property="article:tag" content="Functional Programming">
+    <meta property="article:tag" content="Haskell">
+    <meta property="article:tag" content="List">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Functional Programming - List">
+    <meta name="twitter:description" content="아마 이글을 보고 있는 모든 개발자들은 List와 같은 collection에 굉장히 친숙할 것입니다. 또한, 이런 collection을 다루는 while, for, foreach등 많은 API를 다뤄왔을 겁니다.   하지만, 수학자(mathematicians)들이 가장 좋아하는 collection type은 set입니다. 이런 set은 중복 element는 삭제되는 등 List와 다른...">
+    <meta name="twitter:url" content="http://tocology.github.io/functional-programming-list/">
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "tocology",
+    "author": {
+        "@type": "Person",
+        "name": "tocology",
+        "image": "http://tocology.github.io/content/images/2015/10/Profile.jpg",
+        "url": "http://tocology.github.io/author/tocology",
+        "sameAs": "https://kr.linkedin.com/in/junhohwang",
+        "description": "Always develop myself.."
+    },
+    "headline": "Functional Programming - List",
+    "url": "http://tocology.github.io/functional-programming-list/",
+    "datePublished": "2015-11-13T10:48:09.595Z",
+    "dateModified": "2015-11-13T11:50:20.043Z",
+    "keywords": "Functional Programming, Haskell, List",
+    "description": "아마 이글을 보고 있는 모든 개발자들은 List와 같은 collection에 굉장히 친숙할 것입니다. 또한, 이런 collection을 다루는 while, for, foreach등 많은 API를 다뤄왔을 겁니다.   하지만, 수학자(mathematicians)들이 가장 좋아하는 collection type은 set입니다. 이런 set은 중복 element는 삭제되는 등 List와 다른..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="tocology" href="http://tocology.github.io/rss/">
+    <script>
+var profile_title = 'Tocology';
+var profile_resume ='Software Engineer';
+var disqus_shortname = 'tocology';
+</script>
+</head>
+<body class="post-template tag-functional-programming tag-haskell tag-list">
+
+    <header id="site-head">
+        <h1 class="blog-title"><a href="http://tocology.github.io">tocology</a></h1>
+        <h1 class="blog-subtitle">Data Processing and Visualization for Big Data.</h1>
+    </header>
+
+    <nav class="menu" role="nav">
+    <ul>
+                <li class="nav-home"><a href="http://tocology.github.io/">Home</a></li>
+                <li class="nav-article"><a href="http://tocology.github.io/article/">Article</a></li>
+    </ul>
+</nav>
+
+
+    
+<main class="content" role="main">
+
+    <article class="post tag-functional-programming tag-haskell tag-list">
+
+
+        <header>
+        <h1 class="post-title">Functional Programming - List</h1>
+        <div class="post-meta"><time datetime="2015-11-13">13 November 2015</time></div>
+        </header>
+
+        <section class="post-content">
+            <p>아마 이글을 보고 있는 모든 개발자들은 List와 같은 collection에 굉장히 친숙할 것입니다. 또한, 이런 collection을 다루는 while, for, foreach등 많은 API를 다뤄왔을 겁니다. 
+ 하지만, 수학자(mathematicians)들이 가장 좋아하는 collection type은 <code>set</code>입니다. 이런 <code>set</code>은 중복 element는 삭제되는 등 List와 다른 면이 있습니다. 
+  Haskell에서 <code>List</code>는 <code>head</code>와 <code>tail</code>등 하나하나 읽히는 특성을 이용할 수 있습니다. 실제 이러한 기능을 모방하여 Java 8에서는 List를 Stream이라고 부르기도 합니다.  </p>
+
+<h3 id="setcomprehensions">Set Comprehensions</h3>
+
+<p>그럼 수학에서 <code>set</code>을 정의(Comprehension)하는 예제를 보겠습니다.
+ <img src="http://tocology.github.io/content/images/functional-programming/Set-Comprehension.png" alt="Set Comprehension" title="Set Comprehension">
+위의 공식의 결과는 {1,4,9,16,25}입니다. 하지만 실제 <code>Set</code>을 이용항 구현하기에는 쉽지 않습니다. (index를 이용한 순차적 접근이 불가하기 때문입니다.)</p>
+
+<h3 id="listcomprehensions">List Comprehensions</h3>
+
+<p>따라서, Haskell에서는 비슷한 정의(Comprehension)를 list를 통해 구현합니다. </p>
+
+<pre><code class="language-haskell">[x^2 | x &lt;- [1..5]]
+</code></pre>
+
+<p>결과는 위와 같은 [1,4,9,16,25]입니다. 하지만 <code>list</code>이죠.</p>
+
+<ul>
+<li>위 표현 중 <code>x &lt;- [1..5]</code> 는 generator라고 읽습니다. 따라서 x를 어떻게 생성하는 지를 정의하죠.</li>
+<li>정의(Comprehension)에는 다수의 generator가 있을 수 있습니다. 아래는 한 예입니다. x list를 기준으로 y list가 inner loop으로 동작하는 것을 확인 할 수 있습니다.</li>
+</ul>
+
+<pre><code class="language-haskell"> &gt; [(x,y) | x &lt;- [1,2,3], y &lt;-  [4,5]]
+ [(1,4),(1,5),(2,4),(2,5),(3,4),(3,5)]
+</code></pre>
+
+<ul>
+<li>위와 달리 아래와 같이 스면 y list를 기준으로 x list가 inner loop으로 동작합니다. </li>
+</ul>
+
+<pre><code class="language-haskell">&gt; [(x,y) | y &lt;- [4,5], x &lt;- [1,2,3]]
+[(1,4),(2,4),(3,4),(1,5),(2,5),(3,5)]
+</code></pre>
+
+<p>실제 이러한 <strong>List Comprehension</strong>은 다른 많은 언어에 적용되어 있습니다. Scala에서는 for comprehension, C#에서는 linq comprehension등으로 말이죠.</p>
+
+<h3 id="dependantgenerators">Dependant Generators</h3>
+
+<p>위의 여러 Generator를 혼용하는 예를 보면서 우리는 2중 for문과 같은 동작을 볼 수 있습니다. 따라서 뒤에 있는 generator는 앞에 있는 generator의 값을 이용할 수 있습니다.</p>
+
+<pre><code class="language-haskell">[(x,y) | x &lt;- [1..3], y &lt;- [x..3]]
+</code></pre>
+
+<p>위의 결과는 <code>[(1,1),(1,2),(1,3),(2,2),(2,3),(3,3)]</code>입니다. 따라서 x의 값이 변할 때마다 y가 불려오면서 그 범위가 조정되는 것을 알 수 있습니다.</p>
+
+<p>우리는 이러한 dependant generator를 이용하여 기본 API인 concatenate 를 구현할 수 있습니다.</p>
+
+<pre><code class="language-haskell">concat     :: [[a]] -&gt; [a]  
+concat xss = [x | xs &lt;- xss, x &lt;- xs]  
+</code></pre>
+
+<pre><code class="language-haskell">&gt; concat [[1,2,3],[4,5],[6]]
+[1,2,3,4,5,6]
+</code></pre>
+
+<p><code>xss</code>는 list of list로 그 중 하나의 list를 구하고(<code>xs</code>), 그 안에 하나의 element(<code>x</code>)를 구해 전체 결과를 돌려줍니다. 따라서, list of list들의 모든 element가 모여져 있는 결과를 볼 수 있습니다.</p>
+
+<h3 id="guards">Guards</h3>
+
+<p>guard는 일종의 filter와 같이 list comprehension시 적용하여 값을 제한 할 수 있습니다.  </p>
+
+<pre><code class="language-haskell">[x | x &lt;- [1..10], even x]
+</code></pre>
+
+<p>위의 결과는 <code>[2,4,6,8,10]</code> 입니다. 따라서 주어진 x의 범위 중 짝수(even)의 값만 적용 된 것을 볼 수 있습니다.
+아래 예는 guard를 이용하여 약수(factor) list를 구하는 function입니다.</p>
+
+<pre><code class="language-haskell">factors  :: Int -&gt; [Int]  
+factors n = [x | x &lt;- [1..n], n `mob` x == 0]  
+</code></pre>
+
+<pre><code class="language-haskell">&gt; factors 15
+[1,3,5,15]
+</code></pre>
+
+<p>이 function을 이용하여 어떠한 수가 소수(prime)인지 아닌지 판별하는 function을 만들 수 있습니다.</p>
+
+<pre><code class="language-haskell">prime  :: Int -&gt; Bool  
+prime n = factors n == [1,n]  
+</code></pre>
+
+<pre><code class="language-haskell">&gt; prime 15
+False
+
+&gt; prime 7
+True  
+</code></pre>
+
+<p>위의 <code>prime</code> 정의를 보면 <code>factors n</code>의 결과가 1과 자기 자신이 나오지 않을 경우 소수가 아니라는 것을 돌려주게 됩니다.
+이를 다시 이용해서 이렇게도 할 수 있겠네요.</p>
+
+<pre><code class="language-haskell">primes  :: Int -&gt; [Int]  
+primes n = [x | x &lt;- [2..n], prime x]  
+</code></pre>
+
+<pre><code class="language-haskell">&gt; primes 40
+[2,3,5,7,11,13,17,19,23,29,31,37]
+</code></pre>
+
+<p><code>primes</code> 는 n 이하의 모든 소수를 구하게 됩니다.</p>
+
+<h3 id="zipfunction">Zip Function</h3>
+
+<p><code>zip</code> function은 아래와 같이 두개의 list를 하나의 list로 합치는, 정확히는 paring하는 기능을 합니다. (concatenate와는 다른 동작을 보입니다.) </p>
+
+<pre><code class="language-haskell">zip :: [a] -&gt; [b] -&gt; [(a,b)]  
+</code></pre>
+
+<p>아래 예를 통해 자세히 살펴보겠습니다.</p>
+
+<pre><code class="language-haskell">&gt; zip ['a','b','c'] [1,2,3,4]
+[('a',1),('b',2),('c',3)]
+</code></pre>
+
+<p>위의 결과를 통해 <code>zip</code> 은 결합 중 한 쪽 list의 element가 더이상 없을 경우 결합을 하지 않게 됩니다.
+다음은 <code>zip</code>을 이용하여 <code>pairs</code> function을 구현한 것 입니다. <del>(<code>zip</code>을 사용한 적절한 예인 듯 싶네요.)</del></p>
+
+<pre><code class="language-haskell">pairs   :: [a] -&gt; [(a,a)]  
+pairs xs = zip xs (tail xs)  
+</code></pre>
+
+<pre><code class="language-haskell">&gt; pairs [1,2,3,4]
+[(1,2),(2,3),(3,4)]
+</code></pre>
+
+<p>위의 예를 보면, <code>tail xs</code>를 통해 한 칸 뒤의 list를 구하고 이를 <code>zip</code>하여 결과적으로 순차적으로 다음 값과 연결된 list를 돌려줍니다.
+이렇게 구한 <code>pairs</code>를 이용하여 <code>sorted</code> function 을 구현 할 수 있습니다. 이 function 은 argument로 받은 list가 정렬이 되어있는지 확인하는 기능을 합니다.</p>
+
+<pre><code class="language-haskell">sorted    :: Ord a =&gt; [a] -&gt; Bool  
+sorted xs = and [x &lt;= y | (x,y) &lt;- pairs xs]  
+</code></pre>
+
+<pre><code class="language-haskell">&gt; sorted [1,2,3,4]
+True
+
+&gt; sorted [1,3,2,4]
+False  
+</code></pre>
+
+<p>우리는 <code>zip</code> 을 이용하여 list 내 element의 위치(position)을 정의할 수 있습니다. 전에 말씀드렸듯이, list는 array와 다르게 index를 통해 접근할 수 없습니다. list는 head부터 tail순으로 순차적으로 접근해야 합니다. 하지만, element 의 position을 정할 수 있다면 편리한 건 사실입니다.
+따라서, 아래와 같이 <code>positions</code> 를 구현해보겠습니다.</p>
+
+<pre><code class="language-haskell">positions    :: Eq a =&gt; a -&gt; [a] -&gt; [Int]  
+positions x xs =  
+    [i | (x1, i) &lt;- zip xs [0..n], x == x1]
+    where n = length xs - 1
+</code></pre>
+
+<pre><code class="language-haskell">&gt; positions 0 [1,0,0,1,0,1,1,0]
+[1,2,4,7]
+</code></pre>
+
+<p>위에서 <code>xs</code>를 받아 이를 [0..n]과 <code>zip</code>을 통해 pairing합니다. 따라서 모든 element가 위치(position)을 가지게 되는 거죠. 그 뒤 앞서 배웠던 guard를 이용하여 <code>x1</code>을 추스리게 됩니다. </p>
+
+<h3 id="stringcomprehensions">String Comprehensions</h3>
+
+<p>Haskell에서는 String은 간단히 characters의 list입니다. 따라서 <code>"abc" :: String</code>은 <code>['a','b','c'] :: [Char]</code> 와 동일하게 해석됩니다. <br>
+따라서, 아래와 같은 결과들을 볼 수 있습니다.</p>
+
+<pre><code class="language-haskell">&gt; lengtht "abcde"
+5
+
+&gt; take 3 "abcde"
+"abc"
+
+&gt; zip "abc" [1,2,3,4]
+[('a',1),('b',2),('c',3)]
+</code></pre>
+
+<p>아래 list comprehension을 string에 적용하여 한 문자열(string)내 소문자(lower)를 돌려주게 하고 이 수를 돌려주게 합니다.</p>
+
+<pre><code class="language-haskell">lowers   :: String -&gt; Int  
+lowers xs = length [x | x &lt;- xs, isLower x]  
+</code></pre>
+
+<pre><code class="language-haskell">&gt; lowers "Haskell"
+6  
+</code></pre>
+
+<h3 id="reference">Reference</h3>
+
+<ul>
+<li><a href="https://courses.edx.org/courses/course-v1:DelftX+FP101x+3T2015/">Introduction to Functional Programming</a></li>
+</ul>
+        </section>
+
+        <section class="post-tags">
+            <div class="post-meta tags"><i class="fa fa-fw fa-tag"></i> <a href="../tag/functional-programming/">Functional Programming</a>, <a href="../tag/haskell/">Haskell</a>, <a href="../tag/list/">List</a></div>
+        </section>
+
+        <section class="share">
+            <p class="backtotop"><a data-scroll href="index.html#site-head"><i class="fa fa-lg fa-fw fa-angle-double-up"></i></a><a data-scroll class="backtotoptext" href="index.html#site-head"> Back to top</a></p>
+            <p class="info prompt">Share</p>
+            <a href="http://twitter.com/share?text=Functional%20Programming%20-%20List&amp;url=http://tocology.github.io/functional-programming-list/" title="Share on Twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-2x fa-fw fa-twitter-square"></i> <span class="hidden">Twitter</span>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://tocology.github.io/functional-programming-list/" title="Share on Facebook" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-2x fa-fw fa-facebook-square" style="margin-left: -8px"></i> <span class="hidden">Facebook</span>
+            </a>
+            <a href="https://plus.google.com/share?url=http://tocology.github.io/functional-programming-list/" title="Share on Google+" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-2x fa-fw fa-google-plus-square" style="margin-left: -8px"></i> <span class="hidden">Google+</span>
+            </a>
+        </section>
+
+        <footer class="post-footer">
+            <section class="author">
+    <div class="authorimage" style="background: url(../content/images/2015/10/Profile.jpg)"></div>
+    <h4>tocology</h4>
+    <p class="bio">Always develop myself..</p>
+    <p class="meta">
+      <i class="fa fa-fw fa-globe"></i> <a href="https://kr.linkedin.com/in/junhohwang">https://kr.linkedin.com/in/junhohwang</a><br>
+      <i class="fa fa-fw fa-map-marker"></i> Soeul, South Korea
+    </p>
+</section>
+        </footer>
+
+
+        <div id="disqus_thread">
+    <script type="text/javascript">
+        var disqus_shortname = 'tocology';
+        var disqus_identifier = '8';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <div class="inner">
+            <section class="footer-social">
+    <!-- <a href="http://twitter.com/username" target="_blank" title="Twitter"><i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span></a>&nbsp; -->
+    <a href="https://www.facebook.com/tocology" target="_blank" title="Facebook"><i class="fa fa-2x fa-fw fa-facebook"></i> <span class="hidden">Facebook</span></a> 
+    <a href="https://github.com/tocology" target="_blank" title="GitHub"><i class="fa fa-2x fa-fw fa-github"></i> <span class="hidden">GitHub</span></a> 
+    <a href="http://tocology.github.io/rss/" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+</section>
+            <section class="bloginfo">A blog by <a href="mailto:hwangjun7777@gmail.com">tocology</a></section>
+            <section class="copyright">© 2016 <a href="http://tocology.github.io">tocology</a>. All rights reserved</section>
+            <section><a href="https://github.com/epistrephein/Steam">Steam theme</a> for <a class="icon-ghost" href="http://ghost.org/"><span class="hidden">Ghost</span></a> by Tommaso Barbato</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../assets/js/index.js?v=736a175111"></script>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/7.1.1/js/smooth-scroll.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+    <script>
+        smoothScroll.init({
+            speed: 800,
+            easing: 'easeInOutCubic',
+            updateURL: false,
+            offset: 125,
+        });
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</body>

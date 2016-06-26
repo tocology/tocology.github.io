@@ -1,0 +1,350 @@
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+      <title>Functional Programming - Recursive Functions</title>
+    <meta name="description" content="">
+    <meta name="apple-mobile-web-app-title" content="Functional Programming - Recursive Functions">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="../assets/img/favicon.ico?v=736a175111">
+<link rel="apple-touch-icon" href="../assets/img/appletouchicon.png?v=736a175111">
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+
+    <style type="text/css">
+    a, a:visited {color: #3498db;}
+    .pagination a {color: #3498db;}
+    .gist .gist-file .gist-meta a:visited {color: #3498db !important;}
+
+    a:focus, a:hover {color: #2079b4;}
+    h1.post-title a:focus, h1.post-title a:hover, h1.blog-title a:focus, h1.blog-title a:hover {color: #2079b4;}
+    .older-posts:hover, .newer-posts:hover {color: #2079b4;}
+</style>
+    
+
+    <link rel="stylesheet" href="../assets/css/screen.css?v=736a175111">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="../assets/css/github.css?v=736a175111">
+
+    
+
+    <link rel="canonical" href="http://tocology.github.io/functional-programming-recursive-functions/">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="tocology">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Functional Programming - Recursive Functions">
+    <meta property="og:description" content="Recursive Function Recursive라는 표현은 아마 모든 분들이 익숙하실 겁니다. (한국어로 재귀라고 합니다) 간단히 설명드려 함수를 다루는 기법하나로 함수 내부에서 그 함수를 다시 호출하는 것을 말하는데요. Functional Programming에서 가장 중요하게 생각하는 것이 여기서 tail call을 없애는 겁니다. Stack이 쌓이는 경우 때문인데,...">
+    <meta property="og:url" content="http://tocology.github.io/functional-programming-recursive-functions/">
+    <meta property="article:published_time" content="2015-11-13T11:49:38.217Z">
+    <meta property="article:modified_time" content="2015-11-13T11:51:32.382Z">
+    <meta property="article:tag" content="Functional Programming">
+    <meta property="article:tag" content="Haskell">
+    <meta property="article:tag" content="Recursive">
+    <meta property="article:tag" content="Function">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Functional Programming - Recursive Functions">
+    <meta name="twitter:description" content="Recursive Function Recursive라는 표현은 아마 모든 분들이 익숙하실 겁니다. (한국어로 재귀라고 합니다) 간단히 설명드려 함수를 다루는 기법하나로 함수 내부에서 그 함수를 다시 호출하는 것을 말하는데요. Functional Programming에서 가장 중요하게 생각하는 것이 여기서 tail call을 없애는 겁니다. Stack이 쌓이는 경우 때문인데,...">
+    <meta name="twitter:url" content="http://tocology.github.io/functional-programming-recursive-functions/">
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "tocology",
+    "author": {
+        "@type": "Person",
+        "name": "tocology",
+        "image": "http://tocology.github.io/content/images/2015/10/Profile.jpg",
+        "url": "http://tocology.github.io/author/tocology",
+        "sameAs": "https://kr.linkedin.com/in/junhohwang",
+        "description": "Always develop myself.."
+    },
+    "headline": "Functional Programming - Recursive Functions",
+    "url": "http://tocology.github.io/functional-programming-recursive-functions/",
+    "datePublished": "2015-11-13T11:49:38.217Z",
+    "dateModified": "2015-11-13T11:51:32.382Z",
+    "keywords": "Functional Programming, Haskell, Recursive, Function",
+    "description": "Recursive Function Recursive라는 표현은 아마 모든 분들이 익숙하실 겁니다. (한국어로 재귀라고 합니다) 간단히 설명드려 함수를 다루는 기법하나로 함수 내부에서 그 함수를 다시 호출하는 것을 말하는데요. Functional Programming에서 가장 중요하게 생각하는 것이 여기서 tail call을 없애는 겁니다. Stack이 쌓이는 경우 때문인데,..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="tocology" href="http://tocology.github.io/rss/">
+    <script>
+var profile_title = 'Tocology';
+var profile_resume ='Software Engineer';
+var disqus_shortname = 'tocology';
+</script>
+</head>
+<body class="post-template tag-functional-programming tag-haskell tag-recursive tag-function">
+
+    <header id="site-head">
+        <h1 class="blog-title"><a href="http://tocology.github.io">tocology</a></h1>
+        <h1 class="blog-subtitle">Data Processing and Visualization for Big Data.</h1>
+    </header>
+
+    <nav class="menu" role="nav">
+    <ul>
+                <li class="nav-home"><a href="http://tocology.github.io/">Home</a></li>
+                <li class="nav-article"><a href="http://tocology.github.io/article/">Article</a></li>
+    </ul>
+</nav>
+
+
+    
+<main class="content" role="main">
+
+    <article class="post tag-functional-programming tag-haskell tag-recursive tag-function">
+
+
+        <header>
+        <h1 class="post-title">Functional Programming - Recursive Functions</h1>
+        <div class="post-meta"><time datetime="2015-11-13">13 November 2015</time></div>
+        </header>
+
+        <section class="post-content">
+            <h2 id="recursivefunction">Recursive Function</h2>
+
+<p><code>Recursive</code>라는 표현은 아마 모든 분들이 익숙하실 겁니다. <del>(한국어로 <strong>재귀</strong>라고 합니다)</del> 간단히 설명드려 함수를 다루는 기법하나로 함수 내부에서 그 함수를 다시 호출하는 것을 말하는데요. <code>Functional Programming</code>에서 가장 중요하게 생각하는 것이 여기서 <code>tail call</code>을 없애는 겁니다. Stack이 쌓이는 경우 때문인데, 다음 설명을 계속 보겠습니다.</p>
+
+<pre><code class="language-haskell">factorial   :: Int -&gt; Int  
+factorial n = product [1..n]  
+</code></pre>
+
+<p>위의 예제는 간단히 factorial을 <code>product</code>를 이용하여 구현한 것 입니다. 이 함수를 이용할 경우 다음의 과정을 거치게 될 것입니다.</p>
+
+<pre><code class="language-haskell">factorial 4  
+= product [1..4]
+= product [1,2,3,4]
+= 1*2*3*4
+= 24
+</code></pre>
+
+<p>다음은 이 함수를 <code>Recusive</code>하게 구현한 것입니다. </p>
+
+<pre><code class="language-haskell">factorial 0 = 1  
+factorial n = n * factorial (n-1)  
+</code></pre>
+
+<p>아마 이런 구현은 알고리즘 과목의 첫 예제 정도로 많이 나옵니다. 0일 경우 1로 하여 기저를 정의하고, 점차 n-1을 다시 호출함으로써 결과를 받아 곱하게 됩니다. 물론 이렇게 구현하였지만 위의 list를 이용한 구현과 굉장히 유사하게 동작하는 것을 확인할 수 있습니다.</p>
+
+<pre><code class="language-haskell">factorial 3  
+= 3 * factorial 2
+= 3 * (2 * factorial 1)
+= 3 * (2 * (1 * factorial 0))
+= 3 * (2 * (1 * 1))
+= 3 * (2 * 1)
+= 3 * 2
+= 6
+</code></pre>
+
+<p>위의 예를 보면 stack에 <code>factorial 0</code>의 경우까지 쌓여있다 점차적으로 계산 결과를 얻어오는 방향으로 진행되게 됩니다. 
+(프로그램 메모리에서 stack의 동작이 어떻게 돌아가는지 이해가 안되신다면 어려울 수 있습니다. 간단히 지역변수와 리턴 address가 저장되는 공간으로, 여기서 이전 함수가 종료되지 않는 가운데 계속해서 새로운 공간을 할당하게 됩니다. 따라서, stack이 쌓이는 결과를 볼 수 있습니다.) 
+물론 여기서 n이 0보다 작을 경우 무한히 돌 수 있다는 문제도 있네요...
+<br> <br>
+그럼 왜 <code>Recursive function</code>을 사용하는 걸까요? 물론 위의 예의 경우 list의 경우가 더 이해하기 쉬우나, <code>Recursive function</code>은 많은 부분을 추상화(abstract)하기 때문에 간단하며 이해하기 쉽기 때문입니다.</p>
+
+<h3 id="recursiononlists">Recursion on Lists</h3>
+
+<p><code>Recursive function</code> 은 어렵지 않게  list에 대해서도 구현이 가능합니다.</p>
+
+<pre><code class="language-haskell">product        :: [Int] -&gt; Int  
+product []     = 1  
+product (n:ns) = n * product ns  
+</code></pre>
+
+<p>위의 코드는 list (n:ns)에 대해 구현된 <code>product</code> 함수입니다. 어렵지 않게 이해할 수 있으며, list의 tail인 ns에 대해 재귀로 동작하는 것을 볼 수 있습니다.</p>
+
+<pre><code class="language-haskell">product [2,3,4]  
+= 2 * product [3,4]
+= 2 * (3 * product [4])
+= 2 * (3 * (4 * product []))
+= 2 * (3 * (4 * 1))
+= 2 * (3 * 4)
+= 2 * 12
+= 24
+</code></pre>
+
+<p>위 예를 통해 <code>factorial</code> 과 동작이 동일하다는 것을 알 수 있습니다. 다른 함수를 더 보겠습니다.</p>
+
+<pre><code class="language-haskell">length        :: [a] -&gt; Int  
+length []     = 0  
+length (_:xs) = 1 + length xs  
+</code></pre>
+
+<pre><code class="language-haskell">reverse        :: [a] -&gt; [a]  
+reverse []     = []  
+reverse (x:xs) = reverse xs ++ [x]  
+</code></pre>
+
+<p><code>length</code>와 <code>reverse</code> 의 경우에도 동일하게 재귀로 구현된 것을 확인 할 수 있습니다.  <del>(동작은 보지 않겠습니다.)</del></p>
+
+<h3 id="multiplearguments">Multiple Arguments</h3>
+
+<p>여러 매개변수를 가지고 <code>recursive function</code>을 구현 할 수 있습니다. 다음 예를 통해 설명하겠습니다.</p>
+
+<pre><code class="language-haskell">zip               :: [a] -&gt; [b] -&gt; [(a,b)]  
+zip []     _      = []  
+zip _      []     = []  
+zip (x:xs) (y:ys) = (x,y) : zip xs ys  
+</code></pre>
+
+<p>이전 포스팅에서 다뤘던 <code>zip</code> 함수의 경우도 내부에서 재귀적으로 동일 함수를 호출 하는 것을 볼 수 있습니다. 몇가지 예를 더 보겠습니다.</p>
+
+<pre><code class="language-haskell">drop          :: Int -&gt; [a] -&gt; [a]  
+drop 0 xs     = xs  
+drop _ []     = []  
+drop n (_:xs) = drop (n-1) xs  
+</code></pre>
+
+<pre><code class="language-haskell">(++)         :: [a] -&gt; [a] -&gt; [a]
+[]     ++ ys = ys
+(x:xs) ++ ys = x : (xs ++ ys)
+</code></pre>
+
+<p><del>(이해가 어렵더라도 동작하는 과정을 상상하면 어렵지 않게 이해할 수 있을 겁니다.)</del> <br>
+<br>  </p>
+
+<h3 id="quicksort">Quicksort</h3>
+
+<p><code>Quicksort</code> 는 다양한 알고리즘 서적에 <em>단골</em> 처럼 나오는 정렬 기법 중 하나 입니다. (잘 모르시는 분의 경우 <a href="http://www.algolist.net/Algorithms/Sorting/Quicksort">Quicksort Algorithm</a>을 참조하시기 바랍니다.) 속도가 빠른 것으로 알려져 많은 언어에서 정렬이 필요할 경우 이를 이용합니다. 이런 <code>Quicksort</code> 를 Haskell에서 어떻게 구현하는지 알아봅시다.
+<br> <br>
+<code>Quicksort</code>는 다음 두가지 조건을 따릅니다.</p>
+
+<blockquote>
+  <ul>
+  <li>비어있는 list는 이미 정렬이 된 상태로 봅니다.</li>
+  <li>비어있지 않은 list의 경우, head를 중심으로 tail의 값을 탐색하며 head보다 작거나 같은 값은 앞으로, head보다 큰 값은 뒤로 붙여 list를 만듭니다.</li>
+  </ul>
+</blockquote>
+
+<p>이러한 조건에 따라 <code>Quicksort</code>를 구현하면 다음과 같습니다.</p>
+
+<pre><code class="language-haskell">qsort        :: [Int] -&gt; [Int]  
+qsort []     = []  
+qsort (x:xs) =  
+    qsort smaller ++ [x] ++ qsort larger
+    where
+        smaller = [a | a &lt;- xs, a &lt;= x]
+        larger  = [b | b &lt;- xs, b &gt;  x]
+</code></pre>
+
+<p>위를 보면 정말 짧으면서도 이해하기 쉽습니다. 물론 동작이 과연 어떻게 될지도 다음 예를 보면 이해할 수 있습니다.</p>
+
+<pre><code class="language-haskell">qsort [3,2,4,1,5]  
+= qsort [2,1] ++ [3] ++ qsort [4,5]
+= (qsort [1] ++ [2] ++ qsort []) ++ [3] ++ 
+  (qsort [] ++ [4] ++ qsort[5])
+= ([1] ++ [2] ++ []) ++ [3] ++ ([] ++ [4] ++ [5])
+= [1,2,3,4,5]
+</code></pre>
+
+<p><code>Quicksort</code> 이외에 <code>recursive function</code>을 이용하여 구현된 함수들을 보겠습니다.</p>
+
+<pre><code class="language-haskell">replicate :: Int -&gt; a -&gt; [a]
+
+(!!) :: [a] -&gt; Int -&gt; a
+
+elem :: Eq a =&gt; a -&gt; [a] -&gt; Bool  
+</code></pre>
+
+<p>간략하게 설명하자면, 위의 함수들은 모두 하나의 list에 대해 재귀적으로 접근하여 값을 얻어오거나 list를 만들 수 있습니다. (상상해보시기 바랍니다. 실제로 구현해보는 것도 좋을 것 같습니다. 물론 filter, list comprehension 등을 이용하여 구현할 수 있습니다.)</p>
+
+<h3 id="reference">Reference</h3>
+
+<ul>
+<li><a href="https://courses.edx.org/courses/course-v1:DelftX+FP101x+3T2015/">Introduction to Functional Programming</a></li>
+</ul>
+        </section>
+
+        <section class="post-tags">
+            <div class="post-meta tags"><i class="fa fa-fw fa-tag"></i> <a href="../tag/functional-programming/">Functional Programming</a>, <a href="../tag/haskell/">Haskell</a>, <a href="../tag/recursive/">Recursive</a>, <a href="../tag/function/">Function</a></div>
+        </section>
+
+        <section class="share">
+            <p class="backtotop"><a data-scroll href="index.html#site-head"><i class="fa fa-lg fa-fw fa-angle-double-up"></i></a><a data-scroll class="backtotoptext" href="index.html#site-head"> Back to top</a></p>
+            <p class="info prompt">Share</p>
+            <a href="http://twitter.com/share?text=Functional%20Programming%20-%20Recursive%20Functions&amp;url=http://tocology.github.io/functional-programming-recursive-functions/" title="Share on Twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-2x fa-fw fa-twitter-square"></i> <span class="hidden">Twitter</span>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://tocology.github.io/functional-programming-recursive-functions/" title="Share on Facebook" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-2x fa-fw fa-facebook-square" style="margin-left: -8px"></i> <span class="hidden">Facebook</span>
+            </a>
+            <a href="https://plus.google.com/share?url=http://tocology.github.io/functional-programming-recursive-functions/" title="Share on Google+" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-2x fa-fw fa-google-plus-square" style="margin-left: -8px"></i> <span class="hidden">Google+</span>
+            </a>
+        </section>
+
+        <footer class="post-footer">
+            <section class="author">
+    <div class="authorimage" style="background: url(../content/images/2015/10/Profile.jpg)"></div>
+    <h4>tocology</h4>
+    <p class="bio">Always develop myself..</p>
+    <p class="meta">
+      <i class="fa fa-fw fa-globe"></i> <a href="https://kr.linkedin.com/in/junhohwang">https://kr.linkedin.com/in/junhohwang</a><br>
+      <i class="fa fa-fw fa-map-marker"></i> Soeul, South Korea
+    </p>
+</section>
+        </footer>
+
+
+        <div id="disqus_thread">
+    <script type="text/javascript">
+        var disqus_shortname = 'tocology';
+        var disqus_identifier = '9';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <div class="inner">
+            <section class="footer-social">
+    <!-- <a href="http://twitter.com/username" target="_blank" title="Twitter"><i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span></a>&nbsp; -->
+    <a href="https://www.facebook.com/tocology" target="_blank" title="Facebook"><i class="fa fa-2x fa-fw fa-facebook"></i> <span class="hidden">Facebook</span></a> 
+    <a href="https://github.com/tocology" target="_blank" title="GitHub"><i class="fa fa-2x fa-fw fa-github"></i> <span class="hidden">GitHub</span></a> 
+    <a href="http://tocology.github.io/rss/" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+</section>
+            <section class="bloginfo">A blog by <a href="mailto:hwangjun7777@gmail.com">tocology</a></section>
+            <section class="copyright">© 2016 <a href="http://tocology.github.io">tocology</a>. All rights reserved</section>
+            <section><a href="https://github.com/epistrephein/Steam">Steam theme</a> for <a class="icon-ghost" href="http://ghost.org/"><span class="hidden">Ghost</span></a> by Tommaso Barbato</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../assets/js/index.js?v=736a175111"></script>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/7.1.1/js/smooth-scroll.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+    <script>
+        smoothScroll.init({
+            speed: 800,
+            easing: 'easeInOutCubic',
+            updateURL: false,
+            offset: 125,
+        });
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</body>

@@ -1,0 +1,245 @@
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+      <title>Functional Programming - Introduction</title>
+    <meta name="description" content="">
+    <meta name="apple-mobile-web-app-title" content="Functional Programming - Introduction">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="../assets/img/favicon.ico?v=736a175111">
+<link rel="apple-touch-icon" href="../assets/img/appletouchicon.png?v=736a175111">
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+
+    <style type="text/css">
+    a, a:visited {color: #3498db;}
+    .pagination a {color: #3498db;}
+    .gist .gist-file .gist-meta a:visited {color: #3498db !important;}
+
+    a:focus, a:hover {color: #2079b4;}
+    h1.post-title a:focus, h1.post-title a:hover, h1.blog-title a:focus, h1.blog-title a:hover {color: #2079b4;}
+    .older-posts:hover, .newer-posts:hover {color: #2079b4;}
+</style>
+    
+
+    <link rel="stylesheet" href="../assets/css/screen.css?v=736a175111">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="../assets/css/github.css?v=736a175111">
+
+    
+
+    <link rel="canonical" href="http://tocology.github.io/functional-programming-introduction/">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="tocology">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Functional Programming - Introduction">
+    <meta property="og:description" content="먼저 다음과 같은 내용은 edx 강의 중 DelftX: FP101x Introduction to Functional Programming을 보고 작성하였습니다. Introduction Functional Programming 의 정의는 간략하게 말하기에는 다소 어렵고 다양하게 해석될 수 있습니다.  아주 단순하게 말하자면 수학 함수(Mathematical function)를 사용하는 프로그램을 의미합니다. Haskell과...">
+    <meta property="og:url" content="http://tocology.github.io/functional-programming-introduction/">
+    <meta property="og:image" content="http://tocology.github.io/content/images/2015/11/asset-v1-DelftX-FP101x-3T2015-type-asset-block-images_course_image.jpg">
+    <meta property="article:published_time" content="2015-11-13T10:09:00.000Z">
+    <meta property="article:modified_time" content="2015-11-13T11:47:53.075Z">
+    <meta property="article:tag" content="Functional Programming">
+    <meta property="article:tag" content="Haskell">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Functional Programming - Introduction">
+    <meta name="twitter:description" content="먼저 다음과 같은 내용은 edx 강의 중 DelftX: FP101x Introduction to Functional Programming을 보고 작성하였습니다. Introduction Functional Programming 의 정의는 간략하게 말하기에는 다소 어렵고 다양하게 해석될 수 있습니다.  아주 단순하게 말하자면 수학 함수(Mathematical function)를 사용하는 프로그램을 의미합니다. Haskell과...">
+    <meta name="twitter:url" content="http://tocology.github.io/functional-programming-introduction/">
+    <meta name="twitter:image:src" content="http://tocology.github.io/content/images/2015/11/asset-v1-DelftX-FP101x-3T2015-type-asset-block-images_course_image.jpg">
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "tocology",
+    "author": {
+        "@type": "Person",
+        "name": "tocology",
+        "image": "http://tocology.github.io/content/images/2015/10/Profile.jpg",
+        "url": "http://tocology.github.io/author/tocology",
+        "sameAs": "https://kr.linkedin.com/in/junhohwang",
+        "description": "Always develop myself.."
+    },
+    "headline": "Functional Programming - Introduction",
+    "url": "http://tocology.github.io/functional-programming-introduction/",
+    "datePublished": "2015-11-13T10:09:00.000Z",
+    "dateModified": "2015-11-13T11:47:53.075Z",
+    "image": "http://tocology.github.io/content/images/2015/11/asset-v1-DelftX-FP101x-3T2015-type-asset-block-images_course_image.jpg",
+    "keywords": "Functional Programming, Haskell",
+    "description": "먼저 다음과 같은 내용은 edx 강의 중 DelftX: FP101x Introduction to Functional Programming을 보고 작성하였습니다. Introduction Functional Programming 의 정의는 간략하게 말하기에는 다소 어렵고 다양하게 해석될 수 있습니다.  아주 단순하게 말하자면 수학 함수(Mathematical function)를 사용하는 프로그램을 의미합니다. Haskell과..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="tocology" href="http://tocology.github.io/rss/">
+    <script>
+var profile_title = 'Tocology';
+var profile_resume ='Software Engineer';
+var disqus_shortname = 'tocology';
+</script>
+</head>
+<body class="post-template tag-functional-programming tag-haskell">
+
+    <header id="site-head">
+        <h1 class="blog-title"><a href="http://tocology.github.io">tocology</a></h1>
+        <h1 class="blog-subtitle">Data Processing and Visualization for Big Data.</h1>
+    </header>
+
+    <nav class="menu" role="nav">
+    <ul>
+                <li class="nav-home"><a href="http://tocology.github.io/">Home</a></li>
+                <li class="nav-article"><a href="http://tocology.github.io/article/">Article</a></li>
+    </ul>
+</nav>
+
+
+    
+<main class="content" role="main">
+
+    <article class="post tag-functional-programming tag-haskell">
+
+
+        <header>
+        <h1 class="post-title">Functional Programming - Introduction</h1>
+        <div class="post-meta"><time datetime="2015-11-13">13 November 2015</time></div>
+        </header>
+
+        <section class="post-content">
+            <p><em>먼저 다음과 같은 내용은 edx 강의 중 DelftX: FP101x Introduction to Functional Programming을 보고 작성하였습니다.</em></p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p><strong>Functional Programming</strong> 의 정의는 간략하게 말하기에는 다소 어렵고 다양하게 해석될 수 있습니다.  아주 단순하게 말하자면 <em>수학 함수(Mathematical function)</em>를 사용하는 프로그램을 의미합니다. Haskell과 같은 몇몇 프로그래밍 언어 뿐만아니라 많은 언어들이 이러한 부분들을 지향하고 있습니다. 여기서는 간단히 다음과 같이 정의할 수 있습니다.</p>
+
+<blockquote>
+  <p><strong>Functional Programming</strong>
+  :  Statement 보다 Expression을 위주로 작성하는 프로그래밍 기법(Style). 따라서 개발하는 프로그램이 Expression으로 구성되게 코딩하는 것.</p>
+</blockquote>
+
+<p>Statement는 다른 global state에 영향을 미칠 수 있습니다. 다음 예를 보면서 확인하겠습니다.  </p>
+
+<pre><code class="language-haskell">int total = 0;  
+for (int i = 1; i &lt;= 10; ++i) {  
+    total = total + 1;
+}
+</code></pre>
+
+<p>위의 예는 명령형 프로그래밍 기법(Style)로 작성된 것을 확인 할 수 있습니다. 변수(Variable)이 초기화되고 흐름에 따라 변화되고 있습니다.  Haskell에서는 다음과 같은 두가지 expression으로 표현합니다.</p>
+
+<pre><code class="language-haskell">sum [1..10]  
+</code></pre>
+
+<p>한가지는 1부터 10까지 list를 만드는 것이고, 다른 하나는 그런 list를 합치는 것 입니다.  이렇게 expression을 통해 구현하는 것이 <strong>Functional Programming</strong>입니다.</p>
+
+<h3 id="atasteofhaskell">A Taste of Haskell</h3>
+
+<p>Haskell로 QuickSort를 구현한 예제입니다.  </p>
+
+<pre><code class="language-haskell">f []    = []  
+f (x:xs)= f ys ++ [x] ++ f zs  
+                where
+                    ys = [ a | a &lt;- xs, a &lt;= x]
+                    zs = [b | b &lt;- xs, b &gt; x]
+</code></pre>
+
+<p>기존 명령형 프로그래밍을 통해 구현된 QuickSort를 이와 같이 두개의 list(ys, zs)를 이용하여 구현하지 않습니다. 재귀를 통해 입력된 list를 정렬하게 됩니다. 이 예제는 다소 추상적이지만 명령형 프로그래밍, 예를 들어 C/C++을 통해 QuickSort를 구현해온 저에게는 굉장히 단순해 보입니다.
+<br> <br>
+다음부터 Haskell을 통해 <code>Functional Programming</code> 을 공부하도록 하겠습니다.</p>
+
+<h3 id="reference">Reference</h3>
+
+<ul>
+<li><a href="https://courses.edx.org/courses/course-v1:DelftX+FP101x+3T2015/">Introduction to Functional Programming</a></li>
+</ul>
+        </section>
+
+        <section class="post-tags">
+            <div class="post-meta tags"><i class="fa fa-fw fa-tag"></i> <a href="../tag/functional-programming/">Functional Programming</a>, <a href="../tag/haskell/">Haskell</a></div>
+        </section>
+
+        <section class="share">
+            <p class="backtotop"><a data-scroll href="index.html#site-head"><i class="fa fa-lg fa-fw fa-angle-double-up"></i></a><a data-scroll class="backtotoptext" href="index.html#site-head"> Back to top</a></p>
+            <p class="info prompt">Share</p>
+            <a href="http://twitter.com/share?text=Functional%20Programming%20-%20Introduction&amp;url=http://tocology.github.io/functional-programming-introduction/" title="Share on Twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-2x fa-fw fa-twitter-square"></i> <span class="hidden">Twitter</span>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://tocology.github.io/functional-programming-introduction/" title="Share on Facebook" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-2x fa-fw fa-facebook-square" style="margin-left: -8px"></i> <span class="hidden">Facebook</span>
+            </a>
+            <a href="https://plus.google.com/share?url=http://tocology.github.io/functional-programming-introduction/" title="Share on Google+" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-2x fa-fw fa-google-plus-square" style="margin-left: -8px"></i> <span class="hidden">Google+</span>
+            </a>
+        </section>
+
+        <footer class="post-footer">
+            <section class="author">
+    <div class="authorimage" style="background: url(../content/images/2015/10/Profile.jpg)"></div>
+    <h4>tocology</h4>
+    <p class="bio">Always develop myself..</p>
+    <p class="meta">
+      <i class="fa fa-fw fa-globe"></i> <a href="https://kr.linkedin.com/in/junhohwang">https://kr.linkedin.com/in/junhohwang</a><br>
+      <i class="fa fa-fw fa-map-marker"></i> Soeul, South Korea
+    </p>
+</section>
+        </footer>
+
+
+        <div id="disqus_thread">
+    <script type="text/javascript">
+        var disqus_shortname = 'tocology';
+        var disqus_identifier = '4';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <div class="inner">
+            <section class="footer-social">
+    <!-- <a href="http://twitter.com/username" target="_blank" title="Twitter"><i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span></a>&nbsp; -->
+    <a href="https://www.facebook.com/tocology" target="_blank" title="Facebook"><i class="fa fa-2x fa-fw fa-facebook"></i> <span class="hidden">Facebook</span></a> 
+    <a href="https://github.com/tocology" target="_blank" title="GitHub"><i class="fa fa-2x fa-fw fa-github"></i> <span class="hidden">GitHub</span></a> 
+    <a href="http://tocology.github.io/rss/" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+</section>
+            <section class="bloginfo">A blog by <a href="mailto:hwangjun7777@gmail.com">tocology</a></section>
+            <section class="copyright">© 2016 <a href="http://tocology.github.io">tocology</a>. All rights reserved</section>
+            <section><a href="https://github.com/epistrephein/Steam">Steam theme</a> for <a class="icon-ghost" href="http://ghost.org/"><span class="hidden">Ghost</span></a> by Tommaso Barbato</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../assets/js/index.js?v=736a175111"></script>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/7.1.1/js/smooth-scroll.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+    <script>
+        smoothScroll.init({
+            speed: 800,
+            easing: 'easeInOutCubic',
+            updateURL: false,
+            offset: 125,
+        });
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</body>

@@ -1,0 +1,491 @@
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+      <title>Functional Programming - Declaring Types and Classes</title>
+    <meta name="description" content="">
+    <meta name="apple-mobile-web-app-title" content="Functional Programming - Declaring Types and Classes">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="../assets/img/favicon.ico?v=736a175111">
+<link rel="apple-touch-icon" href="../assets/img/appletouchicon.png?v=736a175111">
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+
+    <style type="text/css">
+    a, a:visited {color: #3498db;}
+    .pagination a {color: #3498db;}
+    .gist .gist-file .gist-meta a:visited {color: #3498db !important;}
+
+    a:focus, a:hover {color: #2079b4;}
+    h1.post-title a:focus, h1.post-title a:hover, h1.blog-title a:focus, h1.blog-title a:hover {color: #2079b4;}
+    .older-posts:hover, .newer-posts:hover {color: #2079b4;}
+</style>
+    
+
+    <link rel="stylesheet" href="../assets/css/screen.css?v=736a175111">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="../assets/css/github.css?v=736a175111">
+
+    
+
+    <link rel="canonical" href="http://tocology.github.io/functional-programming-declaring-types-and-classes/">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="tocology">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Functional Programming - Declaring Types and Classes">
+    <meta property="og:description" content="우리는 이전 Parser를 배울때 type을 정의했었습니다. 이와 마찬가지로 함수를 정의하듯 type을 정의할 수 있습니다. 앞으로 우리는 어떻게 새로운 type을 만들고 type class를 정의하는지 보는 동시에 기존 OOP(Object Oriented Programming)과의 비교해보겠습니다.  문법적으로는 다를  수 있지만, 공통된 사항들을 논의할 수...">
+    <meta property="og:url" content="http://tocology.github.io/functional-programming-declaring-types-and-classes/">
+    <meta property="article:published_time" content="2015-12-20T06:14:11.422Z">
+    <meta property="article:modified_time" content="2015-12-20T06:41:33.018Z">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Functional Programming - Declaring Types and Classes">
+    <meta name="twitter:description" content="우리는 이전 Parser를 배울때 type을 정의했었습니다. 이와 마찬가지로 함수를 정의하듯 type을 정의할 수 있습니다. 앞으로 우리는 어떻게 새로운 type을 만들고 type class를 정의하는지 보는 동시에 기존 OOP(Object Oriented Programming)과의 비교해보겠습니다.  문법적으로는 다를  수 있지만, 공통된 사항들을 논의할 수...">
+    <meta name="twitter:url" content="http://tocology.github.io/functional-programming-declaring-types-and-classes/">
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "tocology",
+    "author": {
+        "@type": "Person",
+        "name": "tocology",
+        "image": "http://tocology.github.io/content/images/2015/10/Profile.jpg",
+        "url": "http://tocology.github.io/author/tocology",
+        "sameAs": "https://kr.linkedin.com/in/junhohwang",
+        "description": "Always develop myself.."
+    },
+    "headline": "Functional Programming - Declaring Types and Classes",
+    "url": "http://tocology.github.io/functional-programming-declaring-types-and-classes/",
+    "datePublished": "2015-12-20T06:14:11.422Z",
+    "dateModified": "2015-12-20T06:41:33.018Z",
+    "description": "우리는 이전 Parser를 배울때 type을 정의했었습니다. 이와 마찬가지로 함수를 정의하듯 type을 정의할 수 있습니다. 앞으로 우리는 어떻게 새로운 type을 만들고 type class를 정의하는지 보는 동시에 기존 OOP(Object Oriented Programming)과의 비교해보겠습니다.  문법적으로는 다를  수 있지만, 공통된 사항들을 논의할 수..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="tocology" href="http://tocology.github.io/rss/">
+    <script>
+var profile_title = 'Tocology';
+var profile_resume ='Software Engineer';
+var disqus_shortname = 'tocology';
+</script>
+</head>
+<body class="post-template">
+
+    <header id="site-head">
+        <h1 class="blog-title"><a href="http://tocology.github.io">tocology</a></h1>
+        <h1 class="blog-subtitle">Data Processing and Visualization for Big Data.</h1>
+    </header>
+
+    <nav class="menu" role="nav">
+    <ul>
+                <li class="nav-home"><a href="http://tocology.github.io/">Home</a></li>
+                <li class="nav-article"><a href="http://tocology.github.io/article/">Article</a></li>
+    </ul>
+</nav>
+
+
+    
+<main class="content" role="main">
+
+    <article class="post">
+
+
+        <header>
+        <h1 class="post-title">Functional Programming - Declaring Types and Classes</h1>
+        <div class="post-meta"><time datetime="2015-12-20">20 December 2015</time></div>
+        </header>
+
+        <section class="post-content">
+            <p>우리는 이전 Parser를 배울때 type을 정의했었습니다. 이와 마찬가지로 함수를 정의하듯 type을 정의할 수 있습니다. 앞으로 우리는 어떻게 새로운 type을 만들고 type class를 정의하는지 보는 동시에 기존 OOP(Object Oriented Programming)과의 비교해보겠습니다.  문법적으로는 다를  수 있지만, 공통된 사항들을 논의할 수 있을 것입니다.</p>
+
+<h3 id="typedeclarations">Type Declarations</h3>
+
+<p>Haskell에서는 기존에 있는 type에 대한 새로운 이름을 정의할 수 있습니다.  </p>
+
+<pre><code class="language-haskell">type String = [Char]  
+</code></pre>
+
+<p>지금까지 자주 사용해왔던 String은 <code>[Char]</code> 로 Char List 입니다. 따라서 위와같이 표현한 것을 볼 수 있습니다. </p>
+
+<p>또한, 편리하게 표현하기 위해 사용하기도 하는데 다음 예가 그러합니다.</p>
+
+<pre><code class="language-haskell">type Pos = (Int,Int)  
+</code></pre>
+
+<p>편리하게 위치(position)을 표현하기 위해 위와 같은 묶어서 정의하였습니다.</p>
+
+<pre><code class="language-haskell">origin    :: Pos  
+origin     = (0,0)
+
+left      :: Pos -&gt; Pos  
+left (x,y) = (x-1,y)  
+</code></pre>
+
+<p>또한, 마치 함수처럼 인자(parameter)를 받도록 정의할 수 있습니다.</p>
+
+<pre><code class="language-haskell">type Pair a = (a,a)  
+</code></pre>
+
+<p><code>a</code> 를 받아 쌍(pair)를 만들도록 하는 것입니다.</p>
+
+<pre><code class="language-haskell">mult      :: Pair Int -&gt; Int  
+mult (m,n) = m*n
+
+copy      :: a -&gt; Pair a  
+copy x     = (x,x)  
+</code></pre>
+
+<p><code>mult</code> 의 경우 <code>Pair Int</code> 를 받아 곱셈을 만들어주고, <code>copy</code> 의 경우 <code>Pair</code> 과 비슷하지만 타입을 정하지 않고 쌍으로 만드는 것을 볼 수 있습니다.</p>
+
+<p>Type declaration 은 다중(nested)으로 적용할 수 있습니다.  </p>
+
+<pre><code class="language-haskell">type Pos = (Int, Int)  
+type Trans = Pos -&gt; Pos  
+</code></pre>
+
+<p>하지만, 재귀(recursive)를 적용할 수 없습니다.</p>
+
+<pre><code class="language-haskell">type Tree = (Int, [Tree]) -- Error  
+</code></pre>
+
+<p>그러나 나중에 보겠지만, 재귀를 적용할 수 있는 방법이 있습니다. nominal type을 이용해야 가능합니다. </p>
+
+<h3 id="datadeclarations">Data Declarations</h3>
+
+<p>우리가 recursive type을 만들고 싶을 때, nominal type을 이용해야한다고 하였습니다. 앞으로 우리가 data declaration을 이용하여 nominal type을 만드는 방법을 알아보겠습니다. 먼저 data declaration에 대한 설명입니다.</p>
+
+<pre><code class="language-haskell">data Bool = False | True  
+</code></pre>
+
+<p>위의 <code>type</code> 과는 달리 새로운 type을 정의합니다. (<code>type</code> 은 기존에 있는 type을 이용하여 표현하는 방법이었습니다.)  </p>
+
+<p>이런 방법은 Scala에서 case class를 이용하여 표현하는 방식과 유사한데, Java나 C#에서도 비슷하게 사용됩니다. Bool이 abstract base class로 위 예에 오른편이 subtype이 되어 False extends Bool과 True extends Bool로 구현이 가능합니다. 또한 Bool은 abstract로 instance 생성이 불가하여 False, True로 표현해야하지만, 둘다 Bool type이라는 것을 지금과 동일합니다. 다시 돌아가서..</p>
+
+<ul>
+<li>False와 True는 type Bool의 constructors라고 불립니다. </li>
+<li>type과 constructor는 반드시 대문자로 시작해야합니다.</li>
+<li>Data declaration은 context free grammar와 유사합니다. 전자는 type의 value를 정의하지만, 후자는 언어의 sentence를 정의합니다. </li>
+</ul>
+
+<p>새로운 type의 값들은 동일한 방법으로 다양하게 이용될 수 있습니다.</p>
+
+<pre><code class="language-haskell">data Answer = Yes | No | Unknown  
+</code></pre>
+
+<pre><code class="language-haskell">answers     :: [Answer]  
+answers      = [Yes,No,Unknown]
+
+flip        :: Answer -&gt; Answer  
+flip Yes     = No  
+flip No      = Yes  
+flip Unknown = Unknown  
+</code></pre>
+
+<p>data declaration의 constructor는 인자를 가질 수 있습니다. 예를 들어,  </p>
+
+<pre><code class="language-haskell">data Shape = Circle Float  
+           | Rect Float Float
+</code></pre>
+
+<p>위와 같이 정의하여 다음과 같이 사용할 수 있습니다.</p>
+
+<pre><code class="language-haskell">square         :: Float -&gt; Shape  
+square n        = Rect n n
+
+area           :: Shape -&gt; Float  
+area (Circle r) = pi * r^2  
+area (Rect x y) = x * y  
+</code></pre>
+
+<ul>
+<li>위 <code>Shape</code> 는 <code>r</code> 은 float인 <code>Circle r</code> 과 <code>x</code> , <code>y</code> 모두 float은 <code>Rect x y</code> 를 가집니다.</li>
+<li><code>Circle</code> 과 <code>Rect</code> 는 마치 함수처럼 동작합니다.</li>
+</ul>
+
+<pre><code class="language-haskell">Circle :: Float -&gt; Shape  
+Rect   :: Float -&gt; Float -&gt; Shape  
+</code></pre>
+
+<p>놀랍지도 않게 data declaration 또한 인자를 가질 수 있습니다.</p>
+
+<pre><code class="language-haskell">data Maybe a = Nothing | Just a  
+</code></pre>
+
+<p>위 <code>Maybe</code> 는 비어있거나 단지(Just) a 라는 표현으로 아래와 같이 list에 대해 안전한(safe) 함수를 구현하게 해줍니다.</p>
+
+<pre><code class="language-haskell">safediv    :: Int -&gt; Int -&gt; Maybe Int  
+safediv _ 0 = Nothing  
+safediv m n = Just (m \`div\` n)
+
+safehead   :: [a] -&gt; Maybe a  
+safehead [] = Nothing  
+safehead xs = Just (head xs)  
+</code></pre>
+
+<p>하지만, <code>Maybe</code> 가 항상 붙어 우리는 이것을 처리해줘야할 필요가 생깁니다.</p>
+
+<h3 id="recursivetypes">Recursive Types</h3>
+
+<p>앞서 Recursive Type을 생성하지 못한다고 하였지만, nominal type의 경우 가능하다고 했습니다.  앞으로 몇가지 recursive type에 대해 알아보겠습니다.</p>
+
+<p>처음으로 볼 것은 natural number입니다. </p>
+
+<pre><code class="language-haskell">data Nat = Zero | Succ Nat  
+</code></pre>
+
+<p>위 <code>Nat</code> 는 <code>Zero</code> 이거나 <code>Succ :: Nat -&gt; Nat</code> 에 의해 다른 자신(숫자)를 가질 수 있습니다.  이것을 함수로 본다면 <code>Zero</code> 는 인자를 받지 않으며, <code>Succ</code> 은 인자를 받아 natural number를 돌려준다고 볼 수 있습니다. </p>
+
+<ul>
+<li><code>Nat</code> value는 <code>Zero</code> 이거나 <code>Succ</code> 과 같은 형태 이기때문에 무한 sequence를 가질 수 있습니다.</li>
+</ul>
+
+<pre><code class="language-haskell">Zero  
+Succ Zero  
+Succ (Succ Zero)  
+...
+</code></pre>
+
+<p>여기서는 undefined나 bottom에 대해 다루지 않지만 위의 경우는 통상 안전합니다.</p>
+
+<ul>
+<li>우리는 <code>Nat</code> 이 natural number를 표현한다고 생각하면 <code>Zero</code> 는 0, <code>Succ</code> 은 (+1)로 생각할 수 있습니다.</li>
+<li>따라서 다음과 같은 경우,</li>
+</ul>
+
+<pre><code class="language-haskell">Succ (Succ (Succ Zero))  
+</code></pre>
+
+<p>다음과 같은 natural number와 같은 표현이라고 생각할 수 있습니다.</p>
+
+<pre><code class="language-haskell">1 + (1 + (1 + 0)) = 3  
+</code></pre>
+
+<p>또한, 우리는 recursion을 이용하여 Nat와 Int간 전환(convert)을 쉽게 할 수 있습니다.</p>
+
+<pre><code class="language-haskell">nat2int         :: Nat -&gt; Int  
+nat2int Zero     = 0  
+nat2int (Succ n) = 1 + nat2int n
+
+int2nat  :: Int -&gt; Nat  
+int2nat 0 = Zero  
+int2nat n = Succ (int2nat (n-1))  
+</code></pre>
+
+<p>첫 예제와 함께 <code>Nat</code> 은 <code>Int</code> 와 동일체인 것을 쉽게 확인 할 수 있습니다.  물론 몇가지 고려해야할 사항들이 있지만요.</p>
+
+<p>두 개의 natural number를 integer로 변환하여 더한(add) 후 다시 변환하여 계산할 수도 있습니다.</p>
+
+<pre><code class="language-haskell">add    :: Nat -&gt; Nat -&gt; Nat  
+add m n = int2nat (nat2int m + nat2int n)  
+</code></pre>
+
+<p>하지만, resursion을 이용하면 번거로운 변환작업을 하지 않아도 됩니다.</p>
+
+<pre><code class="language-haskell">add Zero n     = n  
+add (Succ m) n = Succ (add m n)  
+</code></pre>
+
+<p>예를 보겠습니다.</p>
+
+<pre><code class="language-haskell">  add (Succ (Succ Zero))(Succ Zero)
+= Succ (add (Succ Zero)(Succ Zero))
+= Succ (Succ (add Zero (Succ Zero))
+= Succ (Succ (Succ Zero))
+</code></pre>
+
+<p>정리하자면 <code>add</code> 에 대한 재귀는 다음 법칙을 따릅니다.</p>
+
+<blockquote>
+  <p>0 + n = n 
+  (1 + m) + n = 1 + (m + n)</p>
+</blockquote>
+
+<h3 id="arithmeticexpressions">Arithmetic Expressions</h3>
+
+<p><img src="https://tocology.github.io/content/images/functional-programming/arithmetic-expression.png" alt="Arithmetic Expression" title="Arithmetic Expression Example">
+우리가 Parser를 배울 때 string에 대해 abstract syntax tree를 만드려 했지만 새로운 type에 대해 만드는 것을 알지 못했습니다. 대신에 우리는 주어진 expression의 값을 parsing을 통해 계산하는 방법을 보았습니다. 하지만 recursive type를 이용하면 수학적(algebraic) data type expression을 정의할 수 있습니다.</p>
+
+<pre><code class="language-haskell">data Expr = Val Int  
+          | Add Expr Expr
+          | Mul Expr Expr 
+</code></pre>
+
+<p>일단 abstract base class인 <code>Expr</code> 을 정의하고 3가지 subtype을 정의합니다.  이를 이용하여 위의 그림을 표현하면 다음과 같습니다.</p>
+
+<pre><code class="language-haskell">Add (Val 1) (Mul (Val 2) (Val 3))  
+</code></pre>
+
+<p>앞으로 이런 recursion을 이용하여 expression을 처리하는 함수 또한 표현하기 쉽습니다.</p>
+
+<pre><code class="language-haskell">size          :: Expr -&gt; Int  
+size (Val n)   = 1  
+size (Add x y) = size x + size y  
+size (Mul x y) = size x + size y
+
+eval          :: Expr -&gt; Int  
+eval (Val n)   = n  
+eval (Add x y) = eval x + eval y  
+eval (Mul x y) = eval x * eval y  
+</code></pre>
+
+<p>위 3가지 constructor들은 다음과 같은 타입을 가집니다.</p>
+
+<pre><code class="language-haskell">Val :: Int -&gt; Expr  
+Add :: Expr -&gt; Expr -&gt; Expr  
+Mul :: Expr -&gt; Expr -&gt; Expr  
+</code></pre>
+
+<p>위 사항을 이용하면 무엇을 할 수 있을까요? expression에 대해 foldr을 정의할 때 2번 recursive function을 작성하지 않고 한번에 해결할 수 있습니다. 아래 예에서 id를 <code>Val</code> 로,  (+)를 <code>Add</code>, (*)를 <code>Mul</code> 로 변경할 수 있습니다.</p>
+
+<pre><code class="language-haskell">eval = fold id (+) (*)  
+</code></pre>
+
+<h3 id="binarytrees">Binary Trees</h3>
+
+<p>이제부터 binary Tree에 대해 처리하는 방법을 알아보겠습니다.
+<img src="https://tocology.github.io/content/images/functional-programming/binary-trees.png" alt="Binary Tree" title="Binary Tree Sample"></p>
+
+<p>Recursion을 이용하여 binary tree는 다음과 같이 새로운 type으로 표현할 수 있습니다.  </p>
+
+<pre><code class="language-haskell">data Tree = Leaf Int | Node Tree Int Tree  
+</code></pre>
+
+<p>위의 그림을 표현하면 다음과 같습니다.</p>
+
+<pre><code class="language-haskell">Node (Node (Leaf 1) 3 (Leaf 4)) -- left  
+     5 -- root
+     (Node (Leaf 6) 7 (Leaf 9)) -- right
+</code></pre>
+
+<p>또한, 주어진 integer에 대한 탐색을 하는 함수를 만들 수도 있습니다.</p>
+
+<pre><code class="language-haskell">occurs               :: Int -&gt; Tree -&gt; Bool  
+occurs m (Leaf n)     = m==n  
+occurs m (Node l n r) = m==n  
+                      || occurs m l
+                      || occurs m r
+</code></pre>
+
+<p>하지만 만일 같은 숫자가 binary tree 내 존재하지 않을 경우 모든 leaf를 다 탐색해야합니다. </p>
+
+<p>그럼 다른 알고리즘을 이용해봅시다. 여기 새로운 함수를 정의하였습니다.</p>
+
+<pre><code class="language-haskell">flatten             :: Tree -&gt; [Int]  
+flatten (Leaf n)     = [n]  
+flatten (Node l n r) = flatten l  
+                       ++ [n]
+                       ++ flatten r
+</code></pre>
+
+<p><code>flatten</code> 은 주어진 tree를 integer list로 변환해 돌려줍니다. 여기서 만일 돌려받은 list가 정렬되어있다면(ordered) 이 tree는 <u>search tree</u>라고 말합니다.</p>
+
+<p>이런 search tree에 대해서는 <code>occurs</code> 함수를 다음과 같이 변경할 수 있습니다.</p>
+
+<pre><code class="language-haskell">occurs m (Leaf n)            = m==n  
+occurs m (Node l n r) | m==n = True  
+                      | m&lt;n  = occurs m l
+                      | m&gt;n  = occurs m r
+</code></pre>
+
+<p>이를 통해 훨씬 더 효율적인 것을 볼 수 있습니다. </p>
+
+<h3 id="reference">Reference</h3>
+
+<ul>
+<li><a href="https://courses.edx.org/courses/course-v1:DelftX+FP101x+3T2015/">Introduction to Functional Programming</a></li>
+</ul>
+        </section>
+
+        <section class="post-tags">
+            
+        </section>
+
+        <section class="share">
+            <p class="backtotop"><a data-scroll href="index.html#site-head"><i class="fa fa-lg fa-fw fa-angle-double-up"></i></a><a data-scroll class="backtotoptext" href="index.html#site-head"> Back to top</a></p>
+            <p class="info prompt">Share</p>
+            <a href="http://twitter.com/share?text=Functional%20Programming%20-%20Declaring%20Types%20and%20Classes&amp;url=http://tocology.github.io/functional-programming-declaring-types-and-classes/" title="Share on Twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-2x fa-fw fa-twitter-square"></i> <span class="hidden">Twitter</span>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://tocology.github.io/functional-programming-declaring-types-and-classes/" title="Share on Facebook" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-2x fa-fw fa-facebook-square" style="margin-left: -8px"></i> <span class="hidden">Facebook</span>
+            </a>
+            <a href="https://plus.google.com/share?url=http://tocology.github.io/functional-programming-declaring-types-and-classes/" title="Share on Google+" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-2x fa-fw fa-google-plus-square" style="margin-left: -8px"></i> <span class="hidden">Google+</span>
+            </a>
+        </section>
+
+        <footer class="post-footer">
+            <section class="author">
+    <div class="authorimage" style="background: url(../content/images/2015/10/Profile.jpg)"></div>
+    <h4>tocology</h4>
+    <p class="bio">Always develop myself..</p>
+    <p class="meta">
+      <i class="fa fa-fw fa-globe"></i> <a href="https://kr.linkedin.com/in/junhohwang">https://kr.linkedin.com/in/junhohwang</a><br>
+      <i class="fa fa-fw fa-map-marker"></i> Soeul, South Korea
+    </p>
+</section>
+        </footer>
+
+
+        <div id="disqus_thread">
+    <script type="text/javascript">
+        var disqus_shortname = 'tocology';
+        var disqus_identifier = '13';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <div class="inner">
+            <section class="footer-social">
+    <!-- <a href="http://twitter.com/username" target="_blank" title="Twitter"><i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span></a>&nbsp; -->
+    <a href="https://www.facebook.com/tocology" target="_blank" title="Facebook"><i class="fa fa-2x fa-fw fa-facebook"></i> <span class="hidden">Facebook</span></a> 
+    <a href="https://github.com/tocology" target="_blank" title="GitHub"><i class="fa fa-2x fa-fw fa-github"></i> <span class="hidden">GitHub</span></a> 
+    <a href="http://tocology.github.io/rss/" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+</section>
+            <section class="bloginfo">A blog by <a href="mailto:hwangjun7777@gmail.com">tocology</a></section>
+            <section class="copyright">© 2016 <a href="http://tocology.github.io">tocology</a>. All rights reserved</section>
+            <section><a href="https://github.com/epistrephein/Steam">Steam theme</a> for <a class="icon-ghost" href="http://ghost.org/"><span class="hidden">Ghost</span></a> by Tommaso Barbato</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../assets/js/index.js?v=736a175111"></script>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/7.1.1/js/smooth-scroll.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+    <script>
+        smoothScroll.init({
+            speed: 800,
+            easing: 'easeInOutCubic',
+            updateURL: false,
+            offset: 125,
+        });
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</body>

@@ -1,0 +1,471 @@
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+      <title>Functional Programming - Functinal Parsers and Monads</title>
+    <meta name="description" content="">
+    <meta name="apple-mobile-web-app-title" content="Functional Programming - Functinal Parsers and Monads">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="../assets/img/favicon.ico?v=736a175111">
+<link rel="apple-touch-icon" href="../assets/img/appletouchicon.png?v=736a175111">
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+
+    <style type="text/css">
+    a, a:visited {color: #3498db;}
+    .pagination a {color: #3498db;}
+    .gist .gist-file .gist-meta a:visited {color: #3498db !important;}
+
+    a:focus, a:hover {color: #2079b4;}
+    h1.post-title a:focus, h1.post-title a:hover, h1.blog-title a:focus, h1.blog-title a:hover {color: #2079b4;}
+    .older-posts:hover, .newer-posts:hover {color: #2079b4;}
+</style>
+    
+
+    <link rel="stylesheet" href="../assets/css/screen.css?v=736a175111">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="../assets/css/github.css?v=736a175111">
+
+    
+
+    <link rel="canonical" href="http://tocology.github.io/functional-programming-functinal-parsers-and-monads/">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="tocology">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Functional Programming - Functinal Parsers and Monads">
+    <meta property="og:description" content="Parser란 무엇일까요? 아래 정의와 같이 한 text를 구조에 따라 분석하는 프로그램을 의미합니다. 흔히 우리는 문장을 나눌때 사용합니다.    A parser is a program that analyses a piece of text to determine its syntactic structure. The Parser Type Haskell에서의 Parser를 알아봅시다.   type...">
+    <meta property="og:url" content="http://tocology.github.io/functional-programming-functinal-parsers-and-monads/">
+    <meta property="article:published_time" content="2015-12-11T15:04:30.316Z">
+    <meta property="article:modified_time" content="2015-12-11T15:04:30.253Z">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Functional Programming - Functinal Parsers and Monads">
+    <meta name="twitter:description" content="Parser란 무엇일까요? 아래 정의와 같이 한 text를 구조에 따라 분석하는 프로그램을 의미합니다. 흔히 우리는 문장을 나눌때 사용합니다.    A parser is a program that analyses a piece of text to determine its syntactic structure. The Parser Type Haskell에서의 Parser를 알아봅시다.   type...">
+    <meta name="twitter:url" content="http://tocology.github.io/functional-programming-functinal-parsers-and-monads/">
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "tocology",
+    "author": {
+        "@type": "Person",
+        "name": "tocology",
+        "image": "http://tocology.github.io/content/images/2015/10/Profile.jpg",
+        "url": "http://tocology.github.io/author/tocology",
+        "sameAs": "https://kr.linkedin.com/in/junhohwang",
+        "description": "Always develop myself.."
+    },
+    "headline": "Functional Programming - Functinal Parsers and Monads",
+    "url": "http://tocology.github.io/functional-programming-functinal-parsers-and-monads/",
+    "datePublished": "2015-12-11T15:04:30.316Z",
+    "dateModified": "2015-12-11T15:04:30.253Z",
+    "description": "Parser란 무엇일까요? 아래 정의와 같이 한 text를 구조에 따라 분석하는 프로그램을 의미합니다. 흔히 우리는 문장을 나눌때 사용합니다.    A parser is a program that analyses a piece of text to determine its syntactic structure. The Parser Type Haskell에서의 Parser를 알아봅시다.   type..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="tocology" href="http://tocology.github.io/rss/">
+    <script>
+var profile_title = 'Tocology';
+var profile_resume ='Software Engineer';
+var disqus_shortname = 'tocology';
+</script>
+</head>
+<body class="post-template">
+
+    <header id="site-head">
+        <h1 class="blog-title"><a href="http://tocology.github.io">tocology</a></h1>
+        <h1 class="blog-subtitle">Data Processing and Visualization for Big Data.</h1>
+    </header>
+
+    <nav class="menu" role="nav">
+    <ul>
+                <li class="nav-home"><a href="http://tocology.github.io/">Home</a></li>
+                <li class="nav-article"><a href="http://tocology.github.io/article/">Article</a></li>
+    </ul>
+</nav>
+
+
+    
+<main class="content" role="main">
+
+    <article class="post">
+
+
+        <header>
+        <h1 class="post-title">Functional Programming - Functinal Parsers and Monads</h1>
+        <div class="post-meta"><time datetime="2015-12-12">12 December 2015</time></div>
+        </header>
+
+        <section class="post-content">
+            <p><code>Parser</code>란 무엇일까요? 아래 정의와 같이 한 text를 구조에 따라 분석하는 프로그램을 의미합니다. 흔히 우리는 문장을 나눌때 사용합니다. </p>
+
+<blockquote>
+  <p>A parser is a program that analyses a piece of text to determine its syntactic structure.</p>
+</blockquote>
+
+<h3 id="theparsertype">The Parser Type</h3>
+
+<p>Haskell에서의 Parser를 알아봅시다.  </p>
+
+<pre><code class="language-haskell">type Parser = String -&gt; Tree  
+</code></pre>
+
+<p>Haskell에서 <code>Parser</code>는 한 함수로 String을 입력받아 tree형태를 돌려줍니다. 하지만, <code>Parser</code>가 꼭 입력받은 String 전체를 필요하지 않을 수 있습니다. 따라서 사용하지 않은 입력값을 돌려줄 수도 있습니다.  </p>
+
+<pre><code class="language-haskell">type Parser = String -&gt; (Tree, String)  
+</code></pre>
+
+<p>또한, 아무 것도 없는 것을 포함하여 다양한 방법으로 <code>Parsing</code> 될 수 있어 다음과 같이 list를 돌려줄 수도 있습니다.</p>
+
+<pre><code class="language-haskell">type Parser = String -&gt; [(Tree, String)]  
+</code></pre>
+
+<p>마지막으로 <code>Parser</code>가 필히 tree를 돌려주는 것은 아닙니다. 따라서 <code>any type</code>을 이용하여 표현할 수 있습니다.</p>
+
+<pre><code class="language-haskell">type Parser a = String -&gt; [(a, String)]  
+</code></pre>
+
+<p>위와 같은 경우에는 Tree를 돌려줄지 무엇을 돌려줄지 신경쓰지 않겠다는 의미와 같습니다. </p>
+
+<p>하지만, 저희는 간단하게 하기 위해 실패할 경우 비어있는 list를 돌려주고, 성공할 경우 <u>singleton list</u>을 돌려주는 것만 고려하겠습니다.  <del>(물론 이 강의 이후 <code>any type</code> 등을 적용한 <code>Parser</code> 를 만들 수도 있습니다.)</del></p>
+
+<h3 id="basicparsers">Basic Parsers</h3>
+
+<p>복잡한 <code>Parser</code> 를 만들기 이전에 간단한 <code>Parser</code>를 만들어 봅시다. </p>
+
+<pre><code class="language-haskell">item :: Parser Char  
+item = \inp -&gt; case inp of  
+                []     -&gt; []
+                (x:xs) -&gt; [(x,xs)]
+</code></pre>
+
+<p><code>Parser</code> 인 <code>item</code> 은 단순히 입력값이 비어있을 경우 빈 list를 돌려주고, (x:xs) 형태의 경우 (x,xs) 형태의 singleton list를 돌려줍니다.</p>
+
+<p>다음 <code>failure</code> <code>Parser</code>는 항상 실패하게 됩니다.</p>
+
+<pre><code class="language-haksell">failure :: Parser a  
+failure = \inp -&gt; []  
+</code></pre>
+
+<p>반면 다음 <code>return v</code> 항상 성공하게 됩니다. 결과를 주기위해 입력값 <code>v</code> 가 필요하며, 입력값을 쓰지 않은체 결과를 돌려줍니다.</p>
+
+<pre><code class="language-haskell">return   :: a -&gt; Parser a  
+return v = \inp -&gt; [(v,inp)]  
+</code></pre>
+
+<p>그럼 우리는 두개 <code>Parser</code>를 어떻게 조합하여 결과를 얻을 수 있을까요? 성공했을 경우는 앞서 말씀드린 <code>return</code> 을, 실패했을 경우에는 <code>failure</code> 를 이용하고 싶을 경우에는 어떻게 할지 알아봅시다.</p>
+
+<pre><code class="language-haskell">(+++)  :: Parser a -&gt; Parser a -&gt; Parser a
+p +++ q = \inp -&gt; case p inp of  
+                   []        -&gt; parse q inp
+                   [(v,out)] -&gt; [(v,out)]
+</code></pre>
+
+<p>위와 같이 두개의 <code>Parser</code> 를 입력받고, 만일 빈 list일 경우 실패하는 경우로 <code>q</code> 에 대해서 다시 <code>parse</code> 를 실행하고, 아닌 경우(<code>p</code> 성공 시) singleton list를 돌려줍니다. </p>
+
+<pre><code class="language-haskell">parse :: Parser a -&gt; String -&gt; [(a,String)]  
+parse p inp = p inp  
+</code></pre>
+
+<p>위의 <code>parse</code> 는 단순히 입력으로 받은 <code>Parser</code> <code>p</code> 를 실행시켜 결과를 얻습니다.</p>
+
+<p>위의 내용들을 종합하면 다음과 같은 test 결과를 볼 수 있습니다.</p>
+
+<pre><code class="language-haskell">&gt; parse item ""
+[]
+
+&gt; parse item "abc"
+[('a',"bc")]
+
+&gt; parse failure "abc"
+[]  -- always fail
+
+&gt; parse (return 1) "abc"
+[(1,"abc")]
+
+&gt; parse (item +++ return 'd') "abc"
+[('a',"bc")] -- parser item successfully parse "abc", so not (return 'd') is not executed
+
+&gt; parse (failure +++ return 'd') "abc"
+[('d',"abc")]
+</code></pre>
+
+<ul>
+<li>Parsing 라이브러리 파일은 Haskell 홈페이지에서 구할 수 있습니다.</li>
+<li>기술적인 이유로, 위의 예제 중 첫번째 <code>failure</code> 예제는 type때문에 error를 발생합니다. 하지만, 다른 경우에서는 발생하지 않습니다.</li>
+<li><code>Parser</code> 의 type은 <u>monad</u>입니다. 여기서 monad는 매우 다양한 종류의 계산 모델링을 위해 사용되는 수학 구조입니다. <del>(다음에 더 자세히 다루도록 하겠습니다. <code>Parser</code> 를 공부하는데 큰 영향을 주지 않습니다.)</del></li>
+</ul>
+
+<h3 id="sequencing">Sequencing</h3>
+
+<p><code>Sequencing</code> 은 앞서 배웠던 <code>Parser</code> 들을 하나로 구성된 <code>Parser</code> 를 말합니다. 한 예를 봅시다.</p>
+
+<pre><code class="language-haskell">p :: Parser (Char, Char)  
+p = do x &lt;- item  
+       item
+       y &lt;- item
+       return (x,y) 
+</code></pre>
+
+<p>이를 위해 위와같이 <code>do</code> 를 사용하는데, monad가 가지는 이점 중 하나 입니다. 이를 통해 <code>sequential composition parser</code> 를 깔끔하게 구현할 수 있습니다.</p>
+
+<p><strong>Note</strong></p>
+
+<ul>
+<li>사용된 모든 <code>Parser</code> 는 layout rule에 따라 작성되어야 합니다. (<code>do</code> 이후 간격(space)이 동일하게 적용되어 있어야합니다.)</li>
+<li>위 예에서 가운데 <code>item</code> 과 같이 이름이 지정되지 않은 <code>Parser</code> 는 기본적으로 사용되지 않습니다.</li>
+<li>마지막에 적용된 <code>Parser</code> 가 돌려주는 값이 전체 <code>Sequence</code> 가 돌려주는 값이 됩니다.</li>
+<li>만일 <code>Sequence</code> 도중 어떠한 <code>Parser</code> 에서 실패할 경우, 결과는 항상 실패하게 됩니다.</li>
+</ul>
+
+<pre><code class="language-haskell">&gt; parse p "abcdef"
+[(('a','c'),"def")]
+
+&gt; parse p "ab"
+[]
+</code></pre>
+
+<ul>
+<li><code>do</code> 는 <code>Parser</code> 에만 적용가능한 것이 아닌, 어떠한 monadic type에도 사용할 수 있습니다.</li>
+</ul>
+
+<h3 id="derivedprimitives">Derived Primitives</h3>
+
+<p>predicate(번역: 술부)를 만족하는 문자를 parsing할 수 있습니다.  </p>
+
+<pre><code class="language-haskell">sat  :: (Char -&gt; Bool) -&gt; Parser Char  
+sat p = do x &lt;- item  
+           if p x then
+              return x
+           else
+              failure
+</code></pre>
+
+<p>위를 설명하면, <code>item</code> 을 이용하여 parsing한 값 <code>x</code> 에 대하여 <code>p</code> 를 만족할 경우 <code>return x</code> 를 실행하고, 아닐 경우 <code>failure</code> 를 실행하게 됩니다.</p>
+
+<p>이를 이용하여 몇가지 예에 적용해 봅시다.</p>
+
+<ul>
+<li>digit과 특정한 문자들을 parsing하는 경우</li>
+</ul>
+
+<pre><code class="language-haskell">digit :: Parser Char  
+digit  = sat isDigit
+
+char  :: Char -&gt; Parser Char  
+char x = sat (x ==)  
+</code></pre>
+
+<p><code>char</code> 의 경우 앞서 배웠던 section을 이용한 것을 볼 수 있습니다. 결과적으로 특정한 문자를 parsing해 오는 결과를 볼 수 있습니다.</p>
+
+<ul>
+<li>한 <code>Parser</code> 를 0번 또는 그 이상 적용할 수 있습니다.</li>
+</ul>
+
+<pre><code class="language-haskell">many  :: Parser a -&gt; Parser [a]  
+many p = many1 p +++ return []  
+</code></pre>
+
+<pre><code class="language-haskell">many1  :: Parser a -&gt; Parser [a]  
+many1 p = do v  &lt;- p  
+             vs &lt;- many p
+             return (v:vs)
+</code></pre>
+
+<p>위와 같이 <code>do</code> 와 재귀를 이용하여 여러번 parsing하는 것을 볼 수 있습니다.</p>
+
+<ul>
+<li>다음과 같이 문자열을 parsing 할 수 있습니다.</li>
+</ul>
+
+<pre><code class="language-haskell">string       :: String -&gt; Parser String  
+string []     = []  
+string (x:xs) = do char x  
+                   string xs
+                   return (x:xs)
+</code></pre>
+
+<p>조금 더 실제 상황과 어울리는 예제를 보겠습니다. 문자열로부터 하나씩 문자를 뽑아 parsing을 하는 <code>Parser</code> 입니다.</p>
+
+<pre><code class="language-haskell">p :: Parser String  
+p  = do char '['  
+        d  &lt;- digit
+        ds &lt;- many (do char ','
+                       digit)
+        char ']'
+        return (d:ds)
+</code></pre>
+
+<pre><code class="language-haskell">&gt; parse p "[1,2,3,4]"
+[("1234","")]
+
+&gt; parse p "[1,2,3,4"
+[]
+</code></pre>
+
+<p>물론 이 또한 정말 간단한 <code>Parser</code> 입니다. 실제 라이브러리는 error로부터 다양한 해결 방법을 제공합니다.</p>
+
+<h3 id="artithmeticexpressions">Artithmetic Expressions</h3>
+
+<p><code>+</code> 와 <code>*</code> 를 괄호안에 함께 사용한 expression 형태를 봅시다. 먼저 다음을 가정합니다.</p>
+
+<ul>
+<li><code>*</code> 와 <code>+</code> 는 오른쪽에 있는 것과 연관되어 있습니다.</li>
+<li><code>+</code> 보다 <code>*</code> 가 높은 우선순위를 갖습니다.</li>
+</ul>
+
+<p>그럼 우리가 앞서 배웠던 <code>Parser</code> 들을 이용해서 어떠한 expression을 표현할 지 알아봅시다.</p>
+
+<pre><code class="language-haskell">expr   -&gt; term '+' expr | term  
+term   -&gt; factor '*' term | factor  
+factor -&gt; digit | '(' expr ')'  
+digit  -&gt; '0' | '1' | ... |'9'  
+</code></pre>
+
+<p>위와 같은 경우 서로 여러가지 expression이 엉켜있는 것을 볼 수 있습니다. 하지만 효율성을 위해 다음과 같이 인수분해(factorize)하는 것은 중요합니다.</p>
+
+<pre><code class="language-haskell">expr -&gt; term ('+' expr | [])  
+term -&gt; factor ('*' term | [])  
+</code></pre>
+
+<p>이러한 expression을 해석하는 <code>Parser</code> 를 만들면 다음과 같습니다.</p>
+
+<pre><code class="language-haskell">expr :: Parser Int  
+expr  = do t &lt;- term  
+           do char '+'
+              e &lt;- expr
+              return (t + e)
+           +++ return t
+</code></pre>
+
+<pre><code class="language-haskell">term :: Parser Int  
+term  = do f &lt;- factor  
+           do char '*'
+              t &lt;- term 
+              return (f * t)
+           +++ return f
+</code></pre>
+
+<pre><code class="language-haskell">factor :: Parser Int  
+factor  = do d &lt;- digit  
+             return (digitToInt d)
+          +++ do char '('
+                 e &lt;- expr 
+                 char ')'
+                 return e
+</code></pre>
+
+<p>이를 통해 우리가 만약 다음과 같이 <code>eval</code> 을 정의한다면 결과를 <code>Parser</code> 를 통해 얻을 수 있습니다.</p>
+
+<pre><code class="language-haskell">eval   :: String -&gt; Int  
+eval xs = fst (head (parse expr xs))  
+</code></pre>
+
+<pre><code>&gt; eval "2*3+4"
+10
+
+&gt; eval "2*(3+4)"
+14  
+</code></pre>
+
+<p>간략히 <code>xs</code> 를 <code>expr</code> 을 이용하여 parsing을 하면 singleton list를 돌려주게 되어 이중 head와 fst element를 받아와 결과를 주게 됩니다.</p>
+
+<h3 id="reference">Reference</h3>
+
+<ul>
+<li><a href="https://courses.edx.org/courses/course-v1:DelftX+FP101x+3T2015/">Introduction to Functional Programming</a></li>
+</ul>
+        </section>
+
+        <section class="post-tags">
+            
+        </section>
+
+        <section class="share">
+            <p class="backtotop"><a data-scroll href="index.html#site-head"><i class="fa fa-lg fa-fw fa-angle-double-up"></i></a><a data-scroll class="backtotoptext" href="index.html#site-head"> Back to top</a></p>
+            <p class="info prompt">Share</p>
+            <a href="http://twitter.com/share?text=Functional%20Programming%20-%20Functinal%20Parsers%20and%20Monads&amp;url=http://tocology.github.io/functional-programming-functinal-parsers-and-monads/" title="Share on Twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-2x fa-fw fa-twitter-square"></i> <span class="hidden">Twitter</span>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://tocology.github.io/functional-programming-functinal-parsers-and-monads/" title="Share on Facebook" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-2x fa-fw fa-facebook-square" style="margin-left: -8px"></i> <span class="hidden">Facebook</span>
+            </a>
+            <a href="https://plus.google.com/share?url=http://tocology.github.io/functional-programming-functinal-parsers-and-monads/" title="Share on Google+" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-2x fa-fw fa-google-plus-square" style="margin-left: -8px"></i> <span class="hidden">Google+</span>
+            </a>
+        </section>
+
+        <footer class="post-footer">
+            <section class="author">
+    <div class="authorimage" style="background: url(../content/images/2015/10/Profile.jpg)"></div>
+    <h4>tocology</h4>
+    <p class="bio">Always develop myself..</p>
+    <p class="meta">
+      <i class="fa fa-fw fa-globe"></i> <a href="https://kr.linkedin.com/in/junhohwang">https://kr.linkedin.com/in/junhohwang</a><br>
+      <i class="fa fa-fw fa-map-marker"></i> Soeul, South Korea
+    </p>
+</section>
+        </footer>
+
+
+        <div id="disqus_thread">
+    <script type="text/javascript">
+        var disqus_shortname = 'tocology';
+        var disqus_identifier = '11';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <div class="inner">
+            <section class="footer-social">
+    <!-- <a href="http://twitter.com/username" target="_blank" title="Twitter"><i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span></a>&nbsp; -->
+    <a href="https://www.facebook.com/tocology" target="_blank" title="Facebook"><i class="fa fa-2x fa-fw fa-facebook"></i> <span class="hidden">Facebook</span></a> 
+    <a href="https://github.com/tocology" target="_blank" title="GitHub"><i class="fa fa-2x fa-fw fa-github"></i> <span class="hidden">GitHub</span></a> 
+    <a href="http://tocology.github.io/rss/" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+</section>
+            <section class="bloginfo">A blog by <a href="mailto:hwangjun7777@gmail.com">tocology</a></section>
+            <section class="copyright">© 2016 <a href="http://tocology.github.io">tocology</a>. All rights reserved</section>
+            <section><a href="https://github.com/epistrephein/Steam">Steam theme</a> for <a class="icon-ghost" href="http://ghost.org/"><span class="hidden">Ghost</span></a> by Tommaso Barbato</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../assets/js/index.js?v=736a175111"></script>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/7.1.1/js/smooth-scroll.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+    <script>
+        smoothScroll.init({
+            speed: 800,
+            easing: 'easeInOutCubic',
+            updateURL: false,
+            offset: 125,
+        });
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</body>

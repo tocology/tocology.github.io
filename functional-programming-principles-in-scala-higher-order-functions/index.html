@@ -1,0 +1,750 @@
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+      <title>Functional Programming Principles in Scala - Higher Order Functions</title>
+    <meta name="description" content="">
+    <meta name="apple-mobile-web-app-title" content="Functional Programming Principles in Scala - Higher Order Functions">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="../assets/img/favicon.ico?v=736a175111">
+<link rel="apple-touch-icon" href="../assets/img/appletouchicon.png?v=736a175111">
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+
+    <style type="text/css">
+    a, a:visited {color: #3498db;}
+    .pagination a {color: #3498db;}
+    .gist .gist-file .gist-meta a:visited {color: #3498db !important;}
+
+    a:focus, a:hover {color: #2079b4;}
+    h1.post-title a:focus, h1.post-title a:hover, h1.blog-title a:focus, h1.blog-title a:hover {color: #2079b4;}
+    .older-posts:hover, .newer-posts:hover {color: #2079b4;}
+</style>
+    
+
+    <link rel="stylesheet" href="../assets/css/screen.css?v=736a175111">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="../assets/css/github.css?v=736a175111">
+
+    
+
+    <link rel="canonical" href="http://tocology.github.io/functional-programming-principles-in-scala-higher-order-functions/">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="tocology">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Functional Programming Principles in Scala - Higher Order Functions">
+    <meta property="og:description" content="2.1 - Higher-Order Functions Functional Language에서는 Functions을 first_class values로 다룬다. 따라서 function을 parameter나 결과값으로 돌려받을 수 있다(return). 이것은 프로그램을 구성할 때 유연한 방법을 제공하는데, function을 위와 같이 다루기위해 사용하는 경우를 higher order functions라고 한다. 아래의 경우를 보자....">
+    <meta property="og:url" content="http://tocology.github.io/functional-programming-principles-in-scala-higher-order-functions/">
+    <meta property="article:published_time" content="2016-06-05T01:07:15.811Z">
+    <meta property="article:modified_time" content="2016-06-05T01:07:15.794Z">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Functional Programming Principles in Scala - Higher Order Functions">
+    <meta name="twitter:description" content="2.1 - Higher-Order Functions Functional Language에서는 Functions을 first_class values로 다룬다. 따라서 function을 parameter나 결과값으로 돌려받을 수 있다(return). 이것은 프로그램을 구성할 때 유연한 방법을 제공하는데, function을 위와 같이 다루기위해 사용하는 경우를 higher order functions라고 한다. 아래의 경우를 보자....">
+    <meta name="twitter:url" content="http://tocology.github.io/functional-programming-principles-in-scala-higher-order-functions/">
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "tocology",
+    "author": {
+        "@type": "Person",
+        "name": "tocology",
+        "image": "http://tocology.github.io/content/images/2015/10/Profile.jpg",
+        "url": "http://tocology.github.io/author/tocology",
+        "sameAs": "https://kr.linkedin.com/in/junhohwang",
+        "description": "Always develop myself.."
+    },
+    "headline": "Functional Programming Principles in Scala - Higher Order Functions",
+    "url": "http://tocology.github.io/functional-programming-principles-in-scala-higher-order-functions/",
+    "datePublished": "2016-06-05T01:07:15.811Z",
+    "dateModified": "2016-06-05T01:07:15.794Z",
+    "description": "2.1 - Higher-Order Functions Functional Language에서는 Functions을 first_class values로 다룬다. 따라서 function을 parameter나 결과값으로 돌려받을 수 있다(return). 이것은 프로그램을 구성할 때 유연한 방법을 제공하는데, function을 위와 같이 다루기위해 사용하는 경우를 higher order functions라고 한다. 아래의 경우를 보자...."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="tocology" href="http://tocology.github.io/rss/">
+    <script>
+var profile_title = 'Tocology';
+var profile_resume ='Software Engineer';
+var disqus_shortname = 'tocology';
+</script>
+</head>
+<body class="post-template">
+
+    <header id="site-head">
+        <h1 class="blog-title"><a href="http://tocology.github.io">tocology</a></h1>
+        <h1 class="blog-subtitle">Data Processing and Visualization for Big Data.</h1>
+    </header>
+
+    <nav class="menu" role="nav">
+    <ul>
+                <li class="nav-home"><a href="http://tocology.github.io/">Home</a></li>
+                <li class="nav-article"><a href="http://tocology.github.io/article/">Article</a></li>
+    </ul>
+</nav>
+
+
+    
+<main class="content" role="main">
+
+    <article class="post">
+
+
+        <header>
+        <h1 class="post-title">Functional Programming Principles in Scala - Higher Order Functions</h1>
+        <div class="post-meta"><time datetime="2016-06-05">05 June 2016</time></div>
+        </header>
+
+        <section class="post-content">
+            <h1 id="21higherorderfunctions">2.1 - Higher-Order Functions</h1>
+
+<p>Functional Language에서는 Functions을 <em>first_class values</em>로 다룬다. 따라서 function을 parameter나 결과값으로 돌려받을 수 있다(return). 이것은 프로그램을 구성할 때 유연한 방법을 제공하는데, function을 위와 같이 다루기위해 사용하는 경우를 <em>higher order functions</em>라고 한다.</p>
+
+<p>아래의 경우를 보자.</p>
+
+<pre><code class="language-scala">// sum of the integers between a and b
+def sumInts(a: Int, b: Int): Int =  
+    if(a &gt; b) 0 else a + sumIns(a + 1, b)
+
+// sum of the cubes of all the integers between a and b
+def cube(x: Int): Int = x * x * x
+
+def sumCubes(a: Int, b: Int): Int =  
+    if(a &gt; b) 0 else cube(a) + sumCubes(a + 1, b)
+
+// sum of the factorials of all the integers between a and b
+def sumFactorials(a: Int, b: Int): Int =  
+    if(a &gt; b) 0 else fact(a) + sumFactorials(a + 1, b)
+</code></pre>
+
+<p>위 함수들에서 동일한 형태(pattern)이 적용된 함수들을 볼 수 있다.  따라서 아래와 같이 적용하여 재사용이 가능하다.</p>
+
+<pre><code class="language-scala">def sum(f: Int =&gt; Int, a: Int, b: Int): Int =  
+    if(a &gt; b) 0
+    else f(a) + sum(f, a + 1, b)
+
+// sum of all the integers that has been returned from f() between a and b
+def sumInts(a: Int, b: Int)            = sum(id, a, b)  
+def sumCubes(a: Int, b: Int)        = sum(cube, a, b)  
+def sumFactorials(a: Int, b: Int)    = sum(fact, a, b)
+
+// f()s
+def id(x: Int): Int = x  
+def cube(x: Int): Int = x * x * x  
+def fact(x: Int): int = if(x == 0) 1 else fact(x - 1)  
+</code></pre>
+
+<h3 id="functiontypes">Function Types</h3>
+
+<p>위에서 보듯 function type을 <code>A =&gt; B</code>로 표현이 가능하다. A를 받아 B를 돌려준다는 의미로, <code>Int =&gt; Int</code>의 경우 integer를 받아 integer를 돌려준다는 의미이다.</p>
+
+<h3 id="anonymousfunctions">Anonymous Functions</h3>
+
+<p>function을 parameter로 사용할 때 일일이 만드는 일은 여간 귀찮은게 아니다. 따라서 이경우 Anonymous Function을 이용하여 해결할 수 있다. 아래 경우를 보면,</p>
+
+<pre><code class="language-scala">def str = "abc"; println(str)
+
+println("abc")  
+</code></pre>
+
+<p><code>str</code>을 마들어 넣는 것이 아니라 직접 입력하여주었다. 이런 방법으로 function을 parameter 부분에서 직접 정의하는 방식을 <strong>Anonymous Function</strong>이라고 한다. (이름이 없기때문에...)</p>
+
+<p>따라서, 위의 예를 아래와 같이 작성이 가능하다.</p>
+
+<pre><code class="language-scala">def sumInts(a: Int, b: Int)  = sum(x =&gt; x, a, b)  
+def sumCubes(a: Int, b: Int) = sum(x =&gt; x * x * x, a, b)  
+...
+</code></pre>
+
+<p>여기서 잠깐, 위에서 보았던 <code>sum</code>함수는 linear recursion방식으로 구현이 되어있는데, 이전 포스팅에서 보았던 tail recursion 방식으로 아래와 같이 구현이 가능하다.</p>
+
+<pre><code class="language-scala">def sum(f: Int =&gt; Int)(a: Int, b: Int): Int = {  
+    @tailRec
+    def loop(a: Int, acc: Int): Int = {
+        if(a &gt; b) acc
+        else loop(a + 1, acc + f(a))
+    }
+    loop(a, 0)
+}
+</code></pre>
+
+<h1 id="22currying">2.2 Currying</h1>
+
+<h3 id="motivation">Motivation</h3>
+
+<p>위에서 봤던 예를 다시 보자.</p>
+
+<pre><code class="language-scala">def sumInts(a: Int, b: Int)            = sum(id, a, b)  
+def sumCubes(a: Int, b: Int)        = sum(cube, a, b)  
+def sumFactorials(a: Int, b: Int)    = sum(fact, a, b)  
+</code></pre>
+
+<p>만약 여기서 <code>a</code>, <code>b</code>가 변경되지 않은 상태에서 <code>sumInts</code>와 <code>sumCubes</code>를 구한다고하면 어떻게 해야할까? <code>a</code>, <code>b</code>를 parameter에서 제외하는 방법이 없을까? 아래와 같이 작성해보자.</p>
+
+<pre><code class="language-scala">def sum(f: Int =&gt; Int): (Int, Int) =&gt; Int = {  
+    def sumF(a: Int, b: Int): Int =
+        if(a &gt; b) 0
+        else f(a) + sumF(a + 1, b)
+    sumF
+}
+</code></pre>
+
+<p>위와 같이 수정하여 <code>sum</code> 은 이제 <code>sumF</code>라는 다른 함수를 리턴하게 된다.  따라서, 아래와 같이 작성할 수 있다.</p>
+
+<pre><code class="language-scala">def sumInts(a: Int, b: Int)            = sum(x =&gt; x)  
+def sumCubes(a: Int, b: Int)        = sum(x =&gt; x * x * x)  
+def sumFactorials(a: Int, b: Int)    = sum(fact) 
+
+sumCubes(1, 10) + sumFactorials(10, 20)  
+</code></pre>
+
+<p>물론 <code>sumInts</code>, <code>sumCubes</code>와 같이 중간 함수(middlemen)을 작성하지 않을 수도 있다.</p>
+
+<pre><code class="language-scala">sum(cube)(1, 10)  
+</code></pre>
+
+<h3 id="multipleparameterlists">Multiple Parameter Lists</h3>
+
+<p>함수를 리턴하는 scala의 특성은 functional programming을 하는데 매우 유용하다. 예를 들어, 위의 <code>sum</code>안에 <code>sumF</code> 함수를 생략하여 아래와 같이 작성하는 것도 가능하다.</p>
+
+<pre><code class="language-scala">def sum(f: Int =&gt; Int)(a: Int, b: Int): Int =  
+    if(a &gt; b) 0 else f(a) + sum(f)(a + 1, b)
+</code></pre>
+
+<p>이렇게 작성하면, 이전 <code>sumCubes</code>를 <code>sum(cube)</code>와 같이 작성하다. (return type = function) 이런 function definition 스타일을 <em>currying</em> 이라고 말한다. </p>
+
+<h3 id="morefunctiontypes">More Function Types</h3>
+
+<p>그럼 아래와 같은 경우 <code>sum</code>의 type은 무엇일까?</p>
+
+<pre><code class="language-scala">def sum(f: Int =&gt; Int)(a: Int, b: Int): Int = ...  
+</code></pre>
+
+<p>답은 아래와 같다.</p>
+
+<pre><code class="language-scala">(Int =&gt; Int) =&gt; (Int, Int) =&gt; Int
+</code></pre>
+
+<p>위와 같이 모든 functional type은 오른쪽 방향으로 연관되어(associate) 진다. 따라서 아래의 경우 동일하다고 말할 수 있다.</p>
+
+<pre><code class="language-scala">Int =&gt; Int =&gt; Int  
+Int =&gt; (Int =&gt; Int)  
+</code></pre>
+
+<h3 id="exercise">Exercise</h3>
+
+<p>마지막으로 정리해보자. 일단 <code>sum</code>과 비슷한 <code>product</code>와 이를 이용한 <code>factorial</code>, 그리고 마지막으로 <code>sum</code>과 <code>product</code> 모두 적용할 수 있는 일반화된 함수(<code>mapReduce</code>)를 구현해보자.</p>
+
+<pre><code class="language-scala">def product(f: Int =&gt; Int)(a: Int, b: Int): Int =  
+    if(a &gt; b) 1
+    else f(a) * product(f)(a + 1, b)
+
+def fact(n: Int) = product(x =&gt; x)(1, n)  
+</code></pre>
+
+<pre><code class="language-scala">def mapReduce(f: Int =&gt; Int, combine: (Int, Int) =&gt; Int, zero: Int)(a: Int, b: Int): Int =  
+    if(a &gt; b) zero
+    else combine(f(a), mapReduce(f, combine, zero)(a + 1, b))
+
+def product = mapReduce(f, (x, y) =&gt; x * y, 1)(a, b)  
+</code></pre>
+
+<h1 id="23examplefindingfixedpoints">2.3 Example: Finding Fixed Points</h1>
+
+<p>예를 보자. <em>fixed point</em> 란 아래와 같은 function에 대해 <code>x</code> 값을 의미한다.</p>
+
+<pre><code class="language-scala">f(x) = x  
+</code></pre>
+
+<p>이럴 경우 <code>f</code>를 지속적으로 적용하여 <em>fixed point</em>를 구할 수 있다.</p>
+
+<pre><code class="language-scala">x, f(x), f(f(x)), f(f(f(x))), ...  
+</code></pre>
+
+<h3 id="programmaticsolution">Programmatic Solution</h3>
+
+<p><em>fixed point</em>를 구할 수 있는 solution을 보자.</p>
+
+<pre><code class="language-scala">val tolerance = 0.0001  
+def isCloseEnough(x: Double, y: Double) =  
+    abs((x - y) / x) / x &lt; tolerance
+def fixedPoint(f: Double =&gt; Double)(firstGuess: Double) = {  
+    def iterate(guess: Double): Double) = {
+        val next = f(guess)
+        if(isCloseEnough(guess, next)) next
+        else iterate(next)
+    }
+    iterate(firstGuess)
+}
+</code></pre>
+
+<p>위를 이용하여 <code>sqrt</code>를 구할 수 도 있다.</p>
+
+<blockquote>
+  <ul>
+  <li>sqrt(x) = the number y such that y * y = x</li>
+  <li>sqrt(x) = the number y such that y = x / y</li>
+  <li>Consequently, sqrt(x) is a fixed point of the function (y =&gt; x / y)</li>
+  </ul>
+</blockquote>
+
+<p>따라서, 아래와 같이 구현이 된다.</p>
+
+<pre><code class="language-scala">def sqrt(x: Double) = fixedPoint(y =&gt; x / y)(1.0)  
+</code></pre>
+
+<p>하지만 실제 위의 코드는 실행 시 1.0 과 2.0 을 번갈아가며 호출 할 뿐 결과를 돌려주지 못한다. </p>
+
+<p>따라서, 이런 경우를 막기위해 다음(successive) 수의 평균을 넣어 해결할 수 있다.</p>
+
+<pre><code class="language-scala">def sqrt(x: Double) = fixedPoint(y =&gt; (y + x / y) / 2)(1.0)  
+</code></pre>
+
+<p>이런 기법을 <code>stabilizing by averaging</code> 이라고 이야기하는데 아래와 함수로 표현해놓을 수 있다.</p>
+
+<pre><code class="language-scala">def averageDamp(f: Double =&gt; Double)(x: Double) = (x + f(x)) / 2  
+</code></pre>
+
+<p>이를 이용해서 위 <code>sqrt</code>를 재구현하면,</p>
+
+<pre><code class="language-scala">def sqrt(x: Double = fixedPoint(averageDamp(y + x / y))(1.0)  
+</code></pre>
+
+<h1 id="24scalasyntaxsummary">2.4 Scala Syntax Summary</h1>
+
+<p>EBNF(Extended Backus-Naur form) 에 따르면 context-free syntax는 다음과 같이 말할 수 있다.</p>
+
+<blockquote>
+  <p>In computer science, Extended Backus?Naur Form (EBNF) is a family of metasyntax notations, any of which can be used to express a context-free grammar. EBNF is used to make a formal description of a formal language which can be a computer programming language. They are extensions of the basic Backus?Naur Form (BNF) metasyntax notation.</p>
+</blockquote>
+
+<ul>
+<li><code>|</code> denotes an alternative</li>
+<li><code>[...]</code> an option (0 or 1)</li>
+<li><code>{...}</code> a repetition (0 or more)</li>
+</ul>
+
+<h3 id="types">Types</h3>
+
+<pre><code class="language-scala">Type         = SimpleType | FunctionType  
+FunctionType = SimpleType '=&gt;' Type  
+             | '(' [Types] ')' '=&gt;' Type
+SimpleType     = Ident  
+Types         = Type { ',' Type }  
+</code></pre>
+
+<p><em>Type</em>은 다음과 같다.</p>
+
+<ul>
+<li>A <em>numeric type</em>: <code>Int</code>, <code>Double</code> (and <code>Byte</code>, <code>Short</code>, <code>Char</code>, <code>Long</code>, <code>Float</code>)</li>
+<li>The <code>Boolean</code> type with the values <code>true</code> and <code>false</code></li>
+<li>The <code>String</code> type</li>
+<li>A <em>function type</em>, like <code>Int =&gt; Int</code>, <code>(Int, Int) =&gt; Int</code></li>
+</ul>
+
+<h3 id="expressions">Expressions</h3>
+
+<pre><code class="language-scala">Expr            = InfixExpr | functionExpr  
+                | if ('(' Expr ')' Expr else Expr
+InfixExpr        = PrefixExpr | InfixExpr Operator InfixExpr  
+Operator        = ident  
+PrefixExpr        = ['+' | '-' | '!' | '~'] SimpleExpr  
+SimpleExpr        = ident | literal | SimpleExpr '.' ident  
+                | Block
+FunctionExpr    = Bindings '=&gt;' Expr  
+Bindings        = ident [':' SimpleType]  
+                | '(' [Binding {',' Binding}] ')'
+Binding            = ident [':' Type]  
+Block            = '{' {Def ':'} Expr '}'  
+</code></pre>
+
+<p><em>expression</em>은 다음과 같다.</p>
+
+<ul>
+<li>An <em>identifier</em> such as <code>x</code>, <code>isGoodEnough</code></li>
+<li>A <em>literal</em>, like 0, 1.0, "abc",</li>
+<li>A <em>function application</em>, like <code>sqrt(x)</code></li>
+<li>An <em>operator application</em>, like <code>-x</code>, <code>y + x</code></li>
+<li>A <em>selection</em>, like <code>math.abs</code></li>
+<li>A <em>conditional expression</em>, like <code>if (x &lt; 0) -x else x</code></li>
+<li>A <em>block</em>, like <code>{ val x = math.abs(y); x * 2 }</code></li>
+<li>An <em>anonymous function</em>, like <code>x =&gt; x + 1</code></li>
+</ul>
+
+<h3 id="definitions">Definitions</h3>
+
+<pre><code class="language-scala">Def            = FunDef | ValDef  
+FunDef        = def ident {'(' [Parameters] ')'}  
+              [':' Type] '=' Expr
+ValDef        = val ident [':' Type] '=' Expr  
+Parameter    = ident ':' [ '=&gt;' ] Type  
+Parameters    = Parameter {',' Parameter}  
+</code></pre>
+
+<p><em>Definition</em>은 다음과 같다.</p>
+
+<ul>
+<li>A <em>function definition</em>, like <code>def square(x: Int) = x * x</code></li>
+<li>A <em>value definition</em>, like <code>val y = square(2)</code></li>
+</ul>
+
+<p><em>Parameter</em>는 다음과 같다.</p>
+
+<ul>
+<li>A <em>Call-by-value Parameter</em>, like <code>(x: Int</code>),</li>
+<li>A <em>Call-by-name Parameter</em>, like <code>(y: =&gt; Double)</code></li>
+</ul>
+
+<p>(둘 차이는 이전 포스팅에서 확인할 수 있다.)</p>
+
+<h1 id="25functionsanddata">2.5 Functions and Data</h1>
+
+<p>function이 어떻게 data structure를 만들고 캡슐화하는지 보자.</p>
+
+<blockquote>
+  <p><strong>Example</strong>
+  Rational Numbers
+  We want to design a package for doing rational arithmetic.
+  A rational number x/y is represented by two integers:
+  * its numerator x, 
+  * its denominator y</p>
+</blockquote>
+
+<p>유리수(Rational Numbers)를 계산하는 프로그램을 작성해보자.</p>
+
+<pre><code class="language-scala">def addRationalNumerator(n1: Int, d1: Int, n2: Int, d2: Int): Int  
+def addRationalDenominator(n1: Int, d1: Int, n2: Int, d2: Int): Int  
+</code></pre>
+
+<p>하지만 위 함수로는 모든 분자(numerators)와 분모(denominators)를 다루기는 쉽지않다. 따라서, 유리수의 부나조아 분모로 구성된 data structure를 구현하는 것이 더 유리하다.</p>
+
+<h3 id="classes">Classes</h3>
+
+<p>Scala에서 <em>class</em>를 통해 해결할 수 있다.</p>
+
+<pre><code class="language-scala">class Rational(x: Int, y: Int) {  
+    def numer = x
+    def denom = y
+}
+</code></pre>
+
+<p>Class 정의를 통해 두가지 entities를 가질 수 있다.</p>
+
+<ul>
+<li>A new <em>type</em>, named <code>Rational</code></li>
+<li>A <em>constructor</em> <code>Rational</code> to create elements of this type</li>
+</ul>
+
+<p>다른 언어와 같이 <code>Rational</code>을 여러개 만들어도 다른 namespace에 따로 보관하기 때문에 conflict가 발생하지 않는다.</p>
+
+<h3 id="objects">Objects</h3>
+
+<p>class type의 원소들을 <em>object</em> 라고 말한다. 이런 object에 대해 constructor를 이용하여 생성할때 <code>new</code>라는 키워드를 사용한다.</p>
+
+<pre><code class="language-scala">new Rational(1, 2)  
+</code></pre>
+
+<p>JAVA와 동일하게 class의 member에 접근할 때 <code>.</code>을 이용하여 접근한다.</p>
+
+<pre><code class="language-scala">val x = new Rational(1, 2)  
+x.numer // 1  
+x.denom // 2  
+</code></pre>
+
+<h3 id="implementingrationalarithmetic">Implementing Rational Arithmetic</h3>
+
+<p>위 Class를 이용하여 유리수 수학식(Arithmetic)을 만들어보자.</p>
+
+<pre><code class="language-scala">def addRational(r: Rational, s: Rational): Rational =  
+    new Rational(
+        r.rumer * s.denom + s.numer * r.denom,
+        r.denom * s.denom)
+
+def makeString(r: Rational) =  
+    r.numer + "/" + r.denom
+
+makeString(addRational(new Rational(1,2), new Rational(2,3))) &gt; 7/6  
+</code></pre>
+
+<h3 id="methods">Methods</h3>
+
+<p>위와 같이 function을 따로 만들 수도 있지만, data abstraction 자체에서 동작하게 끔 만들 수도 있다. 이런 function을 <em>method</em>라고 한다.</p>
+
+<p>우리는 위의 예와 같이 <code>add</code>, <code>sum</code>, <code>mul</code>, <code>div</code>, <code>equal</code>, <code>toString</code> 등 기능을 추가 할 수 있다.</p>
+
+<p>따라서, 아래와 같이 class를 변경할 수 있다.</p>
+
+<pre><code class="language-scala">class Rational(x: Int, y: Int) {  
+    def numer = x
+    def denom = y
+
+    def add(that: Rational) =
+        new Rational(
+            numer * that.denom + that.numer + denom,
+            denom * that.denom)
+
+    def neg: Rational = new Rational(-numer, denom)
+
+    def sub(that: Ration) = add(that.neg)
+
+    override def toString = numer + "/" + denom
+}
+</code></pre>
+
+<p><code>override</code>는 <code>toString</code>의 경우 기존에 공통으로 정의된 method임으로 재정의를 한다는 것을 의미한다. (Object Class) </p>
+
+<h1 id="26morefunwithrationals">2.6 More Fun with Rationals</h1>
+
+<h3 id="dataabstraction">Data Abstraction</h3>
+
+<p>지금까지 보았던 rational numbers는 가장 단순한 형태가 아니었다. 예를들어, <code>70/49</code> 는 <code>10/7</code>로 표현이 가능하다.</p>
+
+<p>따라서, rational numbers는 아래와 같은 방법으로 <em>simplified</em>할 수 있다.</p>
+
+<ul>
+<li>reduce them to their smallest numerator and denominator by dividing both with a divisor.</li>
+</ul>
+
+<p>우리는 위와 같은 과정을 모든 rational operation(method)에 적용할 수 있지만, 쉽게 잊어버릴 수 있다.(?) 따라서, object를 만들 때(construct) 단순화 하는 것이 좋다.</p>
+
+<p>위에서 말하는 <code>divisor</code>는 아래와 같이 최대공약수(gcd: Greatest Common Divisor)를 의미하여 아래와 같이 구할 수 있다. 또한, 이걸 <code>numer</code> 및 <code>denom</code>에 적용하면 된다.</p>
+
+<pre><code class="language-scala">class Rational(x: Int, y: Int) {  
+    private def gcd(a: Int, b: Int): Int = if(b == 0) a else gcd(b, a % b)
+    private val g = gcd(x, y)
+    def numer = x / g
+    def denom = y / g
+
+    ...
+</code></pre>
+
+<p><code>private</code>은 JAVA나 다른 객체지향언어와 같이 <code>Rational</code> class에서만 접근 가능하다. 또한 <code>gcd</code>를 <code>number</code>과 <code>denom</code>에 적용하여 모든 operation에서 <code>gcd</code>를 호출할 필요가 없다. 물론 <code>g</code>는 생략이 가능하다. 뿐만 아니라, <code>numer</code>과 <code>denom</code>이 자주 호출된다면, <code>def</code>를 <code>val</code>로 수정하면 한번만 계산하게 된다.</p>
+
+<pre><code class="language-scala">class Rational(x: Int, y: Int) {  
+    private gcd(a: Int, b: Int) if(b == 0) a else gcd(b, a % b)
+    val numer = x / gcd(x, y)
+    val denom = y / gcd(x, y)
+</code></pre>
+
+<p>Clients는 모든 케이스에서 정확히 동일한 행위를 하게되고 clients에 영향 없이 데이터의 적용만 선택할 수 있는 것을 <em>Data Abstration</em>이라고 한다. 이것은 software engineering의 cornerstone이라고 할 수 있다.</p>
+
+<p>다음으로 몇가지 Method를 추가 구현해보자.</p>
+
+<pre><code class="language-scala">def less(that: Rational) = numer * that.denom &lt; that.numer * denom
+
+def max(that: Rational) = if(this.less(that)) that else this  
+</code></pre>
+
+<p>여기서는 이전에는 사용하지 않았던 <code>this</code>를 사용하는데, <code>this</code>는 지금 Method를 호출한 class 자신을 의미한다. (다른 언어와 동일하다.) 물론 <code>less</code> 및 다른 Method에서도 호출하는 class 자신을 의미하기 위해 <code>this</code>를 사용할 수 있으나, 생략한 경우이다. 따라서 아래와 같이 명시해도 상관없다.</p>
+
+<pre><code class="language-scala">def less(that: Rational) =  
+    this.numer * that.denom &lt; that.numer * this.denom
+</code></pre>
+
+<h3 id="preconditions">Preconditions</h3>
+
+<p>아래의 경우를 보자.</p>
+
+<pre><code class="language-scala">val strange = new Rational(1, 0)  
+strange.add(strange) // Arithmetic Exception (div by zero)  
+</code></pre>
+
+<p>위의 경우 0으로 분자를 나누려는 경우에 의해 exception을 발생하게 된다.  따라서 아래와 같이 조건을 추가할 수 있다.</p>
+
+<pre><code class="language-scala">class Rational(x: Int, y: Int) {  
+    require(y != 0, "denominator must be nonzero")
+
+    ...
+</code></pre>
+
+<h3 id="assertions">Assertions</h3>
+
+<p><code>require</code>이외에 <code>assert</code>라는 것도 있다. Assert 또한 조건과 옵션으로 메세지를 parameter로 받는다. 예를 들어,</p>
+
+<pre><code class="language-scala">val x = sqrt(y)  
+assert(x &gt;= 0)  
+</code></pre>
+
+<p><code>require</code>과 같이 <code>assert</code>도 false에 대해 exception을 throw하지만, <code>require</code>의 경우 <code>IllegalArgumentException</code>이지만, <code>assert</code>의 경우 <code>AssertionError</code>를 throw한다.</p>
+
+<p>이것은 다른 의도를 반영한다.
+* <code>require</code> is used to enforce a precondition on the caller of a function
+* <code>assert</code> is used as to check the code of the function itself</p>
+
+<h3 id="constructors">Constructors</h3>
+
+<p>Scala에서 class는 내부적으로(implicitly) constructor를 가지는데, <em>primary constructor</em> 라고 이야기한다. primary constructor는 아래와 같은 성질을 가진다. <br>
+* takes the parameters of the class
+* and executes all statements in the class body (such as the <code>require</code>)</p>
+
+<p><code>Rational</code> class에서 만약 1개의 값만 받는다면, 아래와 같이 구현할 수 있다.</p>
+
+<pre><code class="language-scala">class Rational(x: Int, y: Int) {  
+    require(y != 0, "denominator must be nonzero")
+
+    def this(x: Int) = this(x, 1)
+
+    ...
+</code></pre>
+
+<h1 id="27evaluationandoperators">2.7 Evaluation and Operators</h1>
+
+<p>이전까지 substitution 에 근간한 computation을 function에 대해서만 적용하였다. 그럼 이번엔 class와 object에 적용해보자.</p>
+
+<h3 id="operators">Operators</h3>
+
+<p><code>Rational</code>에 의해 정의된 유리수(rational numbers)는 integer 만큼 natural(?)하다. 하지만 이런 abstraction에 대해 사용자는 눈에 띄는 차이점을 가진다.</p>
+
+<ul>
+<li>We write <code>x + y</code>, if <code>x</code> and <code>y</code> are integer, but</li>
+<li>We write <code>r.add(s)</code> if <code>r</code> and <code>s</code> are rational numbers.</li>
+</ul>
+
+<p>Scala에서는 이런 차이를 없앨 수 있다. </p>
+
+<p><strong>Step 1: Infix Notation</strong></p>
+
+<p><em>infix operator</em>처럼 method를 호출 할 수 있다. 따라서,</p>
+
+<pre><code class="language-scala">r add s // r.add(s)  
+r less s // r.less(s)  
+r max s // r.max(s)  
+</code></pre>
+
+<p><strong>Step 2: Relaxed Identifiers</strong></p>
+
+<p>Operator는 identifier에 의해 사용되는데, 아래와 같이 구분할 수 있다.</p>
+
+<ul>
+<li><em>Alphanumeric</em>: starting with a letter, followed by a sequence of letters or numbers</li>
+<li><em>Symbolic</em>: starting with an operator symbol, followed by other operator symbols</li>
+<li>The underscore character '_' counts as a letter</li>
+<li>Alphanumeric identifiers can also end in an underscore, followed by some operator symbols</li>
+</ul>
+
+<p>예로는 아래와 같다.</p>
+
+<pre><code class="language-scala">x1        *       +?%&amp;        vector_++       counter_-  
+</code></pre>
+
+<p>이를 <code>Rational</code> class에 적용해보자.</p>
+
+<pre><code class="language-scala">...
+def &lt; (that: Rational) = numer * that.denom &lt; that.numer * denom // def less
+
+def max(that: Rational) = if (this &lt; that) that else this
+
+def + (that: Rational) =  
+    new Rational(
+        numer * that.denom + that.numer * denom
+        denom * that.denom)
+
+def unary_- : Rational = new Rational(-numer, denom)
+
+def - (that: Rational) = this + -that
+
+...
+</code></pre>
+
+<p><code>unary_-</code>의 경우 scala convention에 의해 <code>-that</code>과 같이 <code>-</code>를 직접 붙이는 operator이다.  또한, operator를 정의시 <code>:</code> 이전 space가 필요한 것을 주의하기 바란다.</p>
+
+<h1 id="reference">Reference</h1>
+
+<ul>
+<li><a href="https://www.coursera.org/learn/progfun1">Functional Programming Principles in Scala</a>, Coursera</li>
+</ul>
+        </section>
+
+        <section class="post-tags">
+            
+        </section>
+
+        <section class="share">
+            <p class="backtotop"><a data-scroll href="index.html#site-head"><i class="fa fa-lg fa-fw fa-angle-double-up"></i></a><a data-scroll class="backtotoptext" href="index.html#site-head"> Back to top</a></p>
+            <p class="info prompt">Share</p>
+            <a href="http://twitter.com/share?text=Functional%20Programming%20Principles%20in%20Scala%20-%20Higher%20Order%20Functions&amp;url=http://tocology.github.io/functional-programming-principles-in-scala-higher-order-functions/" title="Share on Twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-2x fa-fw fa-twitter-square"></i> <span class="hidden">Twitter</span>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://tocology.github.io/functional-programming-principles-in-scala-higher-order-functions/" title="Share on Facebook" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-2x fa-fw fa-facebook-square" style="margin-left: -8px"></i> <span class="hidden">Facebook</span>
+            </a>
+            <a href="https://plus.google.com/share?url=http://tocology.github.io/functional-programming-principles-in-scala-higher-order-functions/" title="Share on Google+" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-2x fa-fw fa-google-plus-square" style="margin-left: -8px"></i> <span class="hidden">Google+</span>
+            </a>
+        </section>
+
+        <footer class="post-footer">
+            <section class="author">
+    <div class="authorimage" style="background: url(../content/images/2015/10/Profile.jpg)"></div>
+    <h4>tocology</h4>
+    <p class="bio">Always develop myself..</p>
+    <p class="meta">
+      <i class="fa fa-fw fa-globe"></i> <a href="https://kr.linkedin.com/in/junhohwang">https://kr.linkedin.com/in/junhohwang</a><br>
+      <i class="fa fa-fw fa-map-marker"></i> Soeul, South Korea
+    </p>
+</section>
+        </footer>
+
+
+        <div id="disqus_thread">
+    <script type="text/javascript">
+        var disqus_shortname = 'tocology';
+        var disqus_identifier = '17';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <div class="inner">
+            <section class="footer-social">
+    <!-- <a href="http://twitter.com/username" target="_blank" title="Twitter"><i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span></a>&nbsp; -->
+    <a href="https://www.facebook.com/tocology" target="_blank" title="Facebook"><i class="fa fa-2x fa-fw fa-facebook"></i> <span class="hidden">Facebook</span></a> 
+    <a href="https://github.com/tocology" target="_blank" title="GitHub"><i class="fa fa-2x fa-fw fa-github"></i> <span class="hidden">GitHub</span></a> 
+    <a href="http://tocology.github.io/rss/" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+</section>
+            <section class="bloginfo">A blog by <a href="mailto:hwangjun7777@gmail.com">tocology</a></section>
+            <section class="copyright">© 2016 <a href="http://tocology.github.io">tocology</a>. All rights reserved</section>
+            <section><a href="https://github.com/epistrephein/Steam">Steam theme</a> for <a class="icon-ghost" href="http://ghost.org/"><span class="hidden">Ghost</span></a> by Tommaso Barbato</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../assets/js/index.js?v=736a175111"></script>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/7.1.1/js/smooth-scroll.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+    <script>
+        smoothScroll.init({
+            speed: 800,
+            easing: 'easeInOutCubic',
+            updateURL: false,
+            offset: 125,
+        });
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</body>

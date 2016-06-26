@@ -1,0 +1,368 @@
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+      <title>Functional Programming - Functions</title>
+    <meta name="description" content="">
+    <meta name="apple-mobile-web-app-title" content="Functional Programming - Functions">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="../assets/img/favicon.ico?v=736a175111">
+<link rel="apple-touch-icon" href="../assets/img/appletouchicon.png?v=736a175111">
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+
+    <style type="text/css">
+    a, a:visited {color: #3498db;}
+    .pagination a {color: #3498db;}
+    .gist .gist-file .gist-meta a:visited {color: #3498db !important;}
+
+    a:focus, a:hover {color: #2079b4;}
+    h1.post-title a:focus, h1.post-title a:hover, h1.blog-title a:focus, h1.blog-title a:hover {color: #2079b4;}
+    .older-posts:hover, .newer-posts:hover {color: #2079b4;}
+</style>
+    
+
+    <link rel="stylesheet" href="../assets/css/screen.css?v=736a175111">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="../assets/css/github.css?v=736a175111">
+
+    
+
+    <link rel="canonical" href="http://tocology.github.io/functional-programming-functions/">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="tocology">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Functional Programming - Functions">
+    <meta property="og:description" content="Conditional Expressions 다른 언어들과 마찬가지로 Haskell도 조건식이 존재합니다. 다만 statement가 아닌 expression을 이용합니다. abs :: Int -&amp;gt; Int   abs n = if n &amp;gt;= 0 then n else -n   위의 예는 절대값을 만드는 간단한 function입니다. 아래와 같이 nested로 표현도 가능합니다. signum...">
+    <meta property="og:url" content="http://tocology.github.io/functional-programming-functions/">
+    <meta property="og:image" content="http://tocology.github.io/content/images/2015/11/asset-v1-DelftX-FP101x-3T2015-type-asset-block-images_course_image-2.jpg">
+    <meta property="article:published_time" content="2015-11-13T10:29:00.000Z">
+    <meta property="article:modified_time" content="2015-11-13T11:57:15.552Z">
+    <meta property="article:tag" content="Functional Programming">
+    <meta property="article:tag" content="Haskell">
+    <meta property="article:tag" content="Function">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Functional Programming - Functions">
+    <meta name="twitter:description" content="Conditional Expressions 다른 언어들과 마찬가지로 Haskell도 조건식이 존재합니다. 다만 statement가 아닌 expression을 이용합니다. abs :: Int -&amp;gt; Int   abs n = if n &amp;gt;= 0 then n else -n   위의 예는 절대값을 만드는 간단한 function입니다. 아래와 같이 nested로 표현도 가능합니다. signum...">
+    <meta name="twitter:url" content="http://tocology.github.io/functional-programming-functions/">
+    <meta name="twitter:image:src" content="http://tocology.github.io/content/images/2015/11/asset-v1-DelftX-FP101x-3T2015-type-asset-block-images_course_image-2.jpg">
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "tocology",
+    "author": {
+        "@type": "Person",
+        "name": "tocology",
+        "image": "http://tocology.github.io/content/images/2015/10/Profile.jpg",
+        "url": "http://tocology.github.io/author/tocology",
+        "sameAs": "https://kr.linkedin.com/in/junhohwang",
+        "description": "Always develop myself.."
+    },
+    "headline": "Functional Programming - Functions",
+    "url": "http://tocology.github.io/functional-programming-functions/",
+    "datePublished": "2015-11-13T10:29:00.000Z",
+    "dateModified": "2015-11-13T11:57:15.552Z",
+    "image": "http://tocology.github.io/content/images/2015/11/asset-v1-DelftX-FP101x-3T2015-type-asset-block-images_course_image-2.jpg",
+    "keywords": "Functional Programming, Haskell, Function",
+    "description": "Conditional Expressions 다른 언어들과 마찬가지로 Haskell도 조건식이 존재합니다. 다만 statement가 아닌 expression을 이용합니다. abs :: Int -&amp;gt; Int   abs n = if n &amp;gt;= 0 then n else -n   위의 예는 절대값을 만드는 간단한 function입니다. 아래와 같이 nested로 표현도 가능합니다. signum..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="tocology" href="http://tocology.github.io/rss/">
+    <script>
+var profile_title = 'Tocology';
+var profile_resume ='Software Engineer';
+var disqus_shortname = 'tocology';
+</script>
+</head>
+<body class="post-template tag-functional-programming tag-haskell tag-function">
+
+    <header id="site-head">
+        <h1 class="blog-title"><a href="http://tocology.github.io">tocology</a></h1>
+        <h1 class="blog-subtitle">Data Processing and Visualization for Big Data.</h1>
+    </header>
+
+    <nav class="menu" role="nav">
+    <ul>
+                <li class="nav-home"><a href="http://tocology.github.io/">Home</a></li>
+                <li class="nav-article"><a href="http://tocology.github.io/article/">Article</a></li>
+    </ul>
+</nav>
+
+
+    
+<main class="content" role="main">
+
+    <article class="post tag-functional-programming tag-haskell tag-function">
+
+
+        <header>
+        <h1 class="post-title">Functional Programming - Functions</h1>
+        <div class="post-meta"><time datetime="2015-11-13">13 November 2015</time></div>
+        </header>
+
+        <section class="post-content">
+            <h3 id="conditionalexpressions">Conditional Expressions</h3>
+
+<p>다른 언어들과 마찬가지로 Haskell도 조건식이 존재합니다. 다만 statement가 아닌 expression을 이용합니다.</p>
+
+<pre><code class="language-haskell">abs :: Int -&gt; Int  
+abs n = if n &gt;= 0 then n else -n  
+</code></pre>
+
+<p>위의 예는 절대값을 만드는 간단한 function입니다. 아래와 같이 nested로 표현도 가능합니다.</p>
+
+<pre><code class="language-haskell">signum :: Int -&gt; Int  
+signum n = if n &lt; 0 then -1 else  
+             if n == 0 then 0 else 1
+</code></pre>
+
+<p><em>(Haskell에서는 애매한(ambiguous) 경우를 제거하기 위해 else가 필수입니다.)</em></p>
+
+<h3 id="guardedequations">Guarded Equations</h3>
+
+<p>위와 같은 조건식을 사용하는 것과 달리 <code>guarded equation</code>이라는 것을 이용하여 표현이 가능합니다. </p>
+
+<pre><code class="language-haskell">abs n | n &gt;= 0    = n  
+      | otherwise = -n
+</code></pre>
+
+<p>위의 예는 앞서 본 <code>abs</code>와 같은 결과를 가져옵니다.  바로 비교가 필요한 function의 경우 guarded equation을 이용하여 표현이 가능합니다. <code>signum</code>의 경우도 아래와 같이 더 이해하기 쉽게 표현할 수 있습니다.</p>
+
+<pre><code class="language-haskell">signum n | n &lt; 0     = -1  
+         | n == 0    = 0
+         | otherwise = 1
+</code></pre>
+
+<p>(otherwise의 경우 else와 마찬가지로 꼭 포함이 되어있어야합니다. <code>otherwise = True</code>라고 표현해야만 하죠.)</p>
+
+<h3 id="patternmatching">Pattern Matching</h3>
+
+<p>현재 대부분 언어들이 pattern matching을 지원합니다. (Scala의 경우 <code>case</code>, C#의 경우 <code>switch</code>가 한 예입니다.) Haskell에서는 다른 언어들과 달리 바로 적용이 가능합니다.</p>
+
+<pre><code class="language-haskell">not       :: Bool -&gt; Bool  
+not False = True  
+not True  = False  
+</code></pre>
+
+<p>위의 예는 <code>not</code>을 pattern matching 통해 구현한 것입니다. 아래도 같은 예입니다.</p>
+
+<pre><code class="language-haskell">(&amp;&amp;)           :: Bool -&gt; Bool -&gt; Bool
+True &amp;&amp; True   = True  
+True &amp;&amp; False  = False  
+False &amp;&amp; True  = False  
+False &amp;&amp; False = False  
+</code></pre>
+
+<p>위와 같은 경우 아래와 같이 줄여서 표현도 가능합니다.</p>
+
+<pre><code class="language-haskell">True &amp;&amp; True = True  
+_    &amp;&amp; _    = False  
+</code></pre>
+
+<p>모두 True의 경우만 True이기 때문에 나머지 경우는 모두 False로 처리하면 됩니다. ( _(underscore)의 경우 어떠한 variable이라는 표현입니다.) 위의 경우도 좋지만 아래와 같이 표현하는 것이 더 좋습니다.</p>
+
+<pre><code class="language-haskell">True &amp;&amp; b = b  
+False &amp;&amp; _ = False  
+</code></pre>
+
+<p>True의 경우 b까지 체크하여 b를 리턴하지만, False의 경우 무엇을 넣어도 False 이므로 False를 만날 경우 뒤까지 연산하지 않고 False를 리턴합니다. 아래는 pattern matching의 경우 주의해야 하는 사항입니다.</p>
+
+<ul>
+<li>모든 pattern matching은 위에서 아래로 해석됩니다.</li>
+<li>pattern matching에 이용된 variable은 모두 unique해야 합니다. (ex. b &amp;&amp; b = b X)</li>
+</ul>
+
+<h3 id="listpatterns">List Patterns</h3>
+
+<p>Haskell의 모든 list는 내부적으로 (:) operator를 중복 이용하여 list를 만듭니다. <code>[1,2,3,4]</code>의 경우 <code>1:(2:(3:4:[])))</code>의 동작이 내부에서 발생하게 되는 것이죠. 따라서 내부에서 patten matching이 발생하는 것이죠. 여기서 말하는 pattern 은 (:) operator를 이용한 표현이라고 생각됩니다. <del>(저는 솔직히 이게 이해가 잘 안갑니다. 하지만 다음 예를 보면 이해하기 쉬울 겁니다.)</del> <br>
+<br> (x:xs) pattern을 이용하여 List에 사용되는 function들을 보면서 추가적인 설명을 진행하겠습니다.  </p>
+
+<pre><code class="language-haskell">head       :: [a] -&gt; a  
+head (x:_) = x
+
+tail        :: [a] -&gt; [a]  
+tail (_:xs) = xs  
+</code></pre>
+
+<p><code>head (x:_)</code>의 경우 앞의 x만 신경쓰면 되고 <code>tail (_:xs)</code>의 경우는 뒤의 값만을 신경쓰게 됩니다. <del>(여기서 '신경'이라는 부분이 Complier가 해석하는 부분이하고 생각하시면 될 듯 합니다.)</del>
+<br> (x:xs) pattern에 대해 추가적인 주의 사항입니다.</p>
+
+<ul>
+<li>(x:xs)는 non-empty list에 대해 적용이 가능합니다. 따라서 <code>head []</code>는 에러를 발생합니다.</li>
+<li>또한 (x:xs) pattern은 사용시 괄호(parenthesis)와 함께 사용되야 합니다. 이유는 앞에서 다뤘듯이 function의 우선순위가 높기 때문입니다. 따라서 <code>head x:_ = x</code>의 경우 <code>head x</code>가 <code>x:_</code>보다 먼저 적용되게 됩니다.</li>
+</ul>
+
+<h3 id="lambdaexpressions">Lambda Expressions</h3>
+
+<p>Java를 포함한 최근 사용되는 많은 언어들이 lambda를 지원합니다. 간단히 lambda expression은 이름이 없이 구현된 function을 이야기합니다. 자세한 사항은 계속 보도록 하겠습니다. Haskell에서는 다음과 같이 표현합니다.  </p>
+
+<pre><code class="language-haskell">\x -&gt; x + x
+</code></pre>
+
+<p><code>\</code>는 lambda를 의미하며 위의 경우 x를 두번 더하는 결과를 돌려줍니다.  사실 다른 언어에서의 lambda는 다소 closure에 가깝습니다. 이유는 다른 scope에 있는 변수들에 가깝기 때문입니다. 따라서 side-effect를 고려해야 합니다. <del>(물론 그 둘의 차이를 느끼기엔 제가 내공이 부족합니다.)</del>
+<br>그럼 lambda가 왜 유용할까요? 다음 예를 보면서 설명하겠습니다.  </p>
+
+<pre><code class="language-haskell">add x y = x + y
+
+add = \x -&gt; (\y -&gt; x + y)  
+</code></pre>
+
+<p>위는 전에 다뤘던 currying을 이용한 구현이고 아래는 lambda를 이용하였습니다. 아래의 경우가 다소 더 길지만 차근차근 읽기에는 더 좋습니다.  currying과 같이 함수 명 뒤에 띄어쓰기(whitespace)로 매개변수를 표현하는 것보다는 훨씬 function의 형태를 보여줍니다.</p>
+
+<pre><code class="language-haskell">const     :: a -&gt; b -&gt;c  
+const x _ = x
+
+const   :: a -&gt; (b -&gt; c)  
+const x = \_ -&gt; x  
+</code></pre>
+
+<p>위의 경우(currying) 다소 내부적으로 <code>const x</code>가 function을 돌려줄 것이라고 생각해야하지만, 아래 경우(lambda) <code>const x</code>가 <code>_ -&gt; x</code> 형태의 function을 돌려주는 것을 직관적으로 이해할 수 있습니다.
+<br> 또한, lambda는 이름이 없는 function으로 번거로운 naming을 제거합니다.  </p>
+
+<pre><code class="language-haskell">odd n = map f [0..n-1]  
+        where
+            f x = x*2 + 1
+</code></pre>
+
+<p>위와 같은 구현을 아래와 같이 작성할 수 있습니다.</p>
+
+<pre><code class="language-haskell">odd n = map (\x -&gt; x*2 + 1) [0..n-1]  
+</code></pre>
+
+<p>lambda를 이용하여 <code>where</code>로 표현하던 <code>f</code>를 제거할 수 있었습니다.</p>
+
+<h3 id="sections">Sections</h3>
+
+<p>Sections은 두개의 argument 사이에 사용되는 operator를 curried function처럼 앞쪽(infix)에 작성하는 방식입니다. (괄호와 함께 말이죠.)  </p>
+
+<pre><code class="language-haskell">&gt; 1+2
+3
+
+&gt; (+) 1 2
+3  
+</code></pre>
+
+<p>
+이러한 표현은 operator와 argument를 합쳐 표현하는 것도 가능합니다.</p>
+
+<pre><code class="language-haskell">&gt; (1+) 2
+3
+
+&gt; (+2) 1
+3  
+</code></pre>
+
+<p>따라서, 앞에 예와 같이 <code>+</code> operator에 대해 <code>(+)</code>, <code>(x+)</code>, <code>(+y)</code>와 같이 부분 적용(partially applied)하는 방법에 대해 section이라고 말합니다.
+<br> 그럼 왜 section이 유용할까요? <br>
+다음과 같이 간단한 기능을 가진 function을 표현할 수 있기 때문입니다.</p>
+
+<pre><code class="language-haskell">(1+) -- successor function
+(1/) -- reciprocation function
+(*2) -- doubling function
+(/2) -- halving function
+</code></pre>
+
+<p>이 경우 lambda를 사용하지 않아도 되며, 불필요한 naming또한 피할 수 있습니다.</p>
+
+<h3 id="reference">Reference</h3>
+
+<ul>
+<li><a href="https://courses.edx.org/courses/course-v1:DelftX+FP101x+3T2015/">Introduction to Functional Programming</a></li>
+</ul>
+        </section>
+
+        <section class="post-tags">
+            <div class="post-meta tags"><i class="fa fa-fw fa-tag"></i> <a href="../tag/functional-programming/">Functional Programming</a>, <a href="../tag/haskell/">Haskell</a>, <a href="../tag/function/">Function</a></div>
+        </section>
+
+        <section class="share">
+            <p class="backtotop"><a data-scroll href="index.html#site-head"><i class="fa fa-lg fa-fw fa-angle-double-up"></i></a><a data-scroll class="backtotoptext" href="index.html#site-head"> Back to top</a></p>
+            <p class="info prompt">Share</p>
+            <a href="http://twitter.com/share?text=Functional%20Programming%20-%20Functions&amp;url=http://tocology.github.io/functional-programming-functions/" title="Share on Twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-2x fa-fw fa-twitter-square"></i> <span class="hidden">Twitter</span>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://tocology.github.io/functional-programming-functions/" title="Share on Facebook" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-2x fa-fw fa-facebook-square" style="margin-left: -8px"></i> <span class="hidden">Facebook</span>
+            </a>
+            <a href="https://plus.google.com/share?url=http://tocology.github.io/functional-programming-functions/" title="Share on Google+" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-2x fa-fw fa-google-plus-square" style="margin-left: -8px"></i> <span class="hidden">Google+</span>
+            </a>
+        </section>
+
+        <footer class="post-footer">
+            <section class="author">
+    <div class="authorimage" style="background: url(../content/images/2015/10/Profile.jpg)"></div>
+    <h4>tocology</h4>
+    <p class="bio">Always develop myself..</p>
+    <p class="meta">
+      <i class="fa fa-fw fa-globe"></i> <a href="https://kr.linkedin.com/in/junhohwang">https://kr.linkedin.com/in/junhohwang</a><br>
+      <i class="fa fa-fw fa-map-marker"></i> Soeul, South Korea
+    </p>
+</section>
+        </footer>
+
+
+        <div id="disqus_thread">
+    <script type="text/javascript">
+        var disqus_shortname = 'tocology';
+        var disqus_identifier = '6';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <div class="inner">
+            <section class="footer-social">
+    <!-- <a href="http://twitter.com/username" target="_blank" title="Twitter"><i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span></a>&nbsp; -->
+    <a href="https://www.facebook.com/tocology" target="_blank" title="Facebook"><i class="fa fa-2x fa-fw fa-facebook"></i> <span class="hidden">Facebook</span></a> 
+    <a href="https://github.com/tocology" target="_blank" title="GitHub"><i class="fa fa-2x fa-fw fa-github"></i> <span class="hidden">GitHub</span></a> 
+    <a href="http://tocology.github.io/rss/" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+</section>
+            <section class="bloginfo">A blog by <a href="mailto:hwangjun7777@gmail.com">tocology</a></section>
+            <section class="copyright">© 2016 <a href="http://tocology.github.io">tocology</a>. All rights reserved</section>
+            <section><a href="https://github.com/epistrephein/Steam">Steam theme</a> for <a class="icon-ghost" href="http://ghost.org/"><span class="hidden">Ghost</span></a> by Tommaso Barbato</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../assets/js/index.js?v=736a175111"></script>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/7.1.1/js/smooth-scroll.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+    <script>
+        smoothScroll.init({
+            speed: 800,
+            easing: 'easeInOutCubic',
+            updateURL: false,
+            offset: 125,
+        });
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</body>

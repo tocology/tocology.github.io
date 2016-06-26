@@ -1,0 +1,3 @@
+User-agent: *
+Sitemap: http://tocology.github.io/sitemap.xml
+Disallow: /ghost/

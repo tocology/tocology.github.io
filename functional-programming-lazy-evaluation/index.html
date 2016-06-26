@@ -1,0 +1,425 @@
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+      <title>Functional Programming - Lazy Evaluation</title>
+    <meta name="description" content="">
+    <meta name="apple-mobile-web-app-title" content="Functional Programming - Lazy Evaluation">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="../assets/img/favicon.ico?v=736a175111">
+<link rel="apple-touch-icon" href="../assets/img/appletouchicon.png?v=736a175111">
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+
+    <style type="text/css">
+    a, a:visited {color: #3498db;}
+    .pagination a {color: #3498db;}
+    .gist .gist-file .gist-meta a:visited {color: #3498db !important;}
+
+    a:focus, a:hover {color: #2079b4;}
+    h1.post-title a:focus, h1.post-title a:hover, h1.blog-title a:focus, h1.blog-title a:hover {color: #2079b4;}
+    .older-posts:hover, .newer-posts:hover {color: #2079b4;}
+</style>
+    
+
+    <link rel="stylesheet" href="../assets/css/screen.css?v=736a175111">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="../assets/css/github.css?v=736a175111">
+
+    
+
+    <link rel="canonical" href="http://tocology.github.io/functional-programming-lazy-evaluation/">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="tocology">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Functional Programming - Lazy Evaluation">
+    <meta property="og:description" content="Haskell에서 특이한 점은 lazy evaluation을 한다는 점입니다. scala등 다른 언어에서도 lazy evaluation을 지원하지만, Haskell은 strict로 만들지 않는 이상 모든 부분이 lazy evaluation을 한다는 점입니다.  Introduction 지금까지 우리는 evaluation이 Haskell expression에 대해 어떻게 이루어지는지 자세하게 다룬 적이 없었습니다. 사실 우리는 다음과...">
+    <meta property="og:url" content="http://tocology.github.io/functional-programming-lazy-evaluation/">
+    <meta property="article:published_time" content="2015-12-28T13:07:23.167Z">
+    <meta property="article:modified_time" content="2015-12-28T13:07:23.164Z">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Functional Programming - Lazy Evaluation">
+    <meta name="twitter:description" content="Haskell에서 특이한 점은 lazy evaluation을 한다는 점입니다. scala등 다른 언어에서도 lazy evaluation을 지원하지만, Haskell은 strict로 만들지 않는 이상 모든 부분이 lazy evaluation을 한다는 점입니다.  Introduction 지금까지 우리는 evaluation이 Haskell expression에 대해 어떻게 이루어지는지 자세하게 다룬 적이 없었습니다. 사실 우리는 다음과...">
+    <meta name="twitter:url" content="http://tocology.github.io/functional-programming-lazy-evaluation/">
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "tocology",
+    "author": {
+        "@type": "Person",
+        "name": "tocology",
+        "image": "http://tocology.github.io/content/images/2015/10/Profile.jpg",
+        "url": "http://tocology.github.io/author/tocology",
+        "sameAs": "https://kr.linkedin.com/in/junhohwang",
+        "description": "Always develop myself.."
+    },
+    "headline": "Functional Programming - Lazy Evaluation",
+    "url": "http://tocology.github.io/functional-programming-lazy-evaluation/",
+    "datePublished": "2015-12-28T13:07:23.167Z",
+    "dateModified": "2015-12-28T13:07:23.164Z",
+    "description": "Haskell에서 특이한 점은 lazy evaluation을 한다는 점입니다. scala등 다른 언어에서도 lazy evaluation을 지원하지만, Haskell은 strict로 만들지 않는 이상 모든 부분이 lazy evaluation을 한다는 점입니다.  Introduction 지금까지 우리는 evaluation이 Haskell expression에 대해 어떻게 이루어지는지 자세하게 다룬 적이 없었습니다. 사실 우리는 다음과..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="tocology" href="http://tocology.github.io/rss/">
+    <script>
+var profile_title = 'Tocology';
+var profile_resume ='Software Engineer';
+var disqus_shortname = 'tocology';
+</script>
+</head>
+<body class="post-template">
+
+    <header id="site-head">
+        <h1 class="blog-title"><a href="http://tocology.github.io">tocology</a></h1>
+        <h1 class="blog-subtitle">Data Processing and Visualization for Big Data.</h1>
+    </header>
+
+    <nav class="menu" role="nav">
+    <ul>
+                <li class="nav-home"><a href="http://tocology.github.io/">Home</a></li>
+                <li class="nav-article"><a href="http://tocology.github.io/article/">Article</a></li>
+    </ul>
+</nav>
+
+
+    
+<main class="content" role="main">
+
+    <article class="post">
+
+
+        <header>
+        <h1 class="post-title">Functional Programming - Lazy Evaluation</h1>
+        <div class="post-meta"><time datetime="2015-12-28">28 December 2015</time></div>
+        </header>
+
+        <section class="post-content">
+            <p>Haskell에서 특이한 점은 lazy evaluation을 한다는 점입니다. scala등 다른 언어에서도 lazy evaluation을 지원하지만, Haskell은 strict로 만들지 않는 이상 모든 부분이 lazy evaluation을 한다는 점입니다. </p>
+
+<h3 id="introduction">Introduction</h3>
+
+<p>지금까지 우리는 evaluation이 Haskell expression에 대해 어떻게 이루어지는지 자세하게 다룬 적이 없었습니다. 사실 우리는 다음과 같은 단순한 방법으로 evaluation을 수행하였습니다.</p>
+
+<ul>
+<li>불필요한 평가(unnecessary evaluation)을 피해라.</li>
+<li>프로그램이 더 모듈화(modular) 될 수 있도록 하라.</li>
+<li>무한(infinite) list에 대해 프로그램이 수행할 수 있도록 하라.</li>
+</ul>
+
+<p>위에 따라 Haskell의 평가 기술(evaluation technique)은 게이른 평가(lazy evaluation)이며, 따라서 Haskell은 lazy functional language라고 말 할 수 있습니다.</p>
+
+<h3 id="evaluatingexpressions">Evaluating Expressions</h3>
+
+<p>기본적으로 expression은 더이상 단순하게 되지 않을 때까지 연속적으로 definition이 적용되는 식으로 평가되거나 줄어들게(reduced) 됩니다. </p>
+
+<p>예를 들어 <code>square n = n * n</code>과 같이 definition되어 있을 경우, <code>square(3 + 4)</code> expression은 다음과 같은 연역(reduction)에 의해 평가됩니다.</p>
+
+<pre><code class="language-haskell">  square (3 + 4)
+= square 7
+= 7 * 7
+= 49
+</code></pre>
+
+<p>하지만, 위와 같은 방법만 있는 것은 아닙니다. 다른 것을 보자면 다음과 같습니다.</p>
+
+<pre><code class="language-haskell">  square (3 + 4)
+= (3 + 4) * (3 + 4)
+= 7 * (3 + 4)
+= 7 * 7
+= 49
+</code></pre>
+
+<p>지금은 더하기(+)를 하기 전 <code>square</code> 를 적용하였지만, 결과는 같습니다. 실제로 위와 같이 평가 순서(evaluation orders)가 다를 경우 결과가 다를 수 있습니다. 하지만 haskell을 사용하는데 있어서 고려할 필요는 없습니다. 왜냐하면 다음과 같기 때문입니다.</p>
+
+<blockquote>
+  <p>FACT</p>
+  
+  <p>In Haskell, two <u>different</u> (but terminating) ways of evaluating <u>the same</u> expression will always give <u>the same</u> final result.</p>
+</blockquote>
+
+<h3 id="reductionstrategies">Reduction Strategies</h3>
+
+<p>우리는 지금까지 두가지 reduction 방법을 보았습니다. 앞으로 점더 알아보겠습니다. </p>
+
+<p>expression에 대한 평가를 하는 모든 단계에서 definition을 적용가능한 많은 subexpression이 있을 수 있습니다.</p>
+
+<p>아래는 두가지 흔히 사용하는 전략으로 <u>redex</u>(reducible subexpression)결정하는 방법입니다.</p>
+
+<blockquote>
+  <ol>
+  <li>Innermost reduction: An innermost redex is always reduced</li>
+  <li>Outermost reduction: An Outermost redex is always reduced</li>
+  </ol>
+</blockquote>
+
+<p>앞에서 본 것과 같이, 어떠한 전략을 사용하더라도 연역가능한(reducible) 결과를 준 다는 점은 같습니다. 그럼 어떻게 두가지 전략을 비교할 수 있을까요?</p>
+
+<h3 id="termination">Termination</h3>
+
+<p>예를 보면서 설명을 이어가겠습니다. 여기 보면 다소 이상한 재귀함수가 정의(definition)되어 있습니다.</p>
+
+<pre><code class="language-haskell">loop = tail loop  
+</code></pre>
+
+<p>이와 동시에 <code>fst (1, loop)</code> expression을 앞서 배운 두가지 연역 전략(reduction strategies)을 이용하여 평가해보겠습니다.</p>
+
+<h3 id="innermostreduction">Innermost reduction</h3>
+
+<pre><code class="language-haskell">  fst (1, loop)
+= fst (1, tail loop)
+= fst (1, tail (tail loop))
+= ...
+</code></pre>
+
+<p>위와 같이 Innermost reduction 전략은 종료되지 않습니다.(not terminate)</p>
+
+<h3 id="outermostreduction">Outermost reduction</h3>
+
+<p>반면 Outermost reduction 전략을 이용하면 다음과 같이 해결됩니다.</p>
+
+<pre><code class="language-haskell">  fst (1, loop)
+= 1
+</code></pre>
+
+<p>위의 경우 <code>fst</code> 가 먼저 평가되, 인자로 주어진 tuple의 첫번째 값인 1을 바로 돌려주게 됩니다.</p>
+
+<h3 id="facts">Facts</h3>
+
+<p>이를 통해 다음과 같이 정리할 수 있습니다.
+* Innermost reduction 전략의 경우 종료에 실패(fails to terminate)할 경우 Outermost reduction은 결과를 돌려줄 수 도 있습니다.
+* 만일 주어진 expression에 대해 어떤 reduction sequence가 종료된다면, Outermost reduction 또한 같은 결과로 종료됩니다.</p>
+
+<h3 id="numberofreductions">Number of reductions</h3>
+
+<pre><code class="language-haskell">-- Innermost
+  square (3 + 4)
+= square 7
+= 7 * 7
+= 49
+
+-- Outermost
+  square (3 + 4)
+= (3 + 4) * (3 + 4)
+= 7 * (3 + 4)
+= 7 * 7
+= 49
+</code></pre>
+
+<p>그럼 두가지 전략의 reduction 수를 비교하면 위와 같이 Outermost 경우가 비효율적(inefficient)입니다. 왜냐하면 <code>square</code> 를 reduce할 때 <code>(3 + 4)</code> 가 중복되기 때문입니다.</p>
+
+<p>따라서, Outermost 방법은 Innermost 방법보다 더 많은 step을 요구 할 수 있습니다. </p>
+
+<p>하지만, 위에서 본 것과 같이 Innermost Reduction 전략은 종료되지 않을 수 있습니다. 그럼 이를 해결할 수 있는 방법은 없을까요?</p>
+
+<p>이런 문제는 평가 도중 expression의 공유(sharing)을 나타내는 pointer를 사용하여 해결 할 수 있습니다. 위의 예의 경우 다음과 같이 <code>(3 + 4)</code> 를 단순 복사하는 것이 아닌 뒤와 동일하다는 것을 나타내는 pointer로 표현합니다.</p>
+
+<pre><code class="language-haskell">  square (3 + 4)
+= (. * .) (3 + 4) -- (. * .) is same with (3 + 4)
+= (. * .) 7
+= 49
+</code></pre>
+
+<p>이는 다음과 같이 새로운 reduction 전략입니다.</p>
+
+<blockquote>
+  <p><u>Lazy evaluation</u> = Outermost reduction + sharing</p>
+</blockquote>
+
+<p>또한, 다음과 같은 특성을 가집니다.
+* innermost reduction 전략에 비해 더 많은 step을 절대(never) 요구하지 않습니다.
+* Haskell은 <u>Lazy Evaluation</u>을 사용합니다.</p>
+
+<h3 id="infinitelists">Infinite lists</h3>
+
+<p>종료에 대한 이점뿐만 아니라, Lazy Evaluation을 사용할 경우 infinite list를 가지고 프로그램을 만들 수 있습니다.</p>
+
+<p>다음과 같은 recursive definition을 고려해 봅시다.</p>
+
+<pre><code class="language-haskell">ones :: [Int]  
+ones = 1 : ones  
+</code></pre>
+
+<p>여기서 사용된 recursion을 풀면 다음과 같이 infinite list를 돌려주게 됩니다.</p>
+
+<pre><code class="language-haskell">ones = 1 : ones  
+     = 1 : 1 : ones
+     = 1 : 1 : 1 : ones
+</code></pre>
+
+<p>만일 이런 상황속에서 <code>head ones</code> expression을 평가하고자 innermost reduction과 lazy evaluation을 사용하는 경우를 생각해봅시다. </p>
+
+<p>상상하는 것처럼 innermost reduction의 경우 종료되지 않을 것입니다. 하지만 lazy evaluation은 바로 해결이 가능하지요.</p>
+
+<h3 id="lazyevaluation">Lazy evaluation</h3>
+
+<p>우리는 통상 이런 slogan을 생각할 수 있습니다.</p>
+
+<blockquote>
+  <p>Using lazy evaluation, expressions are only evaluated as <u>much as required</u> to produce the final result.</p>
+</blockquote>
+
+<p>아래와 같은 예를 통해서 말이죠.</p>
+
+<pre><code class="language-haskell">ones = 1 : ones  
+</code></pre>
+
+<p>잠재적으로 무한대인(potentially infinite) list에 대해 오직 필요한 만큼만 평가하게 됩니다. (1번만 말이죠.)</p>
+
+<h3 id="modularprogramming">Modular programming</h3>
+
+<p>lazy evaluation을 통해 프로그램을 더욱 모듈화(modular)하게 해줍니다. 다음과 같이 infinite list에 대해 finite list를 돌려줍니다.  </p>
+
+<pre><code class="language-haskell">? take 5 ones
+[1,1,1,1,1]
+? take 5 [1..]
+[1,1,1,1,1]
+</code></pre>
+
+<p>아래와 같이 주어진 data로부터 control부분을 나누기 때문입니다.</p>
+
+<pre><code class="language-haskell"> take 5 [1..]
+ ------ -----
+control  data  
+</code></pre>
+
+<p>lazy evaluation을 통해 data로 부터 control부분에 필요한 만큼만 평가하게 됩니다. </p>
+
+<h3 id="examplegeneratingprimes">Example: generating primes</h3>
+
+<p>예를 통해 더 알아보겠습니다. 무한한 소수(prime numbers) list를 생성하는 절차는 다음과 같습니다.</p>
+
+<ol>
+<li>list 2,3,4,... 을 작성합니다.  </li>
+<li>list 내 첫번째 값인 p를 prime으로 표시합니다.  </li>
+<li>list 내 모든 p의 배수를 지웁니다.  </li>
+<li>step 2로 돌아갑니다.</li>
+</ol>
+
+<p>이 알고리즘은 굉장히 오래된 알고리즘으로 유명합니다. 이를 그림으로 보면 다음과 같습니다. 첫번째 줄부터 보면 됩니다.</p>
+
+<p><img src="http://tocology.github.io/content/images/functional-programming/generating-primes-description.png" alt="generating primes description" title="generating primes description"></p>
+
+<p>이를 직접적으로 Haskell로 옮기면 다음과 같습니다.</p>
+
+<pre><code class="language-haskell">primes :: [Int]  
+primes = sieve [2..]
+
+sieve :: [Int] -&gt; [Int]  
+sieve (p:xs) = p : sieve [x | x &lt;- xs, x `mod` p /= 0]  
+</code></pre>
+
+<p>위의 결과는 infinite list를 돌려주게 됩니다. 하지만 앞서 배운 모듈화(modular)를 통해 경계 조건(boundary condition)을 부여하여 finite list를 얻을 수 있습니다.</p>
+
+<pre><code class="language-haskell">-- Selecting the first 10 primes:
+? take 10 primes
+[2,3,5,7,11,13,17,19,23,29]
+
+-- Selecting the primes less then 15:
+? takeWhile (&lt;15) primes
+[2,3,5,7,11,13]
+</code></pre>
+
+<p>이 경우 필요한 값만 계산하기 때문에 Lazy evaluation이 효율적인 것을 확인 할 수 있습니다.</p>
+
+<h3 id="reference">Reference</h3>
+
+<ul>
+<li><a href="https://courses.edx.org/courses/course-v1:DelftX+FP101x+3T2015/">Introduction to Functional Programming</a></li>
+</ul>
+        </section>
+
+        <section class="post-tags">
+            
+        </section>
+
+        <section class="share">
+            <p class="backtotop"><a data-scroll href="index.html#site-head"><i class="fa fa-lg fa-fw fa-angle-double-up"></i></a><a data-scroll class="backtotoptext" href="index.html#site-head"> Back to top</a></p>
+            <p class="info prompt">Share</p>
+            <a href="http://twitter.com/share?text=Functional%20Programming%20-%20Lazy%20Evaluation&amp;url=http://tocology.github.io/functional-programming-lazy-evaluation/" title="Share on Twitter" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-2x fa-fw fa-twitter-square"></i> <span class="hidden">Twitter</span>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://tocology.github.io/functional-programming-lazy-evaluation/" title="Share on Facebook" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-2x fa-fw fa-facebook-square" style="margin-left: -8px"></i> <span class="hidden">Facebook</span>
+            </a>
+            <a href="https://plus.google.com/share?url=http://tocology.github.io/functional-programming-lazy-evaluation/" title="Share on Google+" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-2x fa-fw fa-google-plus-square" style="margin-left: -8px"></i> <span class="hidden">Google+</span>
+            </a>
+        </section>
+
+        <footer class="post-footer">
+            <section class="author">
+    <div class="authorimage" style="background: url(../content/images/2015/10/Profile.jpg)"></div>
+    <h4>tocology</h4>
+    <p class="bio">Always develop myself..</p>
+    <p class="meta">
+      <i class="fa fa-fw fa-globe"></i> <a href="https://kr.linkedin.com/in/junhohwang">https://kr.linkedin.com/in/junhohwang</a><br>
+      <i class="fa fa-fw fa-map-marker"></i> Soeul, South Korea
+    </p>
+</section>
+        </footer>
+
+
+        <div id="disqus_thread">
+    <script type="text/javascript">
+        var disqus_shortname = 'tocology';
+        var disqus_identifier = '15';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <div class="inner">
+            <section class="footer-social">
+    <!-- <a href="http://twitter.com/username" target="_blank" title="Twitter"><i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span></a>&nbsp; -->
+    <a href="https://www.facebook.com/tocology" target="_blank" title="Facebook"><i class="fa fa-2x fa-fw fa-facebook"></i> <span class="hidden">Facebook</span></a> 
+    <a href="https://github.com/tocology" target="_blank" title="GitHub"><i class="fa fa-2x fa-fw fa-github"></i> <span class="hidden">GitHub</span></a> 
+    <a href="http://tocology.github.io/rss/" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+</section>
+            <section class="bloginfo">A blog by <a href="mailto:hwangjun7777@gmail.com">tocology</a></section>
+            <section class="copyright">© 2016 <a href="http://tocology.github.io">tocology</a>. All rights reserved</section>
+            <section><a href="https://github.com/epistrephein/Steam">Steam theme</a> for <a class="icon-ghost" href="http://ghost.org/"><span class="hidden">Ghost</span></a> by Tommaso Barbato</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../assets/js/index.js?v=736a175111"></script>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/7.1.1/js/smooth-scroll.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+    <script>
+        smoothScroll.init({
+            speed: 800,
+            easing: 'easeInOutCubic',
+            updateURL: false,
+            offset: 125,
+        });
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</body>
