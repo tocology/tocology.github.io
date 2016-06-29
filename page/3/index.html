@@ -66,6 +66,18 @@ var disqus_shortname = 'tocology';
 
     <article class="preview">
         <header>
+            <h1 class="post-title"><a href="../../functional-programming-higher-order-functions/">Functional Programming - Higher-Order Functions</a></h1>
+            <div class="post-meta"><time datetime="2015-12-03">03 December 2015</time></div>
+        </header>
+        <section class="post-excerpt">
+            <a class="excerptlink" href="../../functional-programming-higher-order-functions/"><p>실은 우리는 이미 higher-order function 을 사용해 보았습니다. 여기서 higher-order function이 무엇인지 알아보겠습니다.    A function is called higher-order if it takes a function as an argument or returns a function as a result. 함수를 매개변수로 받거나 또는 결과로 돌려주는 함수를 의미하는데요, 아래 예의 twice 도 함수를 매개변수로 받기때문에 higher-order function 이라고 이야기 할 수 있습니다. twice     :: (a -&gt; a) -&gt; a -&gt; a   twice f x = f (f x)   또한, 여기서 눈에 보이는 점은 twice 가 (a -&gt; a) 와 같이 괄호(parentheses)를 이용하여 함수를…</p></a>
+            <p class="readmore"><a href="../../functional-programming-higher-order-functions/">Keep reading <i class="fa fa-angle-double-right" style="padding-left: 5px;"></i></a></p>
+        </section>
+    </article>
+
+
+    <article class="preview">
+        <header>
             <h1 class="post-title"><a href="../../functional-programming-recursive-functions/">Functional Programming - Recursive Functions</a></h1>
             <div class="post-meta"><time datetime="2015-11-13">13 November 2015</time></div>
         </header>
@@ -108,18 +120,6 @@ var disqus_shortname = 'tocology';
         <section class="post-excerpt">
             <a class="excerptlink" href="../../functional-programming-types-classes/"><p>Haskell 의 많은 function들은 list를 인자로 받습니다.   &gt; head [1,2,3,4,5] 1   &gt; tail [1,2,3,4,5] [2,3,4,5] &gt; [1,2,3,4,5] !! 2 3   &gt; drop 2 [1,2,3,4,5] [3,4,5] &gt; length [1,2,3,4,5] 5   &gt; sum [1,2,3,4,5] 15   &gt; product [1,2,3,4,5] 120   &gt; [1,2,3] ++ [4,5] [1,2,3,4,5] &gt; reverse [1,2,3,4,5] [5,4,3,…</p></a>
             <p class="readmore"><a href="../../functional-programming-types-classes/">Keep reading <i class="fa fa-angle-double-right" style="padding-left: 5px;"></i></a></p>
-        </section>
-    </article>
-
-
-    <article class="preview">
-        <header>
-            <h1 class="post-title"><a href="../../functional-programming-introduction/">Functional Programming - Introduction</a></h1>
-            <div class="post-meta"><time datetime="2015-11-13">13 November 2015</time></div>
-        </header>
-        <section class="post-excerpt">
-            <a class="excerptlink" href="../../functional-programming-introduction/"><p>먼저 다음과 같은 내용은 edx 강의 중 DelftX: FP101x Introduction to Functional Programming을 보고 작성하였습니다. Introduction Functional Programming 의 정의는 간략하게 말하기에는 다소 어렵고 다양하게 해석될 수 있습니다.  아주 단순하게 말하자면 수학 함수(Mathematical function)를 사용하는 프로그램을 의미합니다. Haskell과 같은 몇몇 프로그래밍 언어 뿐만아니라 많은 언어들이 이러한 부분들을 지향하고 있습니다. 여기서는 간단히 다음과 같이 정의할 수 있습니다.   Functional Programming   :  Statement 보다 Expression을 위주로 작성하는 프로그래밍 기법(Style). 따라서 개발하는 프로그램이 Expression으로 구성되게 코딩하는 것. Statement는 다른 global state에 영향을 미칠 수 있습니다. 다음 예를 보면서 확인하겠습니다.   int total = 0;…</p></a>
-            <p class="readmore"><a href="../../functional-programming-introduction/">Keep reading <i class="fa fa-angle-double-right" style="padding-left: 5px;"></i></a></p>
         </section>
     </article>
 
